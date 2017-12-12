@@ -1,4 +1,4 @@
-\documentclass[paper=a4, fontsize=11pt]{report}
+\documentclass[paper=a4, fontsize=11pt,x11names]{report}
 \usepackage[T1]{fontenc}
 \usepackage{fourier}
 
@@ -41,6 +41,25 @@
 %\numberwithin{equation}{section}		% Equationnumbering: section.eq#
 %\numberwithin{figure}{section}			% Figurenumbering: section.fig#
 %\numberwithin{table}{section}				% Tablenumbering: section.tab#
+
+
+
+
+%%%%%%%%%%%%% per ER
+
+\usepackage{tikz} 
+\usetikzlibrary{er} 
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
+\tikzset{multi attribute/.style={attribute,double distance=1.5pt}} 
+\tikzset{derived attribute/.style={attribute,dashed}} 
+\tikzset{total/.style={double distance=1.5pt}} 
+\tikzset{every entity/.style={draw=orange, fill=orange!20}} 
+\tikzset{every attribute/.style={draw=MediumPurple1, fill=MediumPurple1!20}} 
+\tikzset{every relationship/.style={draw=Chartreuse2, fill=Chartreuse2!20}} 
+\newcommand{\key}[1]{\underline{#1}}
+
+%%%%%%%%%%%%%%%%%
 
 
 %%% Maketitle metadata
@@ -91,12 +110,70 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%           \`u
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%% STORIA
+%%%%%%%%%%%%%%%%%%%%%%%%%%% DESCRIZIONE MINIMONDO
+\chapter{Minimondo}
+\section{Descrizione}
+Il progetto di basa sullo sviluppo di un \textit{social network}. Ciascun utente si può iscrivere al social network
+fornendo Nome, Cognome, e-mail e password e data di nascita. Al seguito dell'iscrizione, un utente può chiedere l'"amicizia" ad 
+un altro utente, pubblicare un
+post, che può anche contenere media, che può essere commentato da altri utenti (solamente quelli tra gli amici dell'utente creatore del post). E possibile inoltre inserire, oltre a commenti, delle reazioni ai post. 
+La scrittura di un commento o l'applicazione di una reazione ad un post viene segnalata con una notifica all'utente creatore del post, così come la richiesta di amicizia. Ciascuna entità utente, post, commento è caratterizzata da un campo attivo (flag booleano) che indica se, rispettivamente, l'utente si è cancellato dal social network (in questo caso attivo sarà fissato a 0), il post è stato cancellato o il commento è stato rimosso. I post che vengono cancellati dal social network rimangono comunque salvati nel database ma non visualizzati nella home.
+
+\section{Entità}
+Di seguito vengono analizzate tutte le entità presenti nel database:
+
+\subsection{Utente}
+\centering
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+	
+	\node[entity] (utente) {Utente};
+	
+	\node[attribute] (nome) [above of = utente] {Nome} edge (utente);
+	\node[attribute] (email) [below of = utente] {Email} edge (utente);
+	\node[attribute] (cognome) [right of = utente] {Cognome} edge (utente); 
+	\node[attribute] (datanascite) [below right of = utente] {DataNascita} edge (utente);	
+	\node[attribute] (password) [below left of = utente] {Password} edge (utente);
+	\node[attribute] (userid) [left of = utente] {\key{UserID}} edge (utente);
+	\node[attribute] (attivo) [above right of =  utente] {Attivo} edge (utente);
+	
+\end{tikzpicture}
+\vspace{0.5cm}
+
+L'entità utente è l'entità principale di tutto il database ed è costituita dai seguenti attributi:
+\begin{itemize}
+\item Nome: nome dell'utente.
+\item Cognome: cognome dell'utente.
+\item UserID: identificativo numerico dell'utente e chiave primaria.
+\item Password: password dell'account.
+\item Email: email dell'utente.
+\item DataNascita: data di nascita dell'utente.
+\item Attivo: flag booleano, solitamente fissato a 0, 1 se l'utente si è cancellato dal social. 
+\end{itemize}
+
+\subsection{Amicizia}
+
+\subsection{Post}
+\subsection{Commento}
+\subsection{Media}
+
+\subsection{Reazione}
+\subsection{Notifica}
+
+\section{Relazioni}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% MODELLO ER
 \chapter{Modello ER}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%% MISSION VISION STRATEGIA
+%%%%%%%%%%%%%%%%%%%%%%%%%%% CODICE SQL
 \chapter{Codice SQL}
 
 
