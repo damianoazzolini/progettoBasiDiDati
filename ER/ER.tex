@@ -1,0 +1,132 @@
+\documentclass[a4paper,11pt,x11names,landscape]{article}
+\usepackage{tikz} 
+\centering
+\usetikzlibrary{er} 
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
+\tikzset{multi attribute/.style={attribute,double distance=1.5pt}} 
+\tikzset{derived attribute/.style={attribute,dashed}} 
+\tikzset{total/.style={double distance=1.5pt}} 
+\tikzset{every entity/.style={draw=orange, fill=orange!20}} 
+\tikzset{every attribute/.style={draw=MediumPurple1, fill=MediumPurple1!20}} 
+\tikzset{every relationship/.style={draw=Chartreuse2, fill=Chartreuse2!20}} 
+\newcommand{\key}[1]{\underline{#1}}
+
+\pagenumbering{gobble}
+
+\begin{document} 
+\makebox[0pt]{%
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% NOTIFICA
+	\node[entity] (notifica) {Notifica};
+	
+	\node[attribute] (userid) [above left of=notifica] {\key{UserID}} edge (notifica);
+	\node[attribute] (tipo) [above of=notifica] {Tipo} edge (notifica);
+	\node[attribute] (tipo_id) [above right of=notifica] {TipoID} edge (notifica);
+	\node[attribute] (id) [right = 0.5 cm of tipo_id] {\key{NotificaID}} edge (notifica); 	
+	\node[attribute] (letta) [below right of=notifica] {Letta} edge (notifica);
+
+	\node[relationship] (riceve) [below = 2 cm of notifica] {Riceve} edge node {N} (notifica); 	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UTENTE
+	\node[entity] (utente) [below = 2 cm of riceve] {Utente} edge node {1} (riceve);
+	
+	\node[attribute] (nome) [above right of=utente] {Nome} edge (utente);
+	\node[attribute] (email) [below left of=utente] {Email} edge (utente);
+	\node[attribute] (cognome) [right = 0.3cm of nome] {Cognome} edge (utente); 
+	\node[attribute] (datanascite) [below right of=utente] {DataNascita} edge (utente);	
+	\node[attribute] (password) [right = 0.3cm of datanascite] {Password} edge (utente);
+	\node[attribute] (userid) [left of=email] {\key{UserID}} edge (utente);
+	\node[attribute] (attivo) [right = 0.3 cm of password] {Attivo} edge (utente);
+
+
+	\node[relationship] (crea) [below = 2 cm of utente] {Crea}	 edge node {1} (utente);
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% POST
+	\node[entity] (post) [below = 2 cm of crea] {Post} edge node {N} (crea);
+	
+	\node[attribute] (postid) [below left of=post] {\key{PostID}} edge (post);
+	\node[attribute] (contenuto) [below of=post] {Contenuto} edge (post);
+	\node[attribute] (data) [below right of=post] {Data} edge (post);
+	\node[attribute] (ora) [right = 0.5 cm of data] {Ora} edge (post);
+	\node[attribute] (userid) [above right of=post] {\key{UserID}} edge (post);
+	\node[attribute] (attivo) [left = 0.5 cm of postid] {Attivo} edge (post);
+	
+	\node[relationship] (contiene) [left = 3 cm of post] {Contiene} edge node {1} (post);
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MEDIA
+	\node[entity] (media) [left = 3 cm of contiene] {Media} edge node {1} (contiene);
+	
+	\node[attribute] (mediaid) [above of=media] {\key{MediaID}} edge (media);
+	\node[attribute] (percorso) [left of=media] {Percorso} edge (media);
+	\node[attribute] (postid) [below of=media] {\key{PostID}} edge (media);
+
+	\node[relationship] (genera) [left = 3 cm of notifica] {Genera} edge node {1} (notifica);	
+	
+	%\node[relationship] (richiede) [above right = 2cm of utente] {Richiede} edge node {1} (utente);
+	\node[relationship] (richiede) [above left = 2cm and 1 cm of utente] {Richiede} edge node {1} (utente);
+	\node[relationship] (accetta) [above left = 1 cm and 3 cm of utente] {Accetta} edge node {1} (utente);
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AMICIZIA
+	\node[entity] (amicizia) [left = 3 cm of genera] {Amicizia} edge node {1} (genera);
+	
+	\path (richiede) edge node {N} (amicizia);
+	\path (accetta) edge node {N} (amicizia);
+
+	\node[attribute] (userid1) [above of = amicizia] {\key{UserID1}} edge (amicizia);
+	\node[attribute] (userid2) [above left of = amicizia] {\key{UserID2}} edge (amicizia);
+	\node[attribute] (data) [below left of = amicizia] {Data} edge (amicizia);	
+	\node[attribute] (ora) [left of = amicizia] {Ora} edge (amicizia);
+	\node[attribute] (stato) [above right of = amicizia] {Stato} edge (amicizia);
+
+	\node[relationship] (scrive) [left = 3 cm of utente] {Scrive} edge node {1} (utente);	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COMMENTO
+	\node[entity] (commento) [left = 3 cm of scrive] {Commento} edge node {N} (scrive);
+	
+	\node[attribute] (commentid) [above left of = commento] {\key{CommentoID}} edge (commento);
+	\node[attribute] (contenuto) [left = 1 cm of commentid] {Contenuto} edge (commento);
+	\node[attribute] (userid) [below of = contenuto] {\key{UserID}} edge (commento);	
+	\node[attribute] (data) [below = 0.8 cm of commento] {Data} edge (commento);
+	\node[attribute] (postid) [left = 0.5 cm of data] {\key{PostID}} edge (commento);
+	\node[attribute] (ora) [below = 0.5 cm of userid] {Ora} edge (commento);
+	\node[attribute] (attivo) [above = 0.5 cm of userid] {Attivo} edge (commento);
+	
+	\node[relationship] (possiede) [below right = 2.5 cm of commento] {Posside} edge node {N} (commento);
+	
+	\path (possiede) edge node {1} (post);
+
+	\node[relationship] (mette) [right = 3 cm of utente] {Mette} edge node {1} (utente);
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% REAZIONE
+	\node[entity] (reazione) [right = 3 cm of mette] {Reazione} edge node {N} (mette);
+	
+	\node[attribute] (userid) [above right of = reazione] {\key{UserID}} edge (reazione);
+	\node[attribute] (postid) [right of = reazione] {\key{PostID}} edge (reazione);
+	\node[attribute] (flag) [below right of = reazione] {Attivo} edge (reazione);
+	\node[attribute] (userid) [above left of = reazione] {\key{ReazioneID}} edge (reazione);
+	
+	\node[relationship] (scatena) [right = 7.5 cm of notifica] {Scatena} edge node {1} (notifica);
+	
+	\path (scatena) edge node {1} (reazione);
+	
+	\node[relationship] (valuta) [right = 7.5 cm of post] {Valuta} edge node {1} (post);
+	
+	\path (valuta) edge node {N} (reazione);
+	
+	\node[relationship] (lancia) [above right of = commento] {Lancia} edge node {1} (commento);
+	
+	\path (lancia) edge node {1} (notifica);
+	
+\end{tikzpicture}
+}\par
+ 
+\end{document} 
