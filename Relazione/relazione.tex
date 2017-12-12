@@ -1,0 +1,128 @@
+\documentclass[paper=a4, fontsize=11pt]{report}
+\usepackage[T1]{fontenc}
+\usepackage{fourier}
+
+%margine a mano
+\usepackage[margin=1.1in]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage[protrusion=true,expansion=true]{microtype}	
+%\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage[pdftex]{graphicx}	
+\usepackage{url}
+\usepackage{graphicx}
+
+
+%per il grafico
+\usepackage{tikz}
+\usetikzlibrary{mindmap,trees}
+\usepackage{pgfplots} %per istorgrammi
+
+%%% Custom sectioning
+\usepackage{sectsty}
+\allsectionsfont{\centering \normalfont\scshape}
+
+
+%%% Custom headers/footers (fancyhdr package)
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhead{}											% No page header
+\fancyfoot[L]{}											% Empty 
+\fancyfoot[C]{}											% Empty
+\fancyfoot[R]{\thepage}									% Pagenumbering
+\renewcommand{\headrulewidth}{0pt}			% Remove header underlines
+\renewcommand{\footrulewidth}{0pt}				% Remove footer underlines
+\setlength{\headheight}{13.6pt}
+
+%\setlength{\textwidth}{6.5in}
+
+%%% Equation and float numbering
+%\numberwithin{equation}{section}		% Equationnumbering: section.eq#
+%\numberwithin{figure}{section}			% Figurenumbering: section.fig#
+%\numberwithin{table}{section}				% Tablenumbering: section.tab#
+
+
+%%% Maketitle metadata
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} 	% Horizontal rule
+
+
+\title{
+		%\vspace{-1in} 	
+		\usefont{OT1}{bch}{b}{n}
+		\normalfont \normalsize \textsc{Universit\`a degli Studi di Ferrara \\ Ingegneria Informatica e dell'Automazione
+			\\ Basi di Dati} \\ [25pt]
+		\horrule{0.5pt} \\[0.4cm]
+		\Huge Realizzazione Database per Social Network \date{}\\%[0.2cm]
+		\horrule{0.5pt} \\[0.4cm]
+		\LARGE Azzolini Damiano - Bertagnon Alessandro \\ [0.4cm]
+		%\normalfont \normalsize Azzolini Damiano, Bertasi Francesco, Decarlo Dario, \\
+		%\normalfont \normalsize Fazzi Mattia, Fiorini Giovanni, Fontana Niccol\`o, Rambaldi Marco\\[0.4cm]
+		\horrule{2pt} \\[0.8cm]
+		\includegraphics{logoUnife}
+		%\horrule{2pt} \\[0.5cm]
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MANCA DATA %%%%%%%%%%%%%%%
+}
+
+
+%%% Begin document
+\begin{document}
+\maketitle
+
+\newpage
+
+\tableofcontents
+\thispagestyle{empty}
+
+\listoffigures
+\thispagestyle{empty}
+
+
+\newpage
+
+\pagenumbering{arabic}
+%\begin{abstract}
+%Your abstract goes here...
+%\end{abstract}
+
+%\chapter{Introduction} %solo per report
+%This chapter's content...
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%           \`u
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% STORIA
+\chapter{Modello ER}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% MISSION VISION STRATEGIA
+\chapter{Codice SQL}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%% BIBLIOGRAFIA
+
+
+\begin{thebibliography}{9}
+
+
+\bibitem{leibold}
+ Marius Leibold, Gilbert J. B. Probst, Michael Gibbert,
+  \textit{Strategic Management in the Knowledge Economy: New Approaches and Business Applications},
+  John Wiley \& Sons,
+ 2007.
+ 
+\bibitem{cartonChina}
+	Tetra Pak launches FSC cartons in China, \textit{http://beta.nepcon.org/newsroom/tetra-pak-launches-fsc-cartons-china},
+	10 Giugno 2010.
+	
+\bibitem{circular}
+	Circular Economy, Sustainable Materials Management, and the Importance of KPIs: \textit{https://sustainablepackaging.org/circular-economy-sustainable-materials-management-importance-kpis/},
+	17 Maggio 2017.
+
+\end{thebibliography}
+
+
+%%% End document
+\end{document}

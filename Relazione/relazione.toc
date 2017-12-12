@@ -1,0 +1,4 @@
+\select@language {italian}
+\select@language {italian}
+\contentsline {chapter}{\numberline {1}Modello ER}{1}
+\contentsline {chapter}{\numberline {2}Codice SQL}{2}
