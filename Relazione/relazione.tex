@@ -148,27 +148,248 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 \end{tikzpicture}
 \vspace{0.5cm}
 
-L'entità utente è l'entità principale di tutto il database ed è costituita dai seguenti attributi:
+%L'entità utente è l'entità principale di tutto il database ed è costituita dai seguenti attributi:
 \begin{itemize}
-\item Nome: nome dell'utente.
-\item Cognome: cognome dell'utente.
-\item UserID: identificativo numerico dell'utente e chiave primaria.
-\item Password: password dell'account.
-\item Email: email dell'utente.
-\item DataNascita: data di nascita dell'utente.
-\item Attivo: flag booleano, solitamente fissato a 0, 1 se l'utente si è cancellato dal social. 
+\item \textit{Nome}: nome dell'utente.
+\item \textit{Cognome}: cognome dell'utente.
+\item \textit{UserID}: identificativo numerico dell'utente e chiave primaria.
+\item \textit{Password}: password dell'account.
+\item \textit{Email}: email dell'utente. Nel databse non possono esistere due utenti diversi con la stessa mail.
+\item \textit{DataNascita}: data di nascita dell'utente.
+\item \textit{Attivo}: flag booleano, solitamente fissato a 0, 1 se l'utente si è cancellato dal social. 
 \end{itemize}
 
 \subsection{Amicizia}
+\centering
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+	
+	\node[entity] (amicizia) {Amicizia};
+	
+	\node[attribute] (userid1) [above of = amicizia] {UserID1} edge (amicizia);
+	\node[attribute] (userid2) [above left of = amicizia] {UserID2} edge (amicizia);
+	\node[attribute] (data) [below right of = amicizia] {Data} edge (amicizia);	
+	\node[attribute] (ora) [below left of = amicizia] {Ora} edge (amicizia);
+	\node[attribute] (stato) [above right of = amicizia] {Stato} edge (amicizia);
+\end{tikzpicture}
+\vspace{0.5cm}
+
+\begin{itemize}
+\item \textit{UserID1}: rappresenta l'identificativo dell'utente che richiede l'amicizia, chiave esterna.
+\item \textit{UserID2}: rappresenta l'identificativo dell'utente che riceve la richiesta di amicizia, chiave esterna.
+\item \textit{Data}: data della richiesta dell'amicizia.
+\item \textit{Ora}: ora della richiesta dell'amicizia.
+\item \textit{Stato}: variabile intera che rappresenta se l'amicizia è stata richiesta, accettata, in sospeso o rifiutata.
+\end{itemize}
 
 \subsection{Post}
+\centering
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+	
+	\node[entity] (post) {Post};
+	
+	\node[attribute] (postid) [below left of=post] {\key{PostID}} edge (post);
+	\node[attribute] (contenuto) [above left of=post] {Contenuto} edge (post);
+	\node[attribute] (data) [below right of=post] {Data} edge (post);
+	\node[attribute] (ora) [right of = post] {Ora} edge (post);
+	\node[attribute] (userid) [above right of=post] {UserID} edge (post);
+	\node[attribute] (attivo) [left of = post] {Attivo} edge (post);
+	
+	
+\end{tikzpicture}
+\vspace{0.5cm}
+
+\begin{itemize}
+\item \textit{PostID1}: rappresenta l'identificativo del post, funge da chiave primaria.
+\item \textit{Contenuto}: campo di testo che rappresenta il contenuto del post.
+\item \textit{Data}: data di pubblicazione del post.
+\item \textit{Ora}: ora di pubblicazione del post.
+\item \textit{UserID}: chiave esterna, identificativo dell'utente autore del post.
+\item \textit{Attivo}: flag booleano che indica se il post è attivo (1) o cancellato (0).
+\end{itemize}
+
 \subsection{Commento}
+\centering
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+
+	\node[entity] (commento) {Commento} ;
+	
+	\node[attribute] (commentid) [above right of = commento] {\key{CommentoID}} edge (commento);
+	\node[attribute] (contenuto) [above left of = commento] {Contenuto} edge (commento);
+	\node[attribute] (userid) [left of = commento] {UserID} edge (commento);	
+	\node[attribute] (data) [below left of = commento] {Data} edge (commento);
+	\node[attribute] (postid) [below of = commento] {PostID} edge (commento);
+	\node[attribute] (ora) [below right of = commento] {Ora} edge (commento);
+	\node[attribute] (attivo) [right of = commento] {Attivo} edge (commento);
+		
+\end{tikzpicture}
+\vspace{0.5cm}
+
+\begin{itemize}
+\item \textit{CommentoID}: identificativo numerico del commento e chiave primaria.
+\item \textit{Contenuto}: contenuto del commento.
+\item \textit{UserID}: identificativo dell'utente autore del commento, chiave esterna.
+\item \textit{Data}: data del commento.
+\item \textit{Ora}: ora del commento.
+\item \textit{PostID}: identificativo numerico del post commentato, chiave esterna.
+\item \textit{Attivo}: flag booleano che indica se il commento è attivo (1) o cancellato (0).
+\end{itemize}
+
 \subsection{Media}
+\centering
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+
+	\node[entity] (media) {Media};
+	
+	\node[attribute] (mediaid) [above right of=media] {\key{MediaID}} edge (media);
+	\node[attribute] (percorso) [above left of=media] {Percorso} edge (media);
+	\node[attribute] (postid) [below of=media] {PostID} edge (media);
+		
+\end{tikzpicture}
+\vspace{0.5cm}
+
+\begin{itemize}
+\item \textit{MediaID}: identificativo del media (foto, video, ...), chiave primaria.
+\item \textit{Percorso}: link al media.
+\item \textit{PostID}: identificativo del post nel quale il media viene inserito.
+\end{itemize}
+
 
 \subsection{Reazione}
+
+\centering
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+	
+	\node[entity] (reazione) {Reazione};
+	
+	\node[attribute] (userid) [above right of = reazione] {UserID} edge (reazione);
+	\node[attribute] (postid) [below left of = reazione] {PostID} edge (reazione);
+	\node[attribute] (flag) [below right of = reazione] {Attivo} edge (reazione);
+	\node[attribute] (userid) [above left of = reazione] {\key{ReazioneID}} edge (reazione);
+
+\end{tikzpicture}
+\vspace{0.5cm}
+
+\begin{itemize}
+\item \textit{ReazioneID}: identificativo numerico della reazione.
+\item \textit{UserID}: identificativo dell'utente che mette la reazione.
+\item \textit{PostID}: identificativo del post sul quale viene messa una reazione.
+\item \textit{Attivo}: flag booleano che indica se ila reazione è attiva (1) o è stata cancellata (0).
+\end{itemize}
+
 \subsection{Notifica}
 
+\centering
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+	
+	\node[entity] (notifica) {Notifica};
+	
+	\node[attribute] (userid) [above left of=notifica] {UserID} edge (notifica);
+	\node[attribute] (tipo) [above of=notifica] {Tipo} edge (notifica);
+	\node[attribute] (tipo_id) [above right of=notifica] {TipoID} edge (notifica);
+	\node[attribute] (id) [below left of = notifica] {\key{NotificaID}} edge (notifica); 	
+	\node[attribute] (letta) [below right of=notifica] {Letta} edge (notifica);
+	
+\end{tikzpicture}
+\vspace{0.5cm}
+
+\begin{itemize}
+\item \textit{NotiificaID}: identificativo numerico della notifica.
+\item \textit{Tipo}:
+\item \textit{TipoID}:
+\item \textit{UserID}:
+\item \textit{Letta}:
+\end{itemize}
+
+\subsection{Gruppo}
+Entità da aggiungere
+
+\subsection{Schema ER Completo}
+Da inserire in una pagina nuova
+
 \section{Relazioni}
+%Le relazioni che collegano le entità sono le seguenti:
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (notifica) {Notifica};
+	\node[relationship] (riceve) [right = 2cm of notifica] {Riceve} edge node {N} (notifica);
+	\node[entity] (utente) [right = 2cm of riceve] {Utente} edge node {1} (riceve);
+\end{tikzpicture}
+\caption{Un utente riceve N notifiche ma una determinata notifica è ricevuta da un solo utente}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (amicizia) {Amicizia};
+	\node[relationship] (riceve) [right = 2cm of amicizia] {Riceve} edge node {N} (amicizia);
+	\node[entity] (utente) [right = 2cm of riceve] {Utente} edge node {1} (riceve);
+\end{tikzpicture}
+\caption{Un utente riceve N richieste di amicizia ma una determinata richiesta è ricevuta da un solo utente}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (amicizia) {Amicizia};
+	\node[relationship] (accetta) [right = 2cm of amicizia] {Accetta} edge node {N} (amicizia);
+	\node[entity] (utente) [right = 2cm of riceve] {Utente} edge node {1} (accetta);
+\end{tikzpicture}
+\caption{Un utente accetta N richieste di amicizia ma una determinata richiesta è accettata da un solo utente}
+\end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% MODELLO ER
 \chapter{Modello ER}
