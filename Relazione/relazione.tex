@@ -156,7 +156,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 \item \textit{Password}: password dell'account.
 \item \textit{Email}: email dell'utente. Nel databse non possono esistere due utenti diversi con la stessa mail.
 \item \textit{DataNascita}: data di nascita dell'utente.
-\item \textit{Attivo}: flag booleano, solitamente fissato a 0, 1 se l'utente si è cancellato dal social. 
+\item \textit{Attivo}: flag booleano, solitamente fissato a 0, 1 se l'utente si è cancellato dal social network. 
 \end{itemize}
 
 \subsection{Amicizia}
@@ -171,10 +171,10 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	node distance=7em,
 	scale=0.8, transform shape] 
 	
-	\node[entity] (amicizia) {Amicizia};
+	\node[entity] (amicizia) {Amicizia}; %entità debole?
 	
-	\node[attribute] (userid1) [above of = amicizia] {UserID1} edge (amicizia);
-	\node[attribute] (userid2) [above left of = amicizia] {UserID2} edge (amicizia);
+	\node[attribute] (userid1) [above of = amicizia] {UserID1} edge (amicizia); %da rimuovere
+	\node[attribute] (userid2) [above left of = amicizia] {UserID2} edge (amicizia); %da rimuovere
 	\node[attribute] (data) [below right of = amicizia] {Data} edge (amicizia);	
 	\node[attribute] (ora) [below left of = amicizia] {Ora} edge (amicizia);
 	\node[attribute] (stato) [above right of = amicizia] {Stato} edge (amicizia);
@@ -207,7 +207,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	\node[attribute] (contenuto) [above left of=post] {Contenuto} edge (post);
 	\node[attribute] (data) [below right of=post] {Data} edge (post);
 	\node[attribute] (ora) [right of = post] {Ora} edge (post);
-	\node[attribute] (userid) [above right of=post] {UserID} edge (post);
+	\node[attribute] (userid) [above right of=post] {UserID} edge (post); %da rimuovere
 	\node[attribute] (attivo) [left of = post] {Attivo} edge (post);
 	
 	
@@ -235,14 +235,14 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	node distance=7em,
 	scale=0.8, transform shape] 
 
-	\node[entity] (commento) {Commento} ;
+	\node[entity] (commento) {Commento}; %entità debole post
 	
 	\node[attribute] (commentid) [above right of = commento] {\key{CommentoID}} edge (commento);
 	\node[attribute] (contenuto) [above left of = commento] {Contenuto} edge (commento);
-	\node[attribute] (userid) [left of = commento] {UserID} edge (commento);	
-	\node[attribute] (data) [below left of = commento] {Data} edge (commento);
+	\node[attribute] (userid) [left of = commento] {UserID} edge (commento);	 %da rimuovere
+	\node[attribute] (data) [below left of = commento] {Data} edge (commento); 
 	\node[attribute] (postid) [below of = commento] {PostID} edge (commento);
-	\node[attribute] (ora) [below right of = commento] {Ora} edge (commento);
+	\node[attribute] (ora) [below right of = commento] {Ora} edge (commento); %da rimuovere
 	\node[attribute] (attivo) [right of = commento] {Attivo} edge (commento);
 		
 \end{tikzpicture}
@@ -270,11 +270,11 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	node distance=7em,
 	scale=0.8, transform shape] 
 
-	\node[entity] (media) {Media};
+	\node[entity] (media) {Media}; %entia debole post
 	
 	\node[attribute] (mediaid) [above right of=media] {\key{MediaID}} edge (media);
 	\node[attribute] (percorso) [above left of=media] {Percorso} edge (media);
-	\node[attribute] (postid) [below of=media] {PostID} edge (media);
+	\node[attribute] (postid) [below of=media] {PostID} edge (media); %modificare
 		
 \end{tikzpicture}
 \vspace{0.5cm}
@@ -299,10 +299,10 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	node distance=7em,
 	scale=0.8, transform shape] 
 	
-	\node[entity] (reazione) {Reazione};
+	\node[entity] (reazione) {Reazione}; %entita debole post
 	
 	\node[attribute] (userid) [above right of = reazione] {UserID} edge (reazione);
-	\node[attribute] (postid) [below left of = reazione] {PostID} edge (reazione);
+	\node[attribute] (postid) [below left of = reazione] {PostID} edge (reazione); %modificare
 	\node[attribute] (flag) [below right of = reazione] {Attivo} edge (reazione);
 	\node[attribute] (userid) [above left of = reazione] {\key{ReazioneID}} edge (reazione);
 
@@ -331,7 +331,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	
 	\node[entity] (notifica) {Notifica};
 	
-	\node[attribute] (userid) [above left of=notifica] {UserID} edge (notifica);
+	\node[attribute] (userid) [above left of=notifica] {UserID} edge (notifica); %modificare
 	\node[attribute] (tipo) [above of=notifica] {Tipo} edge (notifica);
 	\node[attribute] (tipo_id) [above right of=notifica] {TipoID} edge (notifica);
 	\node[attribute] (id) [below left of = notifica] {\key{NotificaID}} edge (notifica); 	
@@ -351,12 +351,15 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 \subsection{Gruppo}
 Entità da aggiungere
 
-\subsection{Schema ER Completo}
-Da inserire in una pagina nuova
+
 
 \section{Relazioni}
+%UNA SUBSECTION PER OGNI RELAZIONE?
 %Le relazioni che collegano le entità sono le seguenti:
 
+%genera riceve accetta scrive scatena richiede lancia possiede crea valuta mette contiene
+
+%riceve
 \begin{figure}[h!]
 \centering
 \begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
@@ -365,21 +368,23 @@ Da inserire in una pagina nuova
 	\node[relationship] (riceve) [right = 2cm of notifica] {Riceve} edge node {N} (notifica);
 	\node[entity] (utente) [right = 2cm of riceve] {Utente} edge node {1} (riceve);
 \end{tikzpicture}
-\caption{Un utente riceve N notifiche ma una determinata notifica è ricevuta da un solo utente}
+\caption{Un utente riceve N notifiche ma una determinata notifica è ricevuta da un solo utente.}
 \end{figure}
 
+%richiede
 \begin{figure}[h!]
 \centering
 \begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
 	
 	\node[entity] (amicizia) {Amicizia};
-	\node[relationship] (riceve) [right = 2cm of amicizia] {Riceve} edge node {N} (amicizia);
-	\node[entity] (utente) [right = 2cm of riceve] {Utente} edge node {1} (riceve);
+	\node[relationship] (richiede) [right = 2cm of amicizia] {Richiede} edge node {N} (amicizia);
+	\node[entity] (utente) [right = 2cm of riceve] {Utente} edge node {1} (richiede);
 \end{tikzpicture}
-\caption{Un utente riceve N richieste di amicizia ma una determinata richiesta è ricevuta da un solo utente}
+\caption{Un utente riceve N richieste di amicizia ma una determinata richiesta è ricevuta da un solo utente.}
 \end{figure}
 
-\begin{figure}
+%accetta
+\begin{figure}[h!]
 \centering
 \begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
 	
@@ -387,17 +392,137 @@ Da inserire in una pagina nuova
 	\node[relationship] (accetta) [right = 2cm of amicizia] {Accetta} edge node {N} (amicizia);
 	\node[entity] (utente) [right = 2cm of riceve] {Utente} edge node {1} (accetta);
 \end{tikzpicture}
-\caption{Un utente accetta N richieste di amicizia ma una determinata richiesta è accettata da un solo utente}
+\caption{Un utente accetta N richieste di amicizia ma una determinata richiesta è accettata da un solo utente.}
 \end{figure}
 
+%scatena
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (notifica) {Notifica};
+	\node[relationship] (scatena) [right = 2cm of notifica] {Scatena} edge node {1} (notifica);
+	\node[entity] (Reazione) [right = 2cm of scatena] {Reazione} edge node {1} (scatena);
+\end{tikzpicture}
+\caption{Una reazione scatena una notifica e una determinata notifica è scatenata da una reazione.}
+\end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%% MODELLO ER
-\chapter{Modello ER}
+%genera
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (amicizia) {Amicizia};
+	\node[relationship] (genera) [right = 2cm of amicizia] {Genera} edge node {N} (amicizia);
+	\node[entity] (notifica) [right = 2cm of riceve] {Notifica} edge node {1} (genera);
+\end{tikzpicture}
+\caption{Una richiesta di amicizia genera una notifica e una determinata notifica e generata da una richiesta.}
+\end{figure}
+
+%scrive
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (utente) {Utente};
+	\node[relationship] (scrive) [right = 2cm of utente] {Scrive} edge node {1} (utente);
+	\node[entity] (commento) [right = 2cm of riceve] {Commento} edge node {N} (scrive);
+\end{tikzpicture}
+\caption{Un utente scrive n commenti ma un determinato commento può essere scritto solamente da un utente.}
+\end{figure}
+
+%lancia
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (commento) {Commento};
+	\node[relationship] (lancia) [right = 2cm of commento] {Lancia} edge node {1} (commento);
+	\node[entity] (notifica) [right = 2cm of lancia] {Notifica} edge node {1} (lancia);
+\end{tikzpicture}
+\caption{Un commento lancia una notifica e una determinata notifica può essere lanciata da un solo commento.}
+\end{figure}
+
+%possiede
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (commento) {Commento};
+	\node[relationship] (possiede) [right = 2cm of commento] {Possiede} edge node {N} (commento);
+	\node[entity] (post) [right = 2cm of possiede] {Post} edge node {1} (possiede);
+\end{tikzpicture}
+\caption{Un determinato commento può essere fatto solamente su un post ma un post può contenere n commenti.}
+\end{figure}
+
+%crea
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (utente) {Utente};
+	\node[relationship] (crea) [right = 2cm of utente] {Crea} edge node {1} (utente);
+	\node[entity] (post) [right = 2cm of crea] {Post} edge node {N} (crea);
+\end{tikzpicture}
+\caption{Un utente crea n post ma un determinato post è scritto solamente da un utente.}
+\end{figure}
+
+%valuta
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (reazione) {Reazione};
+	\node[relationship] (valuta) [right = 2cm of reazione] {Valuta} edge node {N} (reazione);
+	\node[entity] (post) [right = 2cm of crea] {Post} edge node {1} (valuta);
+\end{tikzpicture}
+\caption{Una reazione valuta un solo post ma un post può essere valutato da più reazioni.}
+\end{figure}
+
+%mette
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (utente) {Utente};
+	\node[relationship] (mette) [right = 2cm of utente] {Mette} edge node {1} (utente);
+	\node[entity] (reazione) [right = 2cm of mette] {Reazione} edge node {N} (mette);
+\end{tikzpicture}
+\caption{Un utente può mettere n reazioni ma una reazione può essere messa da un solo utente.}
+\end{figure}
+
+%contiene
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (post) {Post};
+	\node[relationship] (contiene) [right = 2cm of post] {Contiene} edge node {1} (post);
+	\node[entity] (media) [right = 2cm of contiene] {Media} edge node {N} (contiene);
+\end{tikzpicture}
+\caption{Un post contiene n media ma un media può essere in un solo post.}
+\end{figure}
+
+%eventuali nuovi
+
+\clearpage
+\section{Schema ER Completo}
+Da inserire in una pagina nuova
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Da Modello ER a Modello Relazionale
+\chapter{Da Modello ER a Modello Relazionale}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% NORMALIZZAZIONE
+\chapter{Normalizzazione}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% CODICE SQL
 \chapter{Codice SQL}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%% INTERROGAZIONI
+\chapter{Query}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%% INTERFACCIA
+\chapter{Interfaccia}
 
 %%%%%%%%%%%%%%%%%%%%%%%%% BIBLIOGRAFIA
 
