@@ -23,7 +23,6 @@
 \usepackage{sectsty}
 \allsectionsfont{\centering \normalfont\scshape}
 
-
 %%% Custom headers/footers (fancyhdr package)
 \usepackage{fancyhdr}
 \pagestyle{fancyplain}
@@ -118,13 +117,20 @@ Il progetto di basa sullo sviluppo di un \textit{social network}. Ciascun utente
 fornendo Nome, Cognome, e-mail e password e data di nascita. Al seguito dell'iscrizione, un utente può chiedere l'"amicizia" ad 
 un altro utente, pubblicare un
 post, che può anche contenere media, che può essere commentato da altri utenti (solamente quelli tra gli amici dell'utente creatore del post). E possibile inoltre inserire, oltre a commenti, delle reazioni ai post. 
-La scrittura di un commento o l'applicazione di una reazione ad un post viene segnalata con una notifica all'utente creatore del post, così come la richiesta di amicizia. Ciascuna entità utente, post, commento è caratterizzata da un campo attivo (flag booleano) che indica se, rispettivamente, l'utente si è cancellato dal social network (in questo caso attivo sarà fissato a 0), il post è stato cancellato o il commento è stato rimosso. I post che vengono cancellati dal social network rimangono comunque salvati nel database ma non visualizzati nella home.
+La scrittura di un commento o l'applicazione di una reazione ad un post viene segnalata con una notifica all'utente creatore del post, così come la richiesta di amicizia. Ciascuna entità utente, post, commento è caratterizzata da un campo attivo (flag booleano) che indica se, rispettivamente, l'utente si è cancellato dal social network (in questo caso attivo sarà fissato a 0), il post è stato cancellato o il commento è stato rimosso. I post che vengono cancellati dal social network rimangono comunque salvati nel database ma non visualizzati nella home. L'intero progetto è stato sviluppato utilizzando il framework laravel.
 
 \section{Entità}
 Di seguito vengono analizzate tutte le entità presenti nel database:
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FINIRE DI MODIFICARE I CAMPI
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 \subsection{Utente}
-\centering
+\begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
 	%->, frecce orietate
@@ -147,6 +153,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	
 \end{tikzpicture}
 \vspace{0.5cm}
+\end{center}
 
 %L'entità utente è l'entità principale di tutto il database ed è costituita dai seguenti attributi:
 \begin{itemize}
@@ -160,7 +167,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 \end{itemize}
 
 \subsection{Amicizia}
-\centering
+\begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
 	%->, frecce orietate
@@ -180,17 +187,17 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	\node[attribute] (stato) [above right of = amicizia] {Stato} edge (amicizia);
 \end{tikzpicture}
 \vspace{0.5cm}
+\end{center}
 
 \begin{itemize}
 \item \textit{UserID1}: rappresenta l'identificativo dell'utente che richiede l'amicizia, chiave esterna.
 \item \textit{UserID2}: rappresenta l'identificativo dell'utente che riceve la richiesta di amicizia, chiave esterna.
-\item \textit{Data}: data della richiesta dell'amicizia.
-\item \textit{Ora}: ora della richiesta dell'amicizia.
+\item \textit{timestamp}: timestamp della richiesta dell'amicizia.
 \item \textit{Stato}: variabile intera che rappresenta se l'amicizia è stata richiesta, accettata, in sospeso o rifiutata.
 \end{itemize}
 
 \subsection{Post}
-\centering
+\begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
 	%->, frecce orietate
@@ -213,6 +220,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	
 \end{tikzpicture}
 \vspace{0.5cm}
+\end{center}
 
 \begin{itemize}
 \item \textit{PostID1}: rappresenta l'identificativo del post, funge da chiave primaria.
@@ -224,7 +232,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 \end{itemize}
 
 \subsection{Commento}
-\centering
+\begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
 	%->, frecce orietate
@@ -247,6 +255,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 		
 \end{tikzpicture}
 \vspace{0.5cm}
+\end{center}
 
 \begin{itemize}
 \item \textit{CommentoID}: identificativo numerico del commento e chiave primaria.
@@ -259,7 +268,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 \end{itemize}
 
 \subsection{Media}
-\centering
+\begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
 	%->, frecce orietate
@@ -278,6 +287,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 		
 \end{tikzpicture}
 \vspace{0.5cm}
+\end{center}
 
 \begin{itemize}
 \item \textit{MediaID}: identificativo del media (foto, video, ...), chiave primaria.
@@ -287,8 +297,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 
 
 \subsection{Reazione}
-
-\centering
+\begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
 	%->, frecce orietate
@@ -308,6 +317,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 
 \end{tikzpicture}
 \vspace{0.5cm}
+\end{center}
 
 \begin{itemize}
 \item \textit{ReazioneID}: identificativo numerico della reazione.
@@ -318,7 +328,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 
 \subsection{Notifica}
 
-\centering
+\begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
 	%->, frecce orietate
@@ -339,6 +349,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	
 \end{tikzpicture}
 \vspace{0.5cm}
+\end{center}
 
 \begin{itemize}
 \item \textit{NotiificaID}: identificativo numerico della notifica.
@@ -517,6 +528,70 @@ Da inserire in una pagina nuova
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% CODICE SQL
 \chapter{Codice SQL}
+\section{Introduzione}
+Come detto nella descrizione, l'intero progetto è stato sviluppato utilizzando il framework \textit{laravel}. Le tabelle del database sono state create utilizzando le \texttt{migration}. Per ogni tabella del database è stato eseguito il comando \texttt{php artisan make:migration create\_table\_nomeTabella}. Questo comando genera una classe \texttt{migration} all'interno del file \texttt{create\_table\_nomeTabella.php} nella quale sono definiti i metodi \texttt{up()} e \texttt{down()}. All'interno di \texttt{up()} vengono inseriti tutti i comandi per la creazione delle tabelle. Generate le migrations per tutte le tabelle, il comando \texttt{php artisan migrate} traduce i comandi specificati nel metodo \texttt{up}, in comandi SQL per la creazione delle tabelle. Di seguito viene riportato il codice SQL generato dalle migrations.
+\section{Codice}
+\begin{verbatim}
+UTENTE
+CREATE TABLE utente (
+        utenteID INT AUTO_INCREMENT PRIMARY_KEY,
+        nome VARCHAR(255) NOT NULL,
+        cognome VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        password VARCHAR(255) NOT NULL,
+        citta VARCHAR(255) NOT NULL,
+        dataNascita DATE
+);
+
+NOTIFICA
+CREATE TABLE notifica (
+        notificaID INT AUTO_INCREMENT PRIMARY_KEY,
+        utenteID VARCHAR(255) FOREGIN_KEY REFERENCES utente(utenteID),
+        tipo VARCHAR(255),
+        tipoID VARCHAR(255),
+        letta BIT DEFAULT 0
+);
+
+AMICIZIA
+CREATE TABLE amicizia (
+        utenteID1 INT FOREGIN KEY REFERENCES utente(utenteID),
+        utenteID2 INT FOREGIN_KEY REFERENCES utente(utenteID),
+        timestamp TIMESTAMP,
+        Stato VARCHAR(255) NOT_NULL DEFAULT 'sospesa'
+);
+
+COMMENTO
+CRATE TABLE commento (
+        commentoID INT AUTO_INCREMENT PRIMARY_KEY,
+        utenteID INT FOREGIN_KEY REFERENCES utente(utenteID),
+        postID INT FOREGIN_KEY REFERENCES post(postID),
+        contenuto TEXT NOT_NULL,
+       	timestamp TIMESTAMP
+);
+
+POST
+CREATE TABLE post (
+        postID INT AUTO_INCREMENT PRIMARY_KEY,
+        contenuto TETX NOT_NULL,
+        timestamp TIMESTAMP,
+        utenteID FOREGIN_KEY REFERENCES utente(utenteID)
+);
+
+MEDIA
+CREATE TABLE media (
+        mediaID INT AUTO_INCREMENT PRIMARY_KEY,
+        postID INT FOREGIN_KEY REFERENCES post(PostID),
+        percorso TEXT NOT_NULL
+);
+
+REAZIONE
+CREATE TABLE rezione (
+        reazioneID INT AUTO_INCREMENT PRIMARY_KEY,
+        utenteID INT FOREGIN_KEY REFERENCES utente(utenteID),
+        postID INT FOREGIN_KEY REFERENCES post(postID),
+        flag BIT
+);
+\end{verbatim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% INTERROGAZIONI
 \chapter{Query}
