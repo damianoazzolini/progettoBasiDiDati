@@ -1,0 +1,60 @@
+/* .class
+ * #id
+ * */
+.profileName {
+
+	text-align: center;
+	font-size: 200%;
+
+}
+#profileImage {
+
+	width: 50%;
+	heigth: 50%;
+	
+}
+.profile {
+	margin-top:12vh;
+		
+}
+#headerRight ul li a:hover {
+	text-decoration:none;
+	color:white;
+}
+
+#userName {
+	padding-top: 2vh;
+	}
+a {
+	text-decoration: none;
+	color: black;
+}
+a:hover{
+	color: black;
+	text-decoration: none;
+}
+
+.profilePosts {
+	width: 25vh;
+}
+#positionDeleteButton {
+	margin-left: 24vh;
+	position: relative;
+	margin-top: 2vh;
+}
+#sizeDeleteButton{
+	width: 3vh;
+	height: 3vh;
+}
+.profileMedia {
+	width: 50px;
+	height: 50px;
+}
+#userImage {
+	padding: 10px;
+	width: 60px;
+	float: left;
+	margin-right: 10px;
+	height: 60px;
+	overflow: hidden;
+}

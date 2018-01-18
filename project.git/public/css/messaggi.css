@@ -1,0 +1,133 @@
+.contentFriend{
+    text-align: center;
+}
+#chatContainer {
+    margin-left: 15%;
+    margin-right: 15%;
+    position: relative;
+    top: 100px;
+    
+    height: 650px;
+    margin-bottom: 40px;
+}
+#friendListContainer {
+    border-top-left-radius: 36px;
+    border: 2px solid #133212;
+    width: 33%;
+    height: 100%;
+    float: left;
+    border-bottom-left-radius: 36px;
+    overflow: auto;
+}
+.divFriend, .divSelected{
+    height: 67px;
+    cursor: pointer;
+    border-top-left-radius: 32px;
+    border-bottom-left-radius: 32px;
+    overflow: hidden;
+}
+.photoFriend {
+    width: 65px;
+    height: 65px;
+    border-radius: 35px;
+    border: 1px solid #000000;
+    float: left;
+}
+.friendName {
+    font-size: 22px;
+    float: left;
+    height: 25px;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+#p_select {
+    margin-top: 26%;
+    font-size: 24px;
+    text-align: center;
+}
+
+#chatContent {
+    border-top-right-radius: 30px;
+    border-right: 2px solid #133212;
+    border-top: 2px solid #133212;
+    border-bottom: 2px solid #133212;
+    height: 100%;
+    width: calc(67% - 6px);
+    float: left;
+    border-bottom-right-radius: 32px;
+}
+.divMessagesContent {
+    /*height: calc(100% - 91px);*/
+    height: calc(100% - 61px);
+    overflow: auto;
+}
+.divSender {
+    width: 100%;
+    position: relative;
+    text-align: left;
+}
+#notification {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+}
+.textareaSender {
+    border: 1px solid #133212;
+    resize: none;
+    width: calc(100% - 60px);
+    height: 60px;
+    float: left;
+    font-size: 15px;
+    border-radius: 20px;
+    padding: 10px;
+}
+.sendMessage {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #FFFFFF;
+    background-color: #133212;
+    color: #FFFFFF;
+    border-radius: 30px;
+    float: left;
+    cursor: pointer;
+    margin-top: 1px;
+}
+.divMessaggio {
+    width: 100%;
+    display: inline-block;
+}
+.mioMess {
+    float: right;
+    padding: 10px;
+    background-color: #133212;
+    border: 1px solid #133212;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    text-align: left;
+    margin-right: 10px;
+    color: #FFFFFF;
+    margin-left: 25%;
+    word-wrap: break-word;
+}
+.suoMess {
+    padding: 10px;
+    background-color: #ededed;
+    border: 1px solid #ededed;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    border-radius: 20px;
+    max-width: 75%;
+    text-align: left;
+    min-width: 100px;
+    color: #000000;
+    word-wrap: break-word;
+}
+.loading {
+    width: 150px;
+    height: 150px;
+    margin: auto;
+    margin-top: 20%;
+    background: url(/systemImages/caricamento.gif) 50% 50% / cover, no-repeat;
+}
