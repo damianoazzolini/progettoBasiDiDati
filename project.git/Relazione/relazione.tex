@@ -1,0 +1,626 @@
+\documentclass[paper=a4, fontsize=11pt,x11names]{report}
+\usepackage[T1]{fontenc}
+\usepackage{fourier}
+
+%margine a mano
+\usepackage[margin=1.1in]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage[protrusion=true,expansion=true]{microtype}	
+%\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage[pdftex]{graphicx}	
+\usepackage{url}
+\usepackage{graphicx}
+
+
+%per il grafico
+\usepackage{tikz}
+\usetikzlibrary{mindmap,trees}
+\usepackage{pgfplots} %per istorgrammi
+
+%%% Custom sectioning
+\usepackage{sectsty}
+\allsectionsfont{\centering \normalfont\scshape}
+
+%%% Custom headers/footers (fancyhdr package)
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhead{}											% No page header
+\fancyfoot[L]{}											% Empty 
+\fancyfoot[C]{}											% Empty
+\fancyfoot[R]{\thepage}									% Pagenumbering
+\renewcommand{\headrulewidth}{0pt}			% Remove header underlines
+\renewcommand{\footrulewidth}{0pt}				% Remove footer underlines
+\setlength{\headheight}{13.6pt}
+
+%\setlength{\textwidth}{6.5in}
+
+%%% Equation and float numbering
+%\numberwithin{equation}{section}		% Equationnumbering: section.eq#
+%\numberwithin{figure}{section}			% Figurenumbering: section.fig#
+%\numberwithin{table}{section}				% Tablenumbering: section.tab#
+
+
+
+
+%%%%%%%%%%%%% per ER
+
+\usepackage{tikz} 
+\usetikzlibrary{er} 
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
+\tikzset{multi attribute/.style={attribute,double distance=1.5pt}} 
+\tikzset{derived attribute/.style={attribute,dashed}} 
+\tikzset{total/.style={double distance=1.5pt}} 
+\tikzset{every entity/.style={draw=orange, fill=orange!20}} 
+\tikzset{every attribute/.style={draw=MediumPurple1, fill=MediumPurple1!20}} 
+\tikzset{every relationship/.style={draw=Chartreuse2, fill=Chartreuse2!20}} 
+\newcommand{\key}[1]{\underline{#1}}
+
+%%%%%%%%%%%%%%%%%
+
+
+%%% Maketitle metadata
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} 	% Horizontal rule
+
+
+\title{
+		%\vspace{-1in} 	
+		\usefont{OT1}{bch}{b}{n}
+		\normalfont \normalsize \textsc{Universit\`a degli Studi di Ferrara \\ Ingegneria Informatica e dell'Automazione
+			\\ Basi di Dati} \\ [25pt]
+		\horrule{0.5pt} \\[0.4cm]
+		\Huge Realizzazione Database per Social Network \date{}\\%[0.2cm]
+		\horrule{0.5pt} \\[0.4cm]
+		\LARGE Azzolini Damiano - Bertagnon Alessandro \\ [0.4cm]
+		%\normalfont \normalsize Azzolini Damiano, Bertasi Francesco, Decarlo Dario, \\
+		%\normalfont \normalsize Fazzi Mattia, Fiorini Giovanni, Fontana Niccol\`o, Rambaldi Marco\\[0.4cm]
+		\horrule{2pt} \\[0.8cm]
+		\includegraphics{logoUnife}
+		%\horrule{2pt} \\[0.5cm]
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MANCA DATA %%%%%%%%%%%%%%%
+}
+
+
+%%% Begin document
+\begin{document}
+\maketitle
+
+\newpage
+
+\tableofcontents
+\thispagestyle{empty}
+
+\listoffigures
+\thispagestyle{empty}
+
+
+\newpage
+
+\pagenumbering{arabic}
+%\begin{abstract}
+%Your abstract goes here...
+%\end{abstract}
+
+%\chapter{Introduction} %solo per report
+%This chapter's content...
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%           \`u
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% DESCRIZIONE MINIMONDO
+\chapter{Minimondo}
+\section{Descrizione}
+Il progetto di basa sullo sviluppo di un \textit{social network}. Ciascun utente si può iscrivere al social network
+fornendo Nome, Cognome, e-mail e password e data di nascita. Al seguito dell'iscrizione, un utente può chiedere l'"amicizia" ad 
+un altro utente, pubblicare un
+post, che può anche contenere media, che può essere commentato da altri utenti (solamente quelli tra gli amici dell'utente creatore del post). E possibile inoltre inserire, oltre a commenti, delle reazioni ai post. 
+La scrittura di un commento o l'applicazione di una reazione ad un post viene segnalata con una notifica all'utente creatore del post, così come la richiesta di amicizia. Ciascuna entità utente, post, commento è caratterizzata da un campo attivo (flag booleano) che indica se, rispettivamente, l'utente si è cancellato dal social network (in questo caso attivo sarà fissato a 0), il post è stato cancellato o il commento è stato rimosso. I post che vengono cancellati dal social network rimangono comunque salvati nel database ma non visualizzati nella home. L'intero progetto è stato sviluppato utilizzando il framework laravel.
+
+\section{Entità}
+Di seguito vengono analizzate tutte le entità presenti nel database:
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FINIRE DI MODIFICARE I CAMPI
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\subsection{Utente}
+\begin{center}
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+	
+	\node[entity] (utente) {Utente};
+	
+	\node[attribute] (nome) [above of = utente] {Nome} edge (utente);
+	\node[attribute] (email) [below of = utente] {Email} edge (utente);
+	\node[attribute] (cognome) [right of = utente] {Cognome} edge (utente); 
+	\node[attribute] (datanascite) [below right of = utente] {DataNascita} edge (utente);	
+	\node[attribute] (password) [below left of = utente] {Password} edge (utente);
+	\node[attribute] (userid) [left of = utente] {\key{UserID}} edge (utente);
+	\node[attribute] (attivo) [above right of =  utente] {Attivo} edge (utente);
+	
+\end{tikzpicture}
+\vspace{0.5cm}
+\end{center}
+
+%L'entità utente è l'entità principale di tutto il database ed è costituita dai seguenti attributi:
+\begin{itemize}
+\item \textit{Nome}: nome dell'utente.
+\item \textit{Cognome}: cognome dell'utente.
+\item \textit{UserID}: identificativo numerico dell'utente e chiave primaria.
+\item \textit{Password}: password dell'account.
+\item \textit{Email}: email dell'utente. Nel databse non possono esistere due utenti diversi con la stessa mail.
+\item \textit{DataNascita}: data di nascita dell'utente.
+\item \textit{Attivo}: flag booleano, solitamente fissato a 0, 1 se l'utente si è cancellato dal social network. 
+\end{itemize}
+
+\subsection{Amicizia}
+\begin{center}
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+	
+	\node[entity] (amicizia) {Amicizia}; %entità debole?
+	
+	\node[attribute] (userid1) [above of = amicizia] {UserID1} edge (amicizia); %da rimuovere
+	\node[attribute] (userid2) [above left of = amicizia] {UserID2} edge (amicizia); %da rimuovere
+	\node[attribute] (data) [below right of = amicizia] {Data} edge (amicizia);	
+	\node[attribute] (ora) [below left of = amicizia] {Ora} edge (amicizia);
+	\node[attribute] (stato) [above right of = amicizia] {Stato} edge (amicizia);
+\end{tikzpicture}
+\vspace{0.5cm}
+\end{center}
+
+\begin{itemize}
+\item \textit{UserID1}: rappresenta l'identificativo dell'utente che richiede l'amicizia, chiave esterna.
+\item \textit{UserID2}: rappresenta l'identificativo dell'utente che riceve la richiesta di amicizia, chiave esterna.
+\item \textit{timestamp}: timestamp della richiesta dell'amicizia.
+\item \textit{Stato}: variabile intera che rappresenta se l'amicizia è stata richiesta, accettata, in sospeso o rifiutata.
+\end{itemize}
+
+\subsection{Post}
+\begin{center}
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+	
+	\node[entity] (post) {Post};
+	
+	\node[attribute] (postid) [below left of=post] {\key{PostID}} edge (post);
+	\node[attribute] (contenuto) [above left of=post] {Contenuto} edge (post);
+	\node[attribute] (data) [below right of=post] {Data} edge (post);
+	\node[attribute] (ora) [right of = post] {Ora} edge (post);
+	\node[attribute] (userid) [above right of=post] {UserID} edge (post); %da rimuovere
+	\node[attribute] (attivo) [left of = post] {Attivo} edge (post);
+	
+	
+\end{tikzpicture}
+\vspace{0.5cm}
+\end{center}
+
+\begin{itemize}
+\item \textit{PostID1}: rappresenta l'identificativo del post, funge da chiave primaria.
+\item \textit{Contenuto}: campo di testo che rappresenta il contenuto del post.
+\item \textit{Data}: data di pubblicazione del post.
+\item \textit{Ora}: ora di pubblicazione del post.
+\item \textit{UserID}: chiave esterna, identificativo dell'utente autore del post.
+\item \textit{Attivo}: flag booleano che indica se il post è attivo (1) o cancellato (0).
+\end{itemize}
+
+\subsection{Commento}
+\begin{center}
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+
+	\node[entity] (commento) {Commento}; %entità debole post
+	
+	\node[attribute] (commentid) [above right of = commento] {\key{CommentoID}} edge (commento);
+	\node[attribute] (contenuto) [above left of = commento] {Contenuto} edge (commento);
+	\node[attribute] (userid) [left of = commento] {UserID} edge (commento);	 %da rimuovere
+	\node[attribute] (data) [below left of = commento] {Data} edge (commento); 
+	\node[attribute] (postid) [below of = commento] {PostID} edge (commento);
+	\node[attribute] (ora) [below right of = commento] {Ora} edge (commento); %da rimuovere
+	\node[attribute] (attivo) [right of = commento] {Attivo} edge (commento);
+		
+\end{tikzpicture}
+\vspace{0.5cm}
+\end{center}
+
+\begin{itemize}
+\item \textit{CommentoID}: identificativo numerico del commento e chiave primaria.
+\item \textit{Contenuto}: contenuto del commento.
+\item \textit{UserID}: identificativo dell'utente autore del commento, chiave esterna.
+\item \textit{Data}: data del commento.
+\item \textit{Ora}: ora del commento.
+\item \textit{PostID}: identificativo numerico del post commentato, chiave esterna.
+\item \textit{Attivo}: flag booleano che indica se il commento è attivo (1) o cancellato (0).
+\end{itemize}
+
+\subsection{Media}
+\begin{center}
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+
+	\node[entity] (media) {Media}; %entia debole post
+	
+	\node[attribute] (mediaid) [above right of=media] {\key{MediaID}} edge (media);
+	\node[attribute] (percorso) [above left of=media] {Percorso} edge (media);
+	\node[attribute] (postid) [below of=media] {PostID} edge (media); %modificare
+		
+\end{tikzpicture}
+\vspace{0.5cm}
+\end{center}
+
+\begin{itemize}
+\item \textit{MediaID}: identificativo del media (foto, video, ...), chiave primaria.
+\item \textit{Percorso}: link al media.
+\item \textit{PostID}: identificativo del post nel quale il media viene inserito.
+\end{itemize}
+
+
+\subsection{Reazione}
+\begin{center}
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+	
+	\node[entity] (reazione) {Reazione}; %entita debole post
+	
+	\node[attribute] (userid) [above right of = reazione] {UserID} edge (reazione);
+	\node[attribute] (postid) [below left of = reazione] {PostID} edge (reazione); %modificare
+	\node[attribute] (flag) [below right of = reazione] {Attivo} edge (reazione);
+	\node[attribute] (userid) [above left of = reazione] {\key{ReazioneID}} edge (reazione);
+
+\end{tikzpicture}
+\vspace{0.5cm}
+\end{center}
+
+\begin{itemize}
+\item \textit{ReazioneID}: identificativo numerico della reazione.
+\item \textit{UserID}: identificativo dell'utente che mette la reazione.
+\item \textit{PostID}: identificativo del post sul quale viene messa una reazione.
+\item \textit{Attivo}: flag booleano che indica se ila reazione è attiva (1) o è stata cancellata (0).
+\end{itemize}
+
+\subsection{Notifica}
+
+\begin{center}
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+	
+	\node[entity] (notifica) {Notifica};
+	
+	\node[attribute] (userid) [above left of=notifica] {UserID} edge (notifica); %modificare
+	\node[attribute] (tipo) [above of=notifica] {Tipo} edge (notifica);
+	\node[attribute] (tipo_id) [above right of=notifica] {TipoID} edge (notifica);
+	\node[attribute] (id) [below left of = notifica] {\key{NotificaID}} edge (notifica); 	
+	\node[attribute] (letta) [below right of=notifica] {Letta} edge (notifica);
+	
+\end{tikzpicture}
+\vspace{0.5cm}
+\end{center}
+
+\begin{itemize}
+\item \textit{NotiificaID}: identificativo numerico della notifica.
+\item \textit{Tipo}:
+\item \textit{TipoID}:
+\item \textit{UserID}:
+\item \textit{Letta}:
+\end{itemize}
+
+\subsection{Gruppo}
+Entità da aggiungere
+
+
+
+\section{Relazioni}
+%UNA SUBSECTION PER OGNI RELAZIONE?
+%Le relazioni che collegano le entità sono le seguenti:
+
+%genera riceve accetta scrive scatena richiede lancia possiede crea valuta mette contiene
+
+%riceve
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (notifica) {Notifica};
+	\node[relationship] (riceve) [right = 2cm of notifica] {Riceve} edge node {N} (notifica);
+	\node[entity] (utente) [right = 2cm of riceve] {Utente} edge node {1} (riceve);
+\end{tikzpicture}
+\caption{Un utente riceve N notifiche ma una determinata notifica è ricevuta da un solo utente.}
+\end{figure}
+
+%richiede
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (amicizia) {Amicizia};
+	\node[relationship] (richiede) [right = 2cm of amicizia] {Richiede} edge node {N} (amicizia);
+	\node[entity] (utente) [right = 2cm of riceve] {Utente} edge node {1} (richiede);
+\end{tikzpicture}
+\caption{Un utente riceve N richieste di amicizia ma una determinata richiesta è ricevuta da un solo utente.}
+\end{figure}
+
+%accetta
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (amicizia) {Amicizia};
+	\node[relationship] (accetta) [right = 2cm of amicizia] {Accetta} edge node {N} (amicizia);
+	\node[entity] (utente) [right = 2cm of riceve] {Utente} edge node {1} (accetta);
+\end{tikzpicture}
+\caption{Un utente accetta N richieste di amicizia ma una determinata richiesta è accettata da un solo utente.}
+\end{figure}
+
+%scatena
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (notifica) {Notifica};
+	\node[relationship] (scatena) [right = 2cm of notifica] {Scatena} edge node {1} (notifica);
+	\node[entity] (Reazione) [right = 2cm of scatena] {Reazione} edge node {1} (scatena);
+\end{tikzpicture}
+\caption{Una reazione scatena una notifica e una determinata notifica è scatenata da una reazione.}
+\end{figure}
+
+%genera
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (amicizia) {Amicizia};
+	\node[relationship] (genera) [right = 2cm of amicizia] {Genera} edge node {N} (amicizia);
+	\node[entity] (notifica) [right = 2cm of riceve] {Notifica} edge node {1} (genera);
+\end{tikzpicture}
+\caption{Una richiesta di amicizia genera una notifica e una determinata notifica e generata da una richiesta.}
+\end{figure}
+
+%scrive
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (utente) {Utente};
+	\node[relationship] (scrive) [right = 2cm of utente] {Scrive} edge node {1} (utente);
+	\node[entity] (commento) [right = 2cm of riceve] {Commento} edge node {N} (scrive);
+\end{tikzpicture}
+\caption{Un utente scrive n commenti ma un determinato commento può essere scritto solamente da un utente.}
+\end{figure}
+
+%lancia
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (commento) {Commento};
+	\node[relationship] (lancia) [right = 2cm of commento] {Lancia} edge node {1} (commento);
+	\node[entity] (notifica) [right = 2cm of lancia] {Notifica} edge node {1} (lancia);
+\end{tikzpicture}
+\caption{Un commento lancia una notifica e una determinata notifica può essere lanciata da un solo commento.}
+\end{figure}
+
+%possiede
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (commento) {Commento};
+	\node[relationship] (possiede) [right = 2cm of commento] {Possiede} edge node {N} (commento);
+	\node[entity] (post) [right = 2cm of possiede] {Post} edge node {1} (possiede);
+\end{tikzpicture}
+\caption{Un determinato commento può essere fatto solamente su un post ma un post può contenere n commenti.}
+\end{figure}
+
+%crea
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (utente) {Utente};
+	\node[relationship] (crea) [right = 2cm of utente] {Crea} edge node {1} (utente);
+	\node[entity] (post) [right = 2cm of crea] {Post} edge node {N} (crea);
+\end{tikzpicture}
+\caption{Un utente crea n post ma un determinato post è scritto solamente da un utente.}
+\end{figure}
+
+%valuta
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (reazione) {Reazione};
+	\node[relationship] (valuta) [right = 2cm of reazione] {Valuta} edge node {N} (reazione);
+	\node[entity] (post) [right = 2cm of crea] {Post} edge node {1} (valuta);
+\end{tikzpicture}
+\caption{Una reazione valuta un solo post ma un post può essere valutato da più reazioni.}
+\end{figure}
+
+%mette
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (utente) {Utente};
+	\node[relationship] (mette) [right = 2cm of utente] {Mette} edge node {1} (utente);
+	\node[entity] (reazione) [right = 2cm of mette] {Reazione} edge node {N} (mette);
+\end{tikzpicture}
+\caption{Un utente può mettere n reazioni ma una reazione può essere messa da un solo utente.}
+\end{figure}
+
+%contiene
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[auto, semithick, scale=1, transform shape] 
+	
+	\node[entity] (post) {Post};
+	\node[relationship] (contiene) [right = 2cm of post] {Contiene} edge node {1} (post);
+	\node[entity] (media) [right = 2cm of contiene] {Media} edge node {N} (contiene);
+\end{tikzpicture}
+\caption{Un post contiene n media ma un media può essere in un solo post.}
+\end{figure}
+
+%eventuali nuovi
+
+\clearpage
+\section{Schema ER Completo}
+Da inserire in una pagina nuova
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Da Modello ER a Modello Relazionale
+\chapter{Da Modello ER a Modello Relazionale}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% NORMALIZZAZIONE
+\chapter{Normalizzazione}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% CODICE SQL
+\chapter{Codice SQL}
+\section{Introduzione}
+Come detto nella descrizione, l'intero progetto è stato sviluppato utilizzando il framework \textit{laravel}. Le tabelle del database sono state create utilizzando le \texttt{migration}. Per ogni tabella del database è stato eseguito il comando \texttt{php artisan make:migration create\_table\_nomeTabella}. Questo comando genera una classe \texttt{migration} all'interno del file \texttt{create\_table\_nomeTabella.php} nella quale sono definiti i metodi \texttt{up()} e \texttt{down()}. All'interno di \texttt{up()} vengono inseriti tutti i comandi per la creazione delle tabelle. Generate le migrations per tutte le tabelle, il comando \texttt{php artisan migrate} traduce i comandi specificati nel metodo \texttt{up}, in comandi SQL per la creazione delle tabelle. Di seguito viene riportato il codice SQL generato dalle migrations.
+\section{Codice}
+\begin{verbatim}
+UTENTE
+CREATE TABLE utente (
+        utenteID INT AUTO_INCREMENT PRIMARY_KEY,
+        nome VARCHAR(255) NOT NULL,
+        cognome VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        password VARCHAR(255) NOT NULL,
+        citta VARCHAR(255) NOT NULL,
+        dataNascita DATE
+);
+
+NOTIFICA
+CREATE TABLE notifica (
+        notificaID INT AUTO_INCREMENT PRIMARY_KEY,
+        utenteID VARCHAR(255) FOREGIN_KEY REFERENCES utente(utenteID),
+        tipo VARCHAR(255),
+        tipoID VARCHAR(255),
+        letta BIT DEFAULT 0
+);
+
+AMICIZIA
+CREATE TABLE amicizia (
+        utenteID1 INT FOREGIN KEY REFERENCES utente(utenteID),
+        utenteID2 INT FOREGIN_KEY REFERENCES utente(utenteID),
+        timestamp TIMESTAMP,
+        Stato VARCHAR(255) NOT_NULL DEFAULT 'sospesa'
+);
+
+COMMENTO
+CRATE TABLE commento (
+        commentoID INT AUTO_INCREMENT PRIMARY_KEY,
+        utenteID INT FOREGIN_KEY REFERENCES utente(utenteID),
+        postID INT FOREGIN_KEY REFERENCES post(postID),
+        contenuto TEXT NOT_NULL,
+       	timestamp TIMESTAMP
+);
+
+POST
+CREATE TABLE post (
+        postID INT AUTO_INCREMENT PRIMARY_KEY,
+        contenuto TETX NOT_NULL,
+        timestamp TIMESTAMP,
+        utenteID FOREGIN_KEY REFERENCES utente(utenteID)
+);
+
+MEDIA
+CREATE TABLE media (
+        mediaID INT AUTO_INCREMENT PRIMARY_KEY,
+        postID INT FOREGIN_KEY REFERENCES post(PostID),
+        percorso TEXT NOT_NULL
+);
+
+REAZIONE
+CREATE TABLE rezione (
+        reazioneID INT AUTO_INCREMENT PRIMARY_KEY,
+        utenteID INT FOREGIN_KEY REFERENCES utente(utenteID),
+        postID INT FOREGIN_KEY REFERENCES post(postID),
+        flag BIT
+);
+\end{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% INTERROGAZIONI
+\chapter{Query}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% INTERFACCIA
+\chapter{Interfaccia}
+
+%%%%%%%%%%%%%%%%%%%%%%%%% BIBLIOGRAFIA
+
+
+\begin{thebibliography}{9}
+
+
+\bibitem{leibold}
+ Marius Leibold, Gilbert J. B. Probst, Michael Gibbert,
+  \textit{Strategic Management in the Knowledge Economy: New Approaches and Business Applications},
+  John Wiley \& Sons,
+ 2007.
+ 
+\bibitem{cartonChina}
+	Tetra Pak launches FSC cartons in China, \textit{http://beta.nepcon.org/newsroom/tetra-pak-launches-fsc-cartons-china},
+	10 Giugno 2010.
+	
+\bibitem{circular}
+	Circular Economy, Sustainable Materials Management, and the Importance of KPIs: \textit{https://sustainablepackaging.org/circular-economy-sustainable-materials-management-importance-kpis/},
+	17 Maggio 2017.
+
+\end{thebibliography}
+
+
+%%% End document
+\end{document}

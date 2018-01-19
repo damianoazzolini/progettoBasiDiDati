@@ -1,0 +1,210 @@
+body {
+    font-family: arial;
+}
+
+div#remember {
+    margin-top: -12px;
+    margin-left: 17px;
+    color: white;
+    font-size: 12px;
+}
+
+.sottoMenu {
+    margin-top: 66px;
+    margin-left: -293px;
+    display: inline-flex;
+}
+
+div#missing {
+    margin-top: -8px;
+    font-size:14px;
+    color: #fff;
+}
+
+div#missing a{
+    margin-top: -15px;
+    color: #fff;
+    font-size: 12px;
+}
+
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+.hiddenField {
+    display: none;
+    font-size: 13px;
+    color: #FF0000;
+    margin-right: 5px;
+}
+
+.headerLogin {
+    background-color: #133212;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100%;
+    /* height: 90px; */
+    z-index: 10;
+    overflow: auto;
+    padding-bottom: 15px;
+}
+#headerLeft {
+    width: 35%;
+    float: left;
+    padding-left: 15%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#headerRight {
+    padding-top: 10px;
+    display: flex;
+}
+#headerInputs {
+    width: auto;
+    height: 50px;
+    float: left;
+    display: inline;
+}
+.loginField {
+    color: #FFFFFF;
+    display: inline;
+    float: left;
+    font-size: 13px;
+    margin-right: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+#submitLogin {
+    margin-top: 20px;
+    width: 100px;
+    height: 30px;
+    cursor: pointer;
+}
+.contentLogin {
+    position: fixed;
+    top: 90px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    padding-top: 30px;
+    background: #C5C5C5;
+    background: linear-gradient(#FFFFFF, #C5C5C5);
+    overflow: scroll;
+}
+#contentLoginLeft {
+    width: 40%;
+    height: 100%;
+    padding-left: 10%;
+    float: left;
+}
+#contentLoginRight {
+    width: 35%;
+    padding-right: 15%;
+    height: 200px;
+    float: left;
+    font-size: 25px;
+}
+#buttonRegistration {
+    border: 1px solid #133212;
+    border-radius: 15px;
+    background-color: #133212;
+    color: #FFFFFF;
+    width: 120px;
+    padding: 20px;
+    display: block;
+    cursor: pointer;
+}
+.footerLogin {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 60px;
+    background-color: #FFFFFF;
+}
+#contentFooterLogin {
+    display: flex;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 20px;
+}
+.footerDivs {
+    font-weight: 900;
+    margin-right: 40px;
+    color: #133212;
+}
+
+@media screen and (max-width: 720px) {
+    .headerLogin {
+        background-color: #133212;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        width: 100%;
+        overflow: auto;
+        position: absolute;
+    }
+
+    #headerLeft {
+        width: 35%;
+        padding-left: 15%;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        overflow: auto;
+        display: none;
+    }
+    
+    #headerRight {
+        position: absolute;
+        overflow: auto;
+        float: left;
+    }
+
+    #headerInputs {
+        width: 100%;
+        height: 100px;
+        position: relative;
+        overflow: auto;
+    }
+
+    #submitLogin {
+        margin-top: 20px;
+        width: 100px;
+        height: 30px;
+        cursor: pointer;
+        position: relative;
+    }
+
+    #missing {
+        display: none;
+    }
+
+    .contentLogin {
+        position: fixed;
+        top: 90px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        padding-top: 30px;
+        background: #C5C5C5;
+        background: linear-gradient(#FFFFFF, #C5C5C5);
+        overflow: scroll;
+    }
+
+    #contentLoginLeft {
+        width: 10%;
+        height: 10%;
+    }
+
+    #contentLoginRight {
+        width: 55%;
+        padding-right: 15%;
+        height: 200px;
+        float: left;
+        font-size: 20px;
+    }
+}
