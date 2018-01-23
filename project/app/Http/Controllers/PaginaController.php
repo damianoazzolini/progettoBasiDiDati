@@ -33,45 +33,29 @@ class PaginaController extends Controller
         $post = DB::table('post')->where('paginaID', $paginaID)->where('attivo','1')->first();
         $immagine = DB::table('pagina')->where('paginaID',$paginaID)->where('attivo','1')->pluck('immagine');
         $descrizione = DB::table('pagina')->where('paginaID',$paginaID)->where('attivo','1')->pluck('descrizione');
-        $seguaciPagina = DB::table('seguace')->where('paginaID',$paginaID)->first();
-        $amministratoriPagina = DB::table('amministratore')->where('paginaID',$paginaID)->first();
+        //aggiornare
+        //$seguaciPagina = DB::table('seguace')->where('paginaID',$paginaID)->first();
+        //$amministratoriPagina = DB::table('amministratore')->where('paginaID',$paginaID)->first();
 
         return view('pagina.pagina', compact('nome','immagine','descrizione','seguaciPagina','amministratoriPagina','post'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $request) {
-        /*
-        $this->validate(request(), [
-            'nome' => 'required|min:3',
-            'descrizione' => 'required|min:3',
-        ]);
-        */
-        
-        if($request->nome === null || $request->descrizione === null) {
-            return redirect('/pagina.creaPagina')->withErrors('Nome e descrizione non possono essere vuoti.');
+        if($request->nome === null || $request->descrizione === null || $request->image === null || $request->tipo === null) {
+            return redirect('/creaPagina')->withErrors('Nome, descrizione e immagine non possono essere vuoti.');
         }
 
         $pagina = new Pagina;
         $pagina->nome = $request->nome;
         $pagina->descrizione = $request->descrizione;
         $pagina->immagine = $request->image;
+        $pagina->tipo = $request->tipo;
         $pagina->attivo = 1;
 
         $pagina->save();
         return $this->index($pagina->nome);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request) {
         $this->validate(request(), [
             'contenuto' => 'required'

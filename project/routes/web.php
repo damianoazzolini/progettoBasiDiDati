@@ -14,7 +14,7 @@ Route::post('/profilo/storeImage','ProfiloController@storeImage');
 Route::get('/pagina/id','PaginaController@index');
 Route::post('/pagina/id','PaginaController@store');
 Route::post('/pagina','PaginaController@display');
-Route::post('/pagina/create','PaginaController@create');
+Route::post('/registraPagina','PaginaController@create');
 
 /* Login + registrazione */
 Route::get('/', 'CreateController@index')->middleware('guest');

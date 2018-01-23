@@ -119,7 +119,7 @@
                 <div class="createPage"> 
                     <form action="pagina" method="POST" enctype="multipart/form-data" id="formPost">
                         {{ csrf_field() }}
-                        <input type="submit"> Crea Pagina
+                        <input type="submit" value="Crea Nuova Pagina">
                     </form>
                 </div>           
             </div>
