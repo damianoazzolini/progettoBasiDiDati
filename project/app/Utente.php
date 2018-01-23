@@ -2,10 +2,12 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Notifiche;
+use DB;
 
 class Utente extends Model  
 {
@@ -32,5 +34,17 @@ class Utente extends Model
 
     public function notifiche(){
     	return $this->hasMany('App\Notifica', 'utenteID', 'utenteID');
+    }
+
+    public static function search_n_utenti($search, $number){
+        $id = Auth::id();
+        return DB::table('utente')
+            ->select('nome', 'cognome')
+            ->distinct()
+            ->where(DB::raw('CONCAT(nome, " ", cognome)'), 'LIKE', $search.'%')
+            ->orwhere(DB::raw('CONCAT(cognome, " ", nome)'), 'LIKE', $search.'%')
+            ->where('attivo', '=', 1)
+            ->where('utenteID', '!=', $id)
+            ->take($number)->get();
     }
 }

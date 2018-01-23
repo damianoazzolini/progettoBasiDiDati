@@ -16,6 +16,10 @@ Route::post('/pagina/id','PaginaController@store');
 Route::post('/pagina','PaginaController@display');
 Route::post('/registraPagina','PaginaController@create');
 
+Route::get('/pagine', 'SegueAmministraController@index')->middleware('revalidate');
+Route::get('/pagine/nuova', 'SegueAmministraController@nuova')->middleware('revalidate');
+Route::get('/pagine/cancella', 'SegueAmministraController@cancella')->middleware('revalidate');
+
 /* Login + registrazione */
 Route::get('/', 'CreateController@index')->middleware('guest');
 Route::post('/','CreateController@login')->middleware('guest');

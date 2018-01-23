@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Auth;
 use App\Amicizia;
 use App\Utente;
 use App\Notifica;
-use App\SearchResult;
+use App\SegueAmministra;
 use DB;
 
-class AmiciziaController extends Controller
-{   
+class SegueAmministraController extends Controller
+{
     public function index() {
-        $utenti = Amicizia::get_friends();
-        if($utenti == null) $empty = 1; else $empty = 0;
-        return view('amici.amici', ['utenti' => Amicizia::paginate($utenti,'10'), 'empty' => $empty, 'messaggio' => 'Non hai ancora stretto amicizie']);
+        $pagine = SegueAmministra::get_pages();
+        if($pagine == null) $empty = 1; else $empty = 0;
+        return view('pagina.pagine', ['pagine' => SegueAmministra::paginate($pagine,'10'), 'empty' => $empty, 'messaggio' => 'Non segui o amministri pagine']);
     }
 
     public function button(Request $request) {
@@ -26,38 +26,21 @@ class AmiciziaController extends Controller
     }
 
     public function nuova(Request $request) {
-        $utenteID1 = Auth::id();
-        $utenteID2 = request('value');
-        if (Amicizia::find_friendship($utenteID1, $utenteID2) == null) { 
-            $amicizia = Amicizia::new_friendship($utenteID1, $utenteID2, 'sospesa');
-            Notifica::genera_notifica_amicizia($utenteID2,$utenteID1);
-            echo Amicizia::create_button($amicizia, $utenteID2);
-        }
-    }
-
-    public function blocca(Request $request) {
-        $utenteID1 = Auth::id();
-        $utenteID2 = request('value');
-        if(Amicizia::find_friendship($utenteID1, $utenteID2) == null)
-            $amicizia = Amicizia::new_friendship($utenteID1, $utenteID2, 'bloccata1');
+        $utenteID = Auth::id();
+        $paginaID = request('value');
+        if (SegueAmministra::find_segueAmministra($utenteID, $paginaID) == null)
+            $result = SegueAmministra::new_segueAmministra($utenteID, $paginaID, 'segue');
         else
-            $amicizia = Amicizia::update_friendship($utenteID1, $utenteID2, 'blocca');
-            echo Amicizia::create_button($amicizia, $utenteID2);
-    }
-
-    public function accetta(Request $request) {
-        $utenteID1 = Auth::id();
-        $utenteID2 = request('value');
-        $amicizia = Amicizia::update_friendship($utenteID1, $utenteID2, 'accettata');
-        Notifica::genera_notifica_amicizia($utenteID1,$utenteID2);
-        echo Amicizia::create_button($amicizia, $utenteID2);
+            $result = SegueAmministra::update_segueAmministra($utenteID, $paginaID, 'segue');
+            //Notifica::genera_notifica_amicizia($utenteID2,$utenteID1);
+            echo SegueAmministra::create_button($result, $paginaID);
     }
 
     public function cancella(Request $request) {
-        $utenteID1 = Auth::id();
-        $utenteID2 = request('value');
-        Amicizia::delete_friendship($utenteID1, $utenteID2);
-        echo Amicizia::create_button(null, $utenteID2);
+        $utenteID = Auth::id();
+        $paginaID = request('value');
+        SegueAmministra::delete_segueAmministra($utenteID, $paginaID);
+        echo SegueAmministra::create_button(null, $paginaID);
     }
 
     public function ricerca(Request $request) {
@@ -90,5 +73,4 @@ class AmiciziaController extends Controller
         if(count($results)) return $results;
         else return ['value'=>'Nessun elemento trovato'];
     }
-
 }
