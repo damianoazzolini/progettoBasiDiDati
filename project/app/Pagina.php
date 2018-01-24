@@ -28,8 +28,24 @@ class Pagina extends Model {
         $pagina->save();
     }
 
-    public static function subscribe($nomePagina){
+    public static function subscribe($nomePagina) {
         $paginaID = DB::table('pagina')->where('nome',$nomePagina)->where('attivo','1')->pluck('paginaID');
         SegueAmministra::new_segueAmministra(Auth::id(),$paginaID[0],'segue');
+    }
+
+    public static function getPage($paginaID) {
+
+    }
+
+    public static function getPostsFromPage($paginaID) {
+
+    }
+
+    public static function getPageDescription($paginaID) {
+        return DB::table('pagina')->where('paginaID',$paginaID)->pluck('descrizione');
+    }
+
+    public static function getPageImage($paginaID) {
+        return DB::table('pagina')->where('paginaID',$paginaID)->pluck('immagine');
     }
 }

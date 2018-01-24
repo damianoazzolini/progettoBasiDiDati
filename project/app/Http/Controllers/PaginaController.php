@@ -57,7 +57,9 @@ class PaginaController extends Controller
 
         SegueAmministra::new_segueAmministra(Auth::id(),$paginaID[0],'amministratore');
 
-        return $this->index($paginaID);
+        /*caricare le informazioni dalla pagina e restituirle */
+
+        //return view('pagina.pagina', compact('utente','data','sesso','post','userID', 'likes', 'user', 'boolean_amici', 'boolean_bottoni'));
     }
 
     public function store(Request $request) {
