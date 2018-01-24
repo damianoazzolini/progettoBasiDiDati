@@ -8,7 +8,7 @@
             <form action="/pagine/ricerca" method="GET">
                 {{ csrf_field() }}
                 Cerca tra le pagine che segui <br>
-                <input id="search_friends" type="text" name="search" class="testo pagine"><br>
+                <input type="text" name="search" class="testo pagine"><br>
                 <input type="hidden" name="type" value="seguite">
                 <input type="submit" value="Cerca" class="bottone">
             </form>
@@ -17,7 +17,7 @@
             <form action="/pagine/ricerca" method="GET">
                 {{ csrf_field() }}
                 Ricerca tra tutte le pagine di Harambe <br>
-                <input id="search_all" type="text" name="search" class="testo pagine"><br>
+                <input type="text" name="search" class="testo pagine"><br>
                 <input type="hidden" name="type" value="tutte">
                 <input type="submit" value="Cerca" class="bottone">
             </form>

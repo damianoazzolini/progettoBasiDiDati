@@ -71,13 +71,4 @@ class Pagina extends Model {
 
         return $elencoNomi;
     }
-
-    public static function search_n_pages($search, $number){
-        return DB::table('pagina')
-            ->select('nome')
-            ->distinct()
-            ->where('nome', 'LIKE', $search.'%')
-            ->where('attivo', '=', 1)
-            ->take($number)->get();
-    }
 }

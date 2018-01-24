@@ -20,7 +20,6 @@ Route::get('/pagine', 'SegueAmministraController@index')->middleware('revalidate
 Route::get('/pagine/nuova', 'SegueAmministraController@nuova')->middleware('revalidate');
 Route::get('/pagine/cancella', 'SegueAmministraController@cancella')->middleware('revalidate');
 Route::get('/pagine/ricerca', 'SegueAmministraController@ricerca')->middleware('revalidate');
-Route::get('/pagine/searchajax', 'SegueAmministraController@searchSuggest')->middleware('revalidate');
 
 /* Login + registrazione */
 Route::get('/', 'CreateController@index')->middleware('guest');

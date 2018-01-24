@@ -63,13 +63,4 @@ class SegueAmministraController extends Controller
         }
         return view('pagina.pagine', ['pagine' => SegueAmministra::paginate($pagine,'10'), 'empty' => $empty, 'messaggio' => $messaggio]);
     }
-
-    public static function searchSuggest(){
-        $search = request('term');
-        $results = array();
-        $queries = Pagina::search_n_pages($search, 10);
-        foreach ($queries as $query) $results[] = ['value' => $query->nome];
-        if(count($results)) return $results;
-        else return ['value'=>'Nessun elemento trovato'];
-    }
 }
