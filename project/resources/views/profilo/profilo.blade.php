@@ -210,7 +210,7 @@ $(document).ready(function(){
 					<div class="row">
 						<div class="col">
 							<a href="/profilo/media/id?utenteID=<?php echo $utente->utenteID?>">
-								Foto
+								Cambia Foto
 							</a>
 						</div>
 					</div>
@@ -220,6 +220,21 @@ $(document).ready(function(){
                     @endif
 				</div>
 			</div>
+            <div>
+            @if($pagineAmministrate != null)
+                Pagine gestite:
+                </br>
+                @foreach($pagineAmministrate as $pagine)
+                    {{$pagine[0]}} </br>
+                @endforeach
+            @endif
+            </div>
+            <div class="createPage"> 
+                    <form action="pagina" method="POST" enctype="multipart/form-data" id="formPost">
+                        {{ csrf_field() }}
+                        <input type="submit" value="Crea Nuova Pagina">
+                    </form>
+                </div>  
 		</div>
 
 		@if($boolean_amici==1)

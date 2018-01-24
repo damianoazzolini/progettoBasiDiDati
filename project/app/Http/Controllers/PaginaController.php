@@ -19,27 +19,15 @@ class PaginaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($paginaID) {
-        if($paginaID === null){
-			return redirect()->back();
-        }
+    public function index($nome) {
+        $paginaID = Pagina::getPageID($nome);
 
-        $id = Auth::id();
-        $persona = DB::table('segueAmministra')->where('paginaID',$paginaID)->where('utenteID',$id)->first();
+        $post = Pagina::getPostsFromPageID($paginaID);
+        $immagine = Pagina::getPageDescription($paginaID);
+        $descrizione = Pagina::getPageDescription($paginaID);
+        $tipo = Pagina::getPageType($paginaID);
 
-        //se persona null non è iscritto quindi mostro solo tasto
-
-        //else questa parte
-        
-        /* seleziono tutti i post con id della pagina attivi */
-        $post = DB::table('post')->where('paginaID', $paginaID)->first();
-        $immagine = DB::table('pagina')->where('paginaID',$paginaID)->pluck('immagine');
-        $descrizione = DB::table('pagina')->where('paginaID',$paginaID)->pluck('descrizione');
-        $tipo = DB::table('pagina')->where('paginaID',$paginaID)->pluck('tipo');
-        $iscritti = DB::table('segueAmministra')->where('paginaID',$paginaID)->where('stato','iscritto')->first();
-        $amministratore = DB::table('segueAmministra')->where('paginaID',$paginaID)->where('stato','amministratore')->first();
-
-        return view('pagina.pagina', compact('nome','immagine','descrizione','post','tipo','iscritto','amministratore','paginaID'));
+        return view('pagina.pagina', compact('post','immagine','descrizione','tipo','nome'));
     }
 
     public function create(Request $request) {
@@ -53,13 +41,16 @@ class PaginaController extends Controller
 
         Pagina::newPage($request->nome,$request->tipo,$request->immagine,$request->descrizione);
 
-        $paginaID = DB::table('pagina')->where('nome',$request->nome)->where('attivo','1')->pluck('paginaID');
+        $paginaID = Pagina::getPageID($request->nome);
 
-        SegueAmministra::new_segueAmministra(Auth::id(),$paginaID[0],'amministratore');
+        SegueAmministra::new_segueAmministra(Auth::id(),$paginaID,'amministratore');
 
-        /*caricare le informazioni dalla pagina e restituirle */
+        $post = Pagina::getPostsFromPageID($paginaID);
+        $immagine = Pagina::getPageDescription($paginaID);
+        $descrizione = Pagina::getPageDescription($paginaID);
+        $tipo = Pagina::getPageType($paginaID);
 
-        //return view('pagina.pagina', compact('utente','data','sesso','post','userID', 'likes', 'user', 'boolean_amici', 'boolean_bottoni'));
+        return $this->index($request->nome);
     }
 
     public function store(Request $request) {
@@ -79,11 +70,7 @@ class PaginaController extends Controller
 
     public function subscribe(Request $request) {
         //chiamare la subscribe con la form con paginaID e utenteID come hidden field
-        $iscritto = new SegueAmministra;
-        $iscritto->paginaID = $request->paginaID;
-        $iscritto->utenteID = $reqeust->utenteID; 
-        $amministratore->stato = "iscritto";
-        $amministratore->save();
+        Pagina::subscribe($request->nome);
     }
 
     public function show($id) {

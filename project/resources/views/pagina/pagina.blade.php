@@ -186,6 +186,15 @@ $(document).ready(function(){
 			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 		</div>
 	</div>
+
+    <div>
+    Post: {{$post}} </br>
+    Immagine: {{$immagine}} </br>
+    Descrizione: {{$descrizione}} </br>
+    Tipo: {{$tipo}} </br>
+    Nome: {{$nome}} </br>
+    </div>
+
 </div>
 
 

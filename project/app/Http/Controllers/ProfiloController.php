@@ -9,6 +9,7 @@ use App\Commento;
 use App\Utente;
 use App\Notifica;
 use App\Amicizia;
+use App\Pagina;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -21,8 +22,6 @@ class ProfiloController extends Controller
 
 	//Visualizzo profili utente
    	public function index() {
-		
-		//Controllo sul login dell'utente
 		$id = Auth::id();
 		$boolean_amici=0;
         $boolean_bottoni=0;
@@ -32,25 +31,16 @@ class ProfiloController extends Controller
 			return redirect()->action('CreateController@index');
 		}
 		
-		
 		$userID = $id;
 		$user=Utente::find($userID);
-		if ($requestID != null){
-			
-			$id = $requestID;
-
-			
+        
+        if ($requestID != null){
+			$id = $requestID;	
 		}
 		
-		
-		
-		
 		$utente = DB::table('utente')->where('utenteID', $id)->first();
-		//recupero le informazioni dell'utente del profilo
-		
-		
-		
-		$data	=	explode("-",$utente->dataNascita);
+        
+        $data = explode("-",$utente->dataNascita);
 		
 		if($utente->sesso == "0"){
 			$sesso = "Maschio";
@@ -59,48 +49,42 @@ class ProfiloController extends Controller
 		}
 
         $post = DB::select(DB::raw("SELECT sum(flag) as likes, p.attivo, p.postID, p.utenteID, u.nome, u.cognome, u.immagine, "
-				. "any_value(m.percorso) as percorso,p.created_at, p.contenuto 
-				FROM utente as u 
-				join post as p ON u.utenteID = p.utenteID 
-				left join "
-				. "media as m on p.postID = m.postID 
-				left join reazione as r on p.postID = r.postID WHERE p.attivo = 1 and p.utenteID = $id "
-				. "GROUP BY postID ORDER BY p.created_at DESC; "));
-
-
-			
-			// userID è l'utente autenticato, id è l'utente del profilo
-			$likes = DB::select(DB::raw("SELECT reazione.reazioneID, post.postID FROM reazione left join post on post.postID=reazione.postID where reazione.utenteID=$userID and post.utenteID=$id and reazione.flag=1;"));
+			. "any_value(m.percorso) as percorso,p.created_at, p.contenuto 
+			FROM utente as u 
+			join post as p ON u.utenteID = p.utenteID 
+			left join "
+			. "media as m on p.postID = m.postID 
+			left join reazione as r on p.postID = r.postID WHERE p.attivo = 1 and p.utenteID = $id "
+			. "GROUP BY postID ORDER BY p.created_at DESC; "));
+	
+		// userID è l'utente autenticato, id è l'utente del profilo
+		$likes = DB::select(DB::raw("SELECT reazione.reazioneID, post.postID FROM reazione left join post on post.postID=reazione.postID where reazione.utenteID=$userID and post.utenteID=$id and reazione.flag=1;"));
 			
 		//controllo se l'utente autenticato è amico dell'utente proprietario del profilo
-			if($userID==$id)
-			{
-				$boolean_amici=1; //l'utente autenticato e il proprietario del profilo coincidono
-                $boolean_bottoni=1;
-			}
-			else{
-				$result = Amicizia::where(function ($query) use ($userID, $id){
-                			$query ->where('utenteID1', '=', $id)
-                   			 ->orWhere('utenteID1', '=', $userID);
-           						 })
-            				->where(function ($query) use ($userID, $id){
-                			$query ->where('utenteID2', '=', $id)
-                    			->orWhere('utenteID2', '=', $userID);
-            					})
-            				->where('stato','=','accettata')
-            				->first();
-            	if($result==null){
-            		$boolean_amici=0;
-            	}
-            	else{
-            		$boolean_amici=1;
-            	}
+		if($userID==$id) {
+			$boolean_amici=1; //l'utente autenticato e il proprietario del profilo coincidono
+            $boolean_bottoni=1;
+	    }
+        else{
+            $result = Amicizia::where(function ($query) use ($userID, $id){
+                $query ->where('utenteID1', '=', $id)
+                ->orWhere('utenteID1', '=', $userID);})
+                ->where(function ($query) use ($userID, $id){
+                $query ->where('utenteID2', '=', $id)
+                ->orWhere('utenteID2', '=', $userID);})
+                ->where('stato','=','accettata')->first();
+            
+            if($result == null){
+                $boolean_amici=0;
+            }
+            else{
+                $boolean_amici=1;
+            }
+        }
 
+        $pagineAmministrate = Pagina::getListOfPageAdministrated($id);
 
-			}
-			
-
-		return view('profilo.profilo', compact('utente','data','sesso','post','userID', 'likes', 'user', 'boolean_amici', 'boolean_bottoni'));
+		return view('profilo.profilo', compact('utente','data','sesso','post','userID', 'likes', 'user', 'boolean_amici', 'boolean_bottoni','pagineAmministrate'));
 	}
 	
 	public function storeImage (Request $request) {
