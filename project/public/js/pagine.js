@@ -62,3 +62,20 @@ $(document).ready(function(){
     });  
 });
 
+$(document).ready(function() {
+    $("#search_all").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: "/pagine/searchajax",
+                dataType: "json",
+                data: {
+                    term : request.term
+                },
+                success: function(data) {
+                    response(data);
+                }
+            });
+        },
+        minLength: 3,
+    });
+});

@@ -51,25 +51,25 @@ class SegueAmministraController extends Controller
         $search = request('search');
         $type = request('type');
 
-        if ($type != 'amici' && $type != 'tutti') return redirect()->action('AmiciziaController@index');
-        else if ($type == 'amici') $utenti = Amicizia::search_friend($search);
-        else $utenti = Amicizia::search_users($search);
-        if($utenti == null) $empty = 1; else $empty = 0;
+        if ($type != 'seguite' && $type != 'tutte') return redirect()->action('SegueAmministraController@index');
+        else if ($type == 'seguite') $pagine = SegueAmministra::search_seguite($search);
+        else $pagine = SegueAmministra::search_pages($search);
+        if($pagine == null) $empty = 1; else $empty = 0;
         
         $messaggio = "";
         if ($empty){
-            if($type == 'tutti') $messaggio = "La ricerca di " . strtoupper($search) . " fra tutti gli utenti di Harambe non ha prodotto risultati";
-            else if ($type == 'amici') $messaggio = "La ricerca di " . strtoupper($search) . " fra i tuoi amici non ha prodotto risutlati";
+            if($type == 'tutte') $messaggio = "La ricerca di " . strtoupper($search) . " fra tutte le pagine di Harambe non ha prodotto risultati";
+            else if ($type == 'seguite') $messaggio = "La ricerca di " . strtoupper($search) . " fra le pagine che segui non ha prodotto risultati";
         }
-        return view('amici.amici', ['utenti' => Amicizia::paginate($utenti,'10'), 'empty' => $empty, 'messaggio' => $messaggio]);
+        return view('pagina.pagine', ['pagine' => SegueAmministra::paginate($pagine,'10'), 'empty' => $empty, 'messaggio' => $messaggio]);
     }
 
     public static function searchSuggest(){
         $id = Auth::id();
         $search = request('term');
         $results = array();
-        $queries = Utente::search_n_utenti($search, 10);
-        foreach ($queries as $query) $results[] = ['value' => $query->nome.' '.$query->cognome];
+        $queries = Pagina::search_n_pages($search, 10);
+        foreach ($queries as $query) $results[] = ['value' => $query->nome];
         if(count($results)) return $results;
         else return ['value'=>'Nessun elemento trovato'];
     }

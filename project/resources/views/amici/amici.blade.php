@@ -8,7 +8,7 @@
             <form action="/amici/ricerca" method="GET">
                 {{ csrf_field() }}
                 Ricerca tra gli amici <br>
-                <input type="text" name="search" class="testo amicizia"><br>
+                <input id="search_friends" type="text" name="search" class="testo amicizia"><br>
                 <input type="hidden" name="type" value="amici">
                 <input type="submit" value="Cerca" class="bottone">
             </form>
@@ -17,7 +17,7 @@
             <form action="/amici/ricerca" method="GET">
                 {{ csrf_field() }}
                 Ricerca tra gli utenti di Harambe <br>
-                <input type="text" name="search" class="testo amicizia"><br>
+                <input id="search_all" type="text" name="search" class="testo amicizia"><br>
                 <input type="hidden" name="type" value="tutti">
                 <input type="submit" value="Cerca" class="bottone">
             </form>
@@ -25,7 +25,7 @@
     </div>
     <?php foreach ($utenti as $utente){ ?>
         <div class = "friendBox">
-            <img src= {{$utente->immagine}} class="userImage amicizia"/>
+            <img src= "{{$utente->immagine}}" class="userImage amicizia"/>
             <div class="userName amicizia">
                 <a href="/profilo/id?utenteID={{$utente->utenteID}}">{{$utente->nome}} {{$utente->cognome}}</a>
             </div>
@@ -59,7 +59,7 @@
     <?php if ($empty) { ?>
     <div class="testoErrore"> {{$messaggio}} </div>
     <?php } ?>
-    <?php echo $utenti->appends(Input::except('page'))->render() ?>
+    {!! $utenti->render() !!}
 </div>
 @endsection
 

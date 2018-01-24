@@ -61,35 +61,28 @@ class SegueAmministra extends Model
         }
     }
 
-    static public function search_users($search){
+    static public function search_pages($search){
         $id = Auth::id();
-        $db = DB::select("SELECT * FROM utente 
-            LEFT JOIN (SELECT * FROM amicizia 
-			    WHERE utenteID1 = $id OR utenteID2 = $id) AS filtered 
-                ON (utenteID = utenteID1 OR utenteID = utenteID2) 
-            WHERE (CONCAT(nome, ' ', cognome) LIKE '$search%' OR 
-            CONCAT(cognome, ' ', nome) LIKE '$search%')
-            AND utenteID != $id 
-            AND attivo = 1
-            AND (stato IS NULL OR stato = 'accettata' OR stato = 'sospesa' 
-                OR (utenteID1 = $id AND stato = 'bloccata1') 
-                OR (utenteID2 = $id AND stato = 'bloccata2'))
+        $db = DB::select("SELECT pagina.paginaID, pagina.nome, pagina.immagine, pagina.tipo, filtered.stato FROM pagina 
+            LEFT JOIN (SELECT * FROM segueAmministra 
+			    WHERE utenteID = $id) AS filtered 
+                ON pagina.paginaID = filtered.paginaID 
+            WHERE pagina.nome LIKE '$search%'
+            AND pagina.attivo = 1
             ORDER BY filtered.updated_at DESC");
-        $db_updated = Amicizia::update_stato($db,$id);
-        return $db_updated;
+        return $db;
     }
 
-    static public function search_friend($search){
+    static public function search_seguite($search){
         $id = Auth::id();
-        $db = DB::select("SELECT * FROM utente 
-            LEFT JOIN (SELECT * FROM amicizia 
-			    WHERE utenteID1 = $id OR utenteID2 = $id) AS filtered 
-                ON (utenteID = utenteID1 OR utenteID = utenteID2) 
-            WHERE (CONCAT(nome, ' ', cognome) LIKE '$search%' OR 
-            CONCAT(cognome, ' ', nome) LIKE '$search%')
-            AND utenteID != $id 
-            AND attivo = 1
-            AND stato = 'accettata' 
+        $db = DB::select("SELECT pagina.paginaID, pagina.nome, pagina.immagine, pagina.tipo, filtered.stato FROM pagina 
+            LEFT JOIN (SELECT * FROM segueAmministra 
+			    WHERE utenteID = $id) AS filtered 
+                ON pagina.paginaID = filtered.paginaID 
+            WHERE pagina.nome LIKE '$search%'
+            AND pagina.attivo = 1
+            AND (filtered.stato = 'segue' OR
+            filtered.stato = 'amministra')
             ORDER BY filtered.updated_at DESC");
         $db_updated = Amicizia::update_stato($db,$id);
         return $db_updated;

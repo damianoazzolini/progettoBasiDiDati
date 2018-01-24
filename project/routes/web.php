@@ -19,6 +19,8 @@ Route::post('/registraPagina','PaginaController@create')->middleware('revalidate
 Route::get('/pagine', 'SegueAmministraController@index')->middleware('revalidate');
 Route::get('/pagine/nuova', 'SegueAmministraController@nuova')->middleware('revalidate');
 Route::get('/pagine/cancella', 'SegueAmministraController@cancella')->middleware('revalidate');
+Route::get('/pagine/ricerca', 'SegueAmministraController@ricerca')->middleware('revalidate');
+Route::get('/pagine/searchajax', 'SegueAmministraController@searchSuggest')->middleware('revalidate');
 
 /* Login + registrazione */
 Route::get('/', 'CreateController@index')->middleware('guest');
@@ -60,6 +62,7 @@ Route::get('/amici/blocca/', 'AmiciziaController@blocca')->middleware('revalidat
 Route::get('/amici/accetta/', 'AmiciziaController@accetta')->middleware('revalidate');
 Route::get('/amici/cancella/', 'AmiciziaController@cancella')->middleware('revalidate');
 Route::get('/amici/ricerca', 'AmiciziaController@ricerca')->middleware('revalidate');
+Route::get('/amici/searchajax', 'AmiciziaController@searchSuggest')->middleware('revalidate');
 
 /* Post*/
 Route::get('/posts/{id}', 'PostController@show');

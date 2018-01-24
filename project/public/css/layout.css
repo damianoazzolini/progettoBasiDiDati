@@ -231,6 +231,7 @@ input.commenti{
     justify-content:center;
     align-items:center;
 }
+
 .searchBox{
     border: 2px solid rgb(19, 50, 18);
     background-color: rgba(19, 50, 18, 0.5);
@@ -296,6 +297,83 @@ ul.pagination{
     align-items:center;
 }
 
+/* PAGINE */
+.contentPages {
+    position: fixed;
+    top: 90px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    padding-bottom: 60px;
+    background: #C5C5C5;
+    background: linear-gradient(#FFFFFF, #C5C5C5);
+    overflow: auto;
+}
+
+.pagesBox{
+    border: 2px solid #C0C0C0;
+    background-color: #D3D3D3;
+    padding: 10px;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: #696969;
+    display:flex;
+    justify-content:left;
+    align-items:center;
+}
+
+input.testo.pagine {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+
+button.bottone.pagina {
+    border: 1px solid #133212;
+    width: 150px;
+    height: 30px;
+    color: #FFFFFF;
+    background-color: #133212;
+    font-size: 13px;
+    margin: 5px;
+    float:left;
+    cursor:pointer;
+}
+
+.pageName{
+    font-size:20px;
+    font-weight: bold;
+    height:75px;
+    width:325px;
+    margin-bottom: 4px;
+    margin-top: 10px;
+    float:left;
+    margin-left: 30px;
+}
+
+.pageName > .description{
+    font-size:15px;
+    height:75px;
+    width:325px;
+    margin-bottom: 4px;
+    margin-top: 10px;
+    float:left;
+}
+
+img.pageImage{
+    margin: 5px;
+    height:75px;
+    width:75px;
+    border-radius: 35px;
+}
 
 /* POST */
 #textareaCommento

@@ -1,34 +1,34 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="contentAmici">
+<div class="contentPages">
     <h2> Gestisci pagine </h2>
     <div class="searchContainer">
         <div class="searchBox">
-            <form action="/amici/ricerca" method="GET">
+            <form action="/pagine/ricerca" method="GET">
                 {{ csrf_field() }}
-                Ricerca tra gli amici <br>
-                <input type="text" name="search" class="testo amicizia"><br>
-                <input type="hidden" name="type" value="amici">
+                Cerca tra le pagine che segui <br>
+                <input id="search_friends" type="text" name="search" class="testo pagine"><br>
+                <input type="hidden" name="type" value="seguite">
                 <input type="submit" value="Cerca" class="bottone">
             </form>
         </div>
         <div class="searchBox">
-            <form action="/amici/ricerca" method="GET">
+            <form action="/pagine/ricerca" method="GET">
                 {{ csrf_field() }}
-                Ricerca tra gli utenti di Harambe <br>
-                <input type="text" name="search" class="testo amicizia"><br>
-                <input type="hidden" name="type" value="tutti">
+                Ricerca tra tutte le pagine di Harambe <br>
+                <input id="search_all" type="text" name="search" class="testo pagine"><br>
+                <input type="hidden" name="type" value="tutte">
                 <input type="submit" value="Cerca" class="bottone">
             </form>
         </div>
     </div>
     <?php foreach ($pagine as $pagina){ ?>
         <div class = "pagesBox">
-            <img src= {{$pagina->immagine}} class="userImage amicizia"/>
-            <div class="userName amicizia">
+            <img src= {{$pagina->immagine}} class="pageImage"/>
+            <div class="pageName">
                 <a href="/pagina/id?paginaID={{$pagina->paginaID}}">{{$pagina->nome}}</a>
-                <p>{{$pagina->tipo}}</p>
+                <p class="description">{{$pagina->tipo}}</p>
             </div>
             <div>
                 <div id="div-pagesBox-button{{$pagina->paginaID}}">
