@@ -297,6 +297,24 @@ ul.pagination{
     align-items:center;
 }
 
+.ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 20px;
+    width: 400px !important;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.ui-menu .ui-menu-item {
+    margin:0;
+    padding: 0;
+    width: 100% !important;
+    font-size: 15px;
+}
+
 /* PAGINE */
 .contentPages {
     position: fixed;

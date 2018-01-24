@@ -65,7 +65,6 @@ class SegueAmministraController extends Controller
     }
 
     public static function searchSuggest(){
-        $id = Auth::id();
         $search = request('term');
         $results = array();
         $queries = Pagina::search_n_pages($search, 10);
