@@ -32,6 +32,8 @@
                     <br>
                     Tipo:<br>
                     <input id="tipo" type="text" name="tipo"><br>
+
+                    <input type="hidden" nome="utenteID" value="{{ Auth::id() }}">
                 </div>
                 
                 <div id="formContainerRegistrationRight">

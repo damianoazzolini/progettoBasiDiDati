@@ -8,52 +8,56 @@ use DB;
 use App\Amministratore;
 use App\Seguace;
 use App\Pagina;
-//per poter utilizzare Auth
+use App\SegueAmministra;
 use Illuminate\Support\Facades\Auth;
 
 
 class PaginaController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display aì listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($nome) {
-        if($nome === null){
+    public function index($paginaID) {
+        if($paginaID === null){
 			return redirect()->back();
         }
-        $paginaID = DB::table('pagina')->where('nome',$nome)->pluck('paginaID');
 
-        if($paginaID === null) {
-            return redirect('/home.home');
-        }
+        $id = Auth::id();
+        $persona = DB::table('segueAmministra')->where('paginaID',$paginaID)->where('utenteID',$id)->first();
 
+        //se persona null non è iscritto quindi mostro solo tasto
+
+        //else questa parte
+        
         /* seleziono tutti i post con id della pagina attivi */
-        $post = DB::table('post')->where('paginaID', $paginaID)->where('attivo','1')->first();
-        $immagine = DB::table('pagina')->where('paginaID',$paginaID)->where('attivo','1')->pluck('immagine');
-        $descrizione = DB::table('pagina')->where('paginaID',$paginaID)->where('attivo','1')->pluck('descrizione');
-        //aggiornare
-        //$seguaciPagina = DB::table('seguace')->where('paginaID',$paginaID)->first();
-        //$amministratoriPagina = DB::table('amministratore')->where('paginaID',$paginaID)->first();
+        $post = DB::table('post')->where('paginaID', $paginaID)->first();
+        $immagine = DB::table('pagina')->where('paginaID',$paginaID)->pluck('immagine');
+        $descrizione = DB::table('pagina')->where('paginaID',$paginaID)->pluck('descrizione');
+        $tipo = DB::table('pagina')->where('paginaID',$paginaID)->pluck('tipo');
+        $iscritti = DB::table('segueAmministra')->where('paginaID',$paginaID)->where('stato','iscritto')->first();
+        $amministratore = DB::table('segueAmministra')->where('paginaID',$paginaID)->where('stato','amministratore')->first();
 
-        return view('pagina.pagina', compact('nome','immagine','descrizione','seguaciPagina','amministratoriPagina','post'));
+        return view('pagina.pagina', compact('nome','immagine','descrizione','post','tipo','iscritto','amministratore','paginaID'));
     }
 
     public function create(Request $request) {
-        if($request->nome === null || $request->descrizione === null || $request->image === null || $request->tipo === null) {
-            return redirect('/creaPagina')->withErrors('Nome, descrizione e immagine non possono essere vuoti.');
-        }
+        
+        $this->validate(request(), [
+            'nome' => 'required|min:3|unique:pagina',
+            'descrizione' => 'required|min:3',
+            //'image' => 'required', 
+            'tipo' => 'required|min:3', 
+        ]);
 
-        $pagina = new Pagina;
-        $pagina->nome = $request->nome;
-        $pagina->descrizione = $request->descrizione;
-        $pagina->immagine = $request->image;
-        $pagina->tipo = $request->tipo;
-        $pagina->attivo = 1;
+        Pagina::newPage($request->nome,$request->tipo,$request->immagine,$request->descrizione);
 
-        $pagina->save();
-        return $this->index($pagina->nome);
+        $paginaID = DB::table('pagina')->where('nome',$request->nome)->where('attivo','1')->pluck('paginaID');
+
+        SegueAmministra::new_segueAmministra(Auth::id(),$paginaID[0],'amministratore');
+
+        return $this->index($paginaID);
     }
 
     public function store(Request $request) {
@@ -71,12 +75,15 @@ class PaginaController extends Controller
         return view('pagina.creaPagina');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function subscribe(Request $request) {
+        //chiamare la subscribe con la form con paginaID e utenteID come hidden field
+        $iscritto = new SegueAmministra;
+        $iscritto->paginaID = $request->paginaID;
+        $iscritto->utenteID = $reqeust->utenteID; 
+        $amministratore->stato = "iscritto";
+        $amministratore->save();
+    }
+
     public function show($id) {
         //seleziono tutti i post della pagina
        
