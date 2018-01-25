@@ -117,7 +117,7 @@
                     @endforeach   
                 </div>         
                 <div class="createPage"> 
-                    <form action="pagina" method="POST" enctype="multipart/form-data" id="formPost">
+                    <form action="registraPagina" method="POST" enctype="multipart/form-data" id="formPost">
                         {{ csrf_field() }}
                         <input type="submit" value="Crea Nuova Pagina">
                     </form>

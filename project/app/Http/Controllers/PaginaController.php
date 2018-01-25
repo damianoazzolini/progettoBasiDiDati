@@ -49,17 +49,6 @@ class PaginaController extends Controller {
         return $this->index($request->nome);
     }
 
-    public function store(Request $request) {
-        $this->validate(request(), [
-            'contenuto' => 'required'
-        ]);
-
-        $post = new Post;    
-        //fix
-        $post->paginaID = $paginaID;
-    
-    }
-
     public function mostraPagina() {
         return $this->index(request('nome'));
     }
@@ -71,6 +60,15 @@ class PaginaController extends Controller {
     public function subscribe(Request $request) {
         Pagina::subscribe($request->nomePagina);
         return $this->index($request->nome);
+    }
+
+    public function store(Request $request) {
+        $this->validate(request(), [
+            'post' => 'required',
+            'nomePagina' => 'required', 
+        ]);
+        Post::savePost(Auth::id(),$request->testo,$request->nomePagina,$request->image);
+        return $this->index($request->nomePagina);
     }
 
     public function show($id) {

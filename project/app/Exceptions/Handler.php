@@ -54,6 +54,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         //return parent::render($request, $exception);
+        /*
     
         if($exception instanceof NotFoundHttpException || $exception instanceof InvalidArgumentException || $exception instanceof MethodNotAllowedHttpException) {
             
@@ -65,6 +66,7 @@ class Handler extends ExceptionHandler
                 return redirect()->action('CreateController@index')->with('message',$message);;
             }
         }
+        */
         return parent::render($request, $exception);
         
     }

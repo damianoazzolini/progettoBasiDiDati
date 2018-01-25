@@ -235,7 +235,7 @@ $(document).ready(function(){
 						
 	            		<div class="content">
 	                   		<div class="scriviPost">
-	                        	<form action="profilo" method="POST" enctype="multipart/form-data" id="formPost">
+	                        	<form action="pagina" method="POST" enctype="multipart/form-data" id="formPost">
 	                           		{{ csrf_field() }}
 	                            	<textarea id='postTextarea' name="post" cols="40" rows="5" spellcheck="false" placeholder="A cosa stai pensando?"></textarea>
 	                            	<input id='imageSubmit' type="file" name="image">

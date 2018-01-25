@@ -18,7 +18,7 @@
         @endforeach
         </ul>
         
-        <form id="formRegistration" action="registraPagina" method="POST" enctype="multipart/form-data">
+        <form id="formRegistration" action="creaPagina" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
             <fieldset style="text-align: left;">
                 <legend>Inserisci i tuoi dati:</legend><br>

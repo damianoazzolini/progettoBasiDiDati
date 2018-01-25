@@ -124,15 +124,6 @@ class ProfiloController extends Controller
             $testo = $post->checkSpam($testo);
             $post->contenuto = $testo;
             
-            /*
-            if($request->nomePagina === null) {
-                $post->paginaID = null;
-            }
-            else {
-                $post->paginaID = Pagina::getPageID($request->nomePagina);
-            }
-            */
-
             $post->save();
 
             /* Upload image */
@@ -145,7 +136,9 @@ class ProfiloController extends Controller
 
                 $media->save();
             }
+            
             return redirect('/profilo');
+
         } else if($request->control == 2) {
             $utenteID=Auth::id();
             $postID = $request->postID;

@@ -115,4 +115,23 @@ class Post extends Model
             return $stringa;
         }
     }
+
+    public static function savePost($id,$testo,$nomePagina,$image) {
+        $post = new Post;
+        $post->utenteID = $id;
+        $post->attivo=1;
+        $testo = $post->checkSpam($testo);
+        $post->contenuto = $testo;
+        $post->paginaID = Pagina::getPageID($nomePagina);
+        $post->save();
+
+        if($image) {
+            /* creo un nuovo media */
+            $media = new Media;
+            $media->postID = $post->postID;
+            $media->percorso = '/storage/app/userMedia/utente'.$id.'/post'.$post->postID.'/'.$request->image->hashName();
+            Storage::put('/userMedia/utente'.$id.'/post'.$post->postID.'/'.$request->image->hashName(), file_get_contents($request->file('image')->getRealPath()));
+            $media->save();
+        }
+    }
 }
