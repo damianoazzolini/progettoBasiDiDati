@@ -124,12 +124,14 @@ class ProfiloController extends Controller
             $testo = $post->checkSpam($testo);
             $post->contenuto = $testo;
             
+            /*
             if($request->nomePagina === null) {
                 $post->paginaID = null;
             }
             else {
                 $post->paginaID = Pagina::getPageID($request->nomePagina);
             }
+            */
 
             $post->save();
 

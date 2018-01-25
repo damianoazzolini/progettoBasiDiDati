@@ -226,7 +226,7 @@ $(document).ready(function(){
                 Pagine gestite:
                 </br>
                 @foreach($pagineAmministrate as $pagine)
-                    <a href="/pagina/nome?nome={{ $pagine[0] or '' }}"> {{$pagine[0]}} </br>
+                    <a href="/pagina/nome?nome={{ $pagine[0] or '' }}"> {{$pagine[0]}} </br></a>
                 @endforeach
             @endif
             
@@ -258,7 +258,7 @@ $(document).ready(function(){
 	                            	<textarea id='postTextarea' name="post" cols="40" rows="5" spellcheck="false" placeholder="A cosa stai pensando?"></textarea>
 	                            	<input id='imageSubmit' type="file" name="image">
 	                            	<input type="hidden" name="control" value="1"> 
-	                            	<button type="button" id="postButton"><b>Post</b></button>
+	                            	<input type="submit" value="post">
 	                            	<ul>
 			                            @foreach ($errors->all() as $error)
 			                                <li>
