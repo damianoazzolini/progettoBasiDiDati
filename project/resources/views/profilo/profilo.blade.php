@@ -221,20 +221,22 @@ $(document).ready(function(){
 				</div>
 			</div>
             <div>
+
             @if($pagineAmministrate != null)
                 Pagine gestite:
                 </br>
                 @foreach($pagineAmministrate as $pagine)
-                    {{$pagine[0]}} </br>
+                    <a href="/pagina/nome?nome={{ $pagine[0] or '' }}"> {{$pagine[0]}} </br>
                 @endforeach
             @endif
+            
             </div>
             <div class="createPage"> 
-                    <form action="pagina" method="POST" enctype="multipart/form-data" id="formPost">
-                        {{ csrf_field() }}
-                        <input type="submit" value="Crea Nuova Pagina">
-                    </form>
-                </div>  
+                <form action="pagina" method="POST" enctype="multipart/form-data" id="formPost">
+                    {{ csrf_field() }}
+                    <input type="submit" value="Crea Nuova Pagina">
+                </form>
+            </div>  
 		</div>
 
 		@if($boolean_amici==1)

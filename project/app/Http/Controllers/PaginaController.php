@@ -12,13 +12,7 @@ use App\SegueAmministra;
 use Illuminate\Support\Facades\Auth;
 
 
-class PaginaController extends Controller
-{
-    /**
-     * Display aì listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+class PaginaController extends Controller {
     public function index($nome) {
         $paginaID = Pagina::getPageID($nome);
 
@@ -27,7 +21,9 @@ class PaginaController extends Controller
         $descrizione = Pagina::getPageDescription($paginaID);
         $tipo = Pagina::getPageType($paginaID);
 
-        return view('pagina.pagina', compact('post','immagine','descrizione','tipo','nome'));
+        $isSubscribed = Pagina::isSubscribed($nome);
+
+        return view('pagina.pagina', compact('post','immagine','descrizione','tipo','nome','isSubscribed'));
     }
 
     public function create(Request $request) {
@@ -64,13 +60,17 @@ class PaginaController extends Controller
     
     }
 
+    public function mostraPagina() {
+        return $this->index(request('nome'));
+    }
+
     public function display() {
         return view('pagina.creaPagina');
     }
 
     public function subscribe(Request $request) {
-        //chiamare la subscribe con la form con paginaID e utenteID come hidden field
-        Pagina::subscribe($request->nome);
+        Pagina::subscribe($request->nomePagina);
+        return $this->index($request->nome);
     }
 
     public function show($id) {

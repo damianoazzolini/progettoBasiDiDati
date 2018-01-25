@@ -139,13 +139,10 @@ class PostController extends Controller
 
 	public function store(Request $request)
 	{
-
-
 		$utente=$request->utente; //utente che ha scritto il commento
 		$post=$request->post; //id del post su cui è stato scritto il commento
 		$contenuto=$request->contenuto; //contenuto del commento
 		$stato=$request->stato; //stato
-		
 		$output='';
 		
 		 //inserimento di un commento

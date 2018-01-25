@@ -11,10 +11,10 @@ Route::get('/profilo/media/id','ProfiloController@media')->middleware('revalidat
 Route::post('/profilo/storeImage','ProfiloController@storeImage');
 
 /* Pagine */
-Route::get('/pagina','PaginaController@index')->middleware('revalidate');;
-Route::post('/pagina/id','PaginaController@store')->middleware('revalidate');;
-Route::post('/pagina','PaginaController@display')->middleware('revalidate');;
-Route::post('/registraPagina','PaginaController@create')->middleware('revalidate');;
+Route::get('/pagina','PaginaController@index')->middleware('revalidate');
+Route::get('/pagina/nome','PaginaController@mostraPagina')->middleware('revalidate');
+Route::post('/pagina','PaginaController@display')->middleware('revalidate');
+Route::post('/registraPagina','PaginaController@create')->middleware('revalidate');
 
 Route::get('/pagine', 'SegueAmministraController@index')->middleware('revalidate');
 Route::get('/pagine/nuova', 'SegueAmministraController@nuova')->middleware('revalidate');

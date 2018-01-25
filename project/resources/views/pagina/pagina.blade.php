@@ -1,6 +1,5 @@
 @extends('layouts.master')
 
-<!--
 @section ('scripts')
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
@@ -175,27 +174,163 @@ $(document).ready(function(){
 
 
 @endsection
--->
+
 
 @section ('content')
-
 
 <div class="container profile">
 	<div class="row">
 		<div class="col profileName">
-			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			{{$nome}}
 		</div>
 	</div>
+	<div class="row">
+		
+		<div class="col-sm-6">
+			<div class="row">
+				<div class="col">
+					
+                    
+				</div>
+			</div>
+			<div class="row">
+				<div class="col profileInfo">
+					<div class="row">
+						<div class="col">
+							{{ $descrizione[0] or '' }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							{{$tipo[0]}}
+						</div>
+					</div>
+				</div>
+                <div>
+                <div class="row">
+						<div class="col">
+                            @if($isSubscribed == 0)
+                            <div class="subscibe"> 
+                                <form action="{{ action('PaginaController@subscribe') }}" method="POST" enctype="multipart/form-data" id="formPost">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="nomePagina" value="{{$nome[0]}}">
+                                    <input type="submit" value="Iscriviti">
+                                </form>
+                            </div> 
+							@endif
+						</div>
+					</div>
+                </div>
+			</div>
+            
+		</div>
 
-    <div>
-    Post: {{$post}} </br>
-    Immagine: {{$immagine}} </br>
-    Descrizione: {{$descrizione}} </br>
-    Tipo: {{$tipo}} </br>
-    Nome: {{$nome}} </br>
+        <!-- se è iscritto mostro i post -->
+		@if($isSubscribed == 1)
+       
+			<div class="col-sm-6">
+                
+				<div class="row">
+					<div class="col">
+						
+	            		<div class="content">
+	                   		<div class="scriviPost">
+	                        	<form action="profilo" method="POST" enctype="multipart/form-data" id="formPost">
+	                           		{{ csrf_field() }}
+	                            	<textarea id='postTextarea' name="post" cols="40" rows="5" spellcheck="false" placeholder="A cosa stai pensando?"></textarea>
+	                            	<input id='imageSubmit' type="file" name="image">
+	                            	<input type="hidden" name="control" value="1"> 
+                                    <input type="hidden" name="nomePagina" value="{{$nome}}">
+	                            	<input type="submit" value="Post">
+	                            	<ul>
+			                            @foreach ($errors->all() as $error)
+			                                <li>
+			                                {{ $error }}
+			                                </li>
+			                            @endforeach
+	                            	</ul>
+	                        	</form>
+	                    	</div>
+	               		</div>			
+				
+				<div class="row">
+					<div class="col">
+						<?php foreach($post as $pubblica){ ?>
+                    
+                <!-- Imposto lingua italiana -->
+                <div style="display:none">{{ Carbon\Carbon::setLocale('it')}}</div>
+                    <div class="content">
+                        <div class ="user">
+                            <div id="userImage">
+                                <div id="cornice" style="background: url(<?php echo $pubblica->immagine ?>) 50% 0 / cover no-repeat; width: 50px;"></div>
+                            </div>
+                            <div id="userName">
+				                <a href="/profilo/id?utenteID=<?php echo $pubblica->utenteID?>">
+                                    <h3><?php  echo $pubblica->nome." ".$pubblica->cognome;  ?></h3>
+                                    <div id="clock">
+                                        {{ Carbon\Carbon::parse($pubblica->created_at)->diffForHumans()}}
+                                    </div>
+				                </a>
+                            </div>	
+                        </div>
+                        
+                        <div id="testo">
+                            <?php echo $pubblica->contenuto; ?>
+                        </div>
+                        <?php if ($pubblica->percorso!=null) { ?>
+                        <div class="postImage" style="background: url(<?php echo $pubblica->percorso ?>) 0% 0% / cover no-repeat, #FFF; width: 100%;"></div>
+                        <?php } ?>
+                        
+                        <div class='contentLike' style="display: flex; padding-bottom: 10px;">
+                            <div style="text-align: left; width: 50%;"><img src="{{ asset('/systemImages/contaBanane.png') }}" height="20px" border="0" style='float: left; margin-right: 5px;'>
+                                <div id="contentLikes-<?php echo $pubblica->postID ?>" style="margin-top: 5px;">
+                                    <?php if($pubblica->likes == NULL) {
+                                        echo '0'; 
+                                    } else {
+                                        echo $pubblica->likes;
+                                    } ?>
+                                    
+                                </div>
+                            </div>
+                            <div style="float: right; width: 50%; text-align: right; font-size: 18px;">
+                                <a style="text-decoration: none; font-family: unset;color: #133212;font-size: 15px;font-weight: 600;" href="/posts/<?php echo $pubblica->postID ?>">Visualizza <img src="{{ asset('/systemImages/zoom.svg') }}" style="width: 20px"/></a>
+                            </div>
+                        </div>
+
+                        <div class="contentLike">
+                            <div id="like">
+                                <div id='banana-<?php echo $pubblica->postID ?>'>
+                                    <?php $trovato=true; foreach($likes as $like) { 
+                                        if($like->postID == $pubblica->postID) {
+                                            $trovato=false;
+                                            break;
+                                        }
+                                    }
+                                    if($trovato) { ?>
+                                        <img class="like" id='image-<?php echo $pubblica->postID ?>' src="{{ asset('/systemImages/banana-no.png') }}" height="20px" border="0" style='cursor: pointer'>
+                                        <?php } else { ?>
+                                        <img class="dislike" id='image-<?php echo $pubblica->postID ?>' src="{{ asset('/systemImages/banana-si.png') }}" height="20px" border="0" style='cursor: pointer'>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="contentComment">
+                            <div id="comment-<?php echo $pubblica->postID ?>">
+                                <div class="comment" id='commento-<?php echo $pubblica->postID ?>'><img src="{{ asset('/systemImages/commento.png') }}" height="20px" border="0" style='cursor: pointer'></div>
+                                <div class="contentComment" id="contentComment-<?php echo $pubblica->postID ?>"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php } ?> 
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
     </div>
-
+	@endif
 </div>
-
 
 @endsection
