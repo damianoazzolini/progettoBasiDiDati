@@ -1,0 +1,47 @@
+Realizzazione di una applicazione web per la gestione di una clinica privata. Alla piattaforma possono accedere 5 tipi di utente: paziente, medico, infermiere, impiegato, e amministratore. La clinica in questione eroga diversi tipi di PRESTAZIONI ai suoi utenti ad esempio: visite specialistiche, esami diagnostici, day surgery e terapie. Ogni prestazione può essere effettuata da uno o più membri dello STAFF (a seconda della complessità) in una delle SALE della clinica. Al termine di ogni prestazione il medico compila un REFERTO corrispondete alla prestazione appena effettuata. Il sistema deve anche gestire i FARMACI assunti dagli utenti e utilizzati durante le prestazioni. Per motivi di organizzazione interna ogni membro del personale e ogni sala afferisce a uno specifico REPARTO della clinica.
+
+L’utente PAZIENTE potrà:
+1) Registrarsi sulla piattaforma e fare il login.
+2) Modificare il proprio profilo ed aggiungere/rimuovere i farmaci che assume regolarmente
+3) Visionare le prestazioni effettuate con i referti corrispondenti
+
+L’utente MEDICO potrà:
+1) Fare il login sulla piattaforma
+2) Visionare le schede personali dei pazienti (compresi i farmaci assunti), le prestazioni e i referti
+3) Visionare le prestazioni nel quale ha preso o dovrà prendere parte
+4) Compilare i referti delle prestazioni a cui ha preso parte
+6) Aggiungere i farmaci utilizzati nelle prestazioni a cui ha preso parte
+
+L’utente INFERMIERE potrà:
+1) Fare il login sulla piattaforma
+2) Visionare le schede personali dei pazienti (compresi i farmaci assunti)
+3) Visionare le prestazioni nel quale ha preso o dovrà prendere parte
+4) Aggiungere i farmaci utilizzati nelle prestazioni a cui ha preso parte
+
+L’utente IMPIEGATO potrà:
+1) Fare il login sulla piattaforma
+2) Prenotare le prestazioni per i pazienti (crearle, modificarle e cancellarle, ***questo dovrebbe essere vero finchè non sono state effettuate da un medico che le ha confermate***) associando ad esse i medici che dovranno effettuarle
+3) Visualizzare lo storico delle prestazioni effettuate dai pazienti (ma non i referti) 
+4) Gestire il personale:
+	- Modificare lo stipendio dei vari membri dello staff
+	- Modificare il reparto di appartenenza
+5) Gestire le tipologie di prestazioni (aggiungere, modificare, cancellare)
+6) Gestire la tabella dei farmaci (aggiungere, modificare, cancellare)
+
+L’utente AMMINISTRATORE potrà:
+1) Fare il login sulla piattaforma
+2) Fare tutto quello che fanno gli utenti precedenti
+3) Aggiungere/Modificare/Cancellare gli utenti Staff della clinica (e le rispettive qualifiche ???)
+4) Aggiungere/Modificare/Cancellare le sale della clinica
+5) Aggiungere/Modificare/Cancellare i reparti della clinica
+6) Gestire tutta la base utenti
+
+
+Vanno aggiunti anche quelli delle pulizie ???
+Chi crea lo staff per le prestazioni ?
+Facciamo fare tutto all’amministratore ??? Tipo modificare i referti o cancellarli (potrebbe nascondere delle prove in caso di crimine)
+
+
+
+ 
+
