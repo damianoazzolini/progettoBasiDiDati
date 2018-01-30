@@ -12,7 +12,7 @@ class CreateTableUtente extends Migration {
             $table->string('cognome');
             $table->date('dataNascita');
             $table->boolean('sesso');
-            $table->string('codiceFiscale')->unique()->primary();
+            $table->string('codiceFiscale')->unique();
             $table->string('email')->unique();
             $table->string('password');
             $table->string('telefono');
