@@ -10,7 +10,8 @@ L’utente MEDICO potrà:
 2) Visionare le schede personali dei pazienti (compresi i farmaci assunti), le prestazioni e i referti
 3) Visionare le prestazioni nel quale ha preso o dovrà prendere parte
 4) Compilare i referti delle prestazioni a cui ha preso parte
-6) Aggiungere i farmaci utilizzati nelle prestazioni a cui ha preso parte
+5) Aggiungere i farmaci utilizzati nelle prestazioni a cui ha preso parte
+6) Aggiungere personale alle prestazioni che gli sono state assegnate
 
 L’utente INFERMIERE potrà:
 1) Fare il login sulla piattaforma
@@ -31,17 +32,7 @@ L’utente IMPIEGATO potrà:
 L’utente AMMINISTRATORE potrà:
 1) Fare il login sulla piattaforma
 2) Fare tutto quello che fanno gli utenti precedenti
-3) Aggiungere/Modificare/Cancellare gli utenti Staff della clinica (e le rispettive qualifiche ???)
+3) Aggiungere/Modificare/Cancellare gli utenti Staff della clinica e le rispettive qualifiche
 4) Aggiungere/Modificare/Cancellare le sale della clinica
 5) Aggiungere/Modificare/Cancellare i reparti della clinica
 6) Gestire tutta la base utenti
-
-
-Vanno aggiunti anche quelli delle pulizie ???
-Chi crea lo staff per le prestazioni ?
-Facciamo fare tutto all’amministratore ??? Tipo modificare i referti o cancellarli (potrebbe nascondere delle prove in caso di crimine)
-
-
-
- 
-
