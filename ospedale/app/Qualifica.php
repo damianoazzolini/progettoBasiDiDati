@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Qualifica extends Model
 {
-    //
+    protected $table = 'qualifica';
 }
