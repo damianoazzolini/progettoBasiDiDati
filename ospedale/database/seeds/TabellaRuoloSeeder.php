@@ -326,5 +326,40 @@ class TabellaRuoloSeeder extends Seeder
         $role_employee->nome = 'tipologiaPrestazione_destroy';
         $role_employee->descrizione = 'Autorizzazione ad accedere al metodo REST tipologiaPrestazione_destroy';
         $role_employee->save();
+
+        $role_employee = new Ruolo();
+        $role_employee->nome = 'ruolo_index';
+        $role_employee->descrizione = 'Autorizzazione ad accedere al metodo REST ruolo_index';
+        $role_employee->save();
+
+        $role_employee = new Ruolo();
+        $role_employee->nome = 'ruolo_create';
+        $role_employee->descrizione = 'Autorizzazione ad accedere al metodo REST ruolo_create';
+        $role_employee->save();
+
+        $role_employee = new Ruolo();
+        $role_employee->nome = 'ruolo_store';
+        $role_employee->descrizione = 'Autorizzazione ad accedere al metodo REST ruolo_store';
+        $role_employee->save();
+
+        $role_employee = new Ruolo();
+        $role_employee->nome = 'ruolo_show';
+        $role_employee->descrizione = 'Autorizzazione ad accedere al metodo REST ruolo_show';
+        $role_employee->save();
+
+        $role_employee = new Ruolo();
+        $role_employee->nome = 'ruolo_edit';
+        $role_employee->descrizione = 'Autorizzazione ad accedere al metodo REST ruolo_edit';
+        $role_employee->save();
+
+        $role_employee = new Ruolo();
+        $role_employee->nome = 'ruolo_update';
+        $role_employee->descrizione = 'Autorizzazione ad accedere al metodo REST ruolo_update';
+        $role_employee->save();
+
+        $role_employee = new Ruolo();
+        $role_employee->nome = 'ruolo_destroy';
+        $role_employee->descrizione = 'Autorizzazione ad accedere al metodo REST ruolo_destroy';
+        $role_employee->save();
     }
 }
