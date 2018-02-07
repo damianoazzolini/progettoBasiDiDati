@@ -113,11 +113,67 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%% DESCRIZIONE MINIMONDO
 \chapter{Minimondo}
 \section{Descrizione}
-Il progetto di basa sullo sviluppo di un \textit{social network}. Ciascun utente si può iscrivere al social network
-fornendo Nome, Cognome, e-mail e password e data di nascita. Al seguito dell'iscrizione, un utente può chiedere l'"amicizia" ad 
-un altro utente, pubblicare un
-post, che può anche contenere media, che può essere commentato da altri utenti (solamente quelli tra gli amici dell'utente creatore del post). E possibile inoltre inserire, oltre a commenti, delle reazioni ai post. 
-La scrittura di un commento o l'applicazione di una reazione ad un post viene segnalata con una notifica all'utente creatore del post, così come la richiesta di amicizia. Ciascuna entità utente, post, commento è caratterizzata da un campo attivo (flag booleano) che indica se, rispettivamente, l'utente si è cancellato dal social network (in questo caso attivo sarà fissato a 0), il post è stato cancellato o il commento è stato rimosso. I post che vengono cancellati dal social network rimangono comunque salvati nel database ma non visualizzati nella home. L'intero progetto è stato sviluppato utilizzando il framework laravel.
+Il progetto di basa sulla realizzazione di una applicazione web per la gestione di una clinica privata. Alla piattaforma possono accedere 5 tipi di utente:
+\begin{itemize}
+\item paziente
+\item medico
+\item infermiere
+\item impiegato
+\item amministratore
+\end{itemize}  
+
+La clinica in questione eroga diversi tipi di \textbf{prestazioni} ai suoi utenti, ad esempio: visite specialistiche, esami diagnostici, day surgery e terapie. Ogni prestazione può essere effettuata da uno o più membri dello \textbf{staff} (a seconda della complessità) in una delle \textbf{sale} della clinica. Al termine di ogni prestazione il medico compila un \textbf{referto} corrispondete alla prestazione appena effettuata. Il sistema deve anche gestire i \textbf{farmaci} assunti dagli utenti e utilizzati durante le prestazioni. Per motivi di organizzazione interna ogni membro del personale e ogni sala afferisce a uno specifico \textbf{reparto} della clinica. Più in dettaglio:\\
+
+L'utente \textbf{PAZIENTE} potrà:
+\begin{itemize}
+\item Registrarsi sulla piattaforma e fare il login. Modificare il proprio profilo.
+\item Aggiungere/rimuovere i farmaci che assume regolarmente.
+\item Visionare le prestazioni effettuate con i referti corrispondenti.
+\end{itemize}
+
+L'utente \textbf{MEDICO} potrà:
+\begin{itemize}
+\item Fare il login sulla piattaforma e visionare il proprio profilo.
+\item Visionare le schede personali dei pazienti (compresi i farmaci assunti).
+\item Visionare le prestazioni e i relativi referti.
+\item Aggiungere/Modificare/Cancellare i referti delle prestazioni a cui ha preso parte.
+\item Aggiungere/Rimuovere i farmaci utilizzati nelle prestazioni a cui ha preso parte.
+\item Aggiungere personale alle prestazioni che gli sono state assegnate.
+\end{itemize}
+
+L'utente \textbf{INFERMIERE} potrà:
+\begin{itemize}
+\item Fare il login sulla piattaforma e visionare il proprio profilo.
+\item Visionare le schede personali dei pazienti (compresi i farmaci assunti).
+\item Visionare le prestazioni assegnate.
+\item Aggiungere/Rimuovere i farmaci utilizzati nelle prestazioni alle quali ha preso parte.
+\end{itemize}
+
+L'utente \textbf{IMPIEGATO} potrà:
+\begin{itemize}
+\item Fare il login sulla piattaforma e visionare il proprio profilo.
+\item Prenotare le prestazioni per i pazienti associando ad esse i medici che dovranno effettuarle.
+\item Visualizzare lo storico delle prestazioni effettuate dai pazienti (ma non i referti). 
+\item Gestire il personale:
+	\begin{itemize}
+		\item Modificare lo stipendio dei vari membri dello staff.
+		\item Modificare il reparto di appartenenza.
+	\end{itemize}
+	
+\item Aggiungere/Modificare/Cancellare le tipologie di prestazioni. 
+\item Aggiungere/Modificare/Cancellare i farmaci nella lista della farmacia.
+\end{itemize}
+
+L'utente \textbf{AMMINISTRATORE} potrà:
+\begin{itemize}
+\item Fare il login sulla piattaforma e visionare il proprio profilo.
+\item Fare tutto quello che fanno gli utenti precedenti.
+\item Aggiungere/Modificare/Cancellare gli utenti Staff della clinica.
+\item Aggiungere/Modificare/Cancellare le sale della clinica.
+\item Aggiungere/Modificare/Cancellare i reparti della clinica.
+\item Gestire tutta la base utenti.
+\item Aggiungere/Rimuovere i singoli ruoli (permessi) agli utenti.
+\end{itemize}
 
 \section{Entità}
 Di seguito vengono analizzate tutte le entità presenti nel database:
@@ -143,28 +199,41 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	
 	\node[entity] (utente) {Utente};
 	
-	\node[attribute] (nome) [above of = utente] {Nome} edge (utente);
-	\node[attribute] (email) [below of = utente] {Email} edge (utente);
-	\node[attribute] (cognome) [right of = utente] {Cognome} edge (utente); 
-	\node[attribute] (datanascite) [below right of = utente] {DataNascita} edge (utente);	
-	\node[attribute] (password) [below left of = utente] {Password} edge (utente);
-	\node[attribute] (userid) [left of = utente] {\key{UserID}} edge (utente);
-	\node[attribute] (attivo) [above right of =  utente] {Attivo} edge (utente);
+	\node[attribute] (id) [above of = utente] {\key{ID}} edge (utente);
+	\node[attribute] (nome) [above right of = utente] {Nome} edge (utente);
+	\node[attribute] (cognome) [right of = nome] {Cognome} edge (utente);
+	\node[attribute] (dataNascita) [below of = utente] {DataNascita} edge (utente);
+	\node[attribute] (sesso) [below right of = utente] {Sesso} edge (utente);
+	\node[attribute] (cf) [right of = sesso] {C.F.} edge (utente);
+	\node[attribute] (email) [below left of = utente] {Email} edge (utente);
+	\node[attribute] (pw) [left of = email] {Password} edge (utente);
+	\node[attribute] (telefono) [left of = utente] {Telefono} edge (utente);
+	\node[attribute] (attivo) [right of = utente] {Attivo} edge (utente);
+	
+	\node[attribute] (indirizzo) [above left of = utente] {Indirizzo} edge (utente);
+	\node[attribute] (stato) [above of = indirizzo] {Stato} edge (indirizzo);
+	\node[attribute] (comune) [left of = stato] {Comune} edge (indirizzo);
+	\node[attribute] (via) [left of = indirizzo] {Via} edge (indirizzo);
+	\node[attribute] (numeroCivico) [right of = stato] {Civico} edge (indirizzo);
+	\node[attribute] (provincia) [left of = comune] {Provincia} edge (indirizzo);
+	
+	
+		
 	
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
 
 %L'entità utente è l'entità principale di tutto il database ed è costituita dai seguenti attributi:
-\begin{itemize}
-\item \textit{Nome}: nome dell'utente.
-\item \textit{Cognome}: cognome dell'utente.
-\item \textit{UserID}: identificativo numerico dell'utente e chiave primaria.
-\item \textit{Password}: password dell'account.
-\item \textit{Email}: email dell'utente. Nel databse non possono esistere due utenti diversi con la stessa mail.
-\item \textit{DataNascita}: data di nascita dell'utente.
-\item \textit{Attivo}: flag booleano, solitamente fissato a 0, 1 se l'utente si è cancellato dal social network. 
-\end{itemize}
+%\begin{itemize}
+%\item \textit{Nome}: nome dell'utente.
+%\item \textit{Cognome}: cognome dell'utente.
+%\item \textit{UserID}: identificativo numerico dell'utente e chiave primaria.
+%\item \textit{Password}: password dell'account.
+%\item \textit{Email}: email dell'utente. Nel databse non possono esistere due utenti diversi con la stessa mail.
+%\item \textit{DataNascita}: data di nascita dell'utente.
+%\item \textit{Attivo}: flag booleano, solitamente fissato a 0, 1 se l'utente si è cancellato dal social network. 
+%\end{itemize}
 
 \subsection{Amicizia}
 \begin{center}
@@ -520,11 +589,13 @@ Entità da aggiungere
 \section{Schema ER Completo}
 Da inserire in una pagina nuova
 
+\chapter{Normalizzazione}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%% Da Modello ER a Modello Relazionale
 \chapter{Da Modello ER a Modello Relazionale}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% NORMALIZZAZIONE
-\chapter{Normalizzazione}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% CODICE SQL
 \chapter{Codice SQL}
@@ -604,12 +675,6 @@ CREATE TABLE rezione (
 
 \begin{thebibliography}{9}
 
-
-\bibitem{leibold}
- Marius Leibold, Gilbert J. B. Probst, Michael Gibbert,
-  \textit{Strategic Management in the Knowledge Economy: New Approaches and Business Applications},
-  John Wiley \& Sons,
- 2007.
  
 \bibitem{cartonChina}
 	Tetra Pak launches FSC cartons in China, \textit{http://beta.nepcon.org/newsroom/tetra-pak-launches-fsc-cartons-china},
@@ -618,6 +683,13 @@ CREATE TABLE rezione (
 \bibitem{circular}
 	Circular Economy, Sustainable Materials Management, and the Importance of KPIs: \textit{https://sustainablepackaging.org/circular-economy-sustainable-materials-management-importance-kpis/},
 	17 Maggio 2017.
+
+
+\bibitem{leibold}
+ Marius Leibold, Gilbert J. B. Probst, Michael Gibbert,
+  \textit{Strategic Management in the Knowledge Economy: New Approaches and Business Applications},
+  John Wiley \& Sons,
+ 2007.
 
 \end{thebibliography}
 
