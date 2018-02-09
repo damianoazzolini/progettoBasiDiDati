@@ -539,6 +539,7 @@ L'entità \textit{Referto} è una entità debole, collegata a prestazione. Infat
 \end{figure}
 
 %eventuali nuovi
+Ogni relazione \textit{N-M} è stata sviluppata con una ulteriore.
 
 \clearpage
 \section{Schema ER Completo}
@@ -560,62 +561,88 @@ Come detto nella descrizione, l'intero progetto è stato sviluppato utilizzando 
 \begin{verbatim}
 UTENTE
 CREATE TABLE utente (
-        utenteID INT AUTO_INCREMENT PRIMARY_KEY,
+        id INT AUTO_INCREMENT PRIMARY_KEY,
         nome VARCHAR(255) NOT NULL,
         cognome VARCHAR(255) NOT NULL,
+        dataNascita DATE NOT NULL,
+        sesso BIT NOT NULL,
+        codiceFiscale VARCHAR(255) NOT NULL UNIQUE, 
         email VARCHAR(255) NOT NULL UNIQUE,
         password VARCHAR(255) NOT NULL,
-        citta VARCHAR(255) NOT NULL,
-        dataNascita DATE
+        telefono VARCHAR(255) NOT NULL,
+        attivo BIT NOT NULL,
+        provincia VARCHAR(255) NOT NULL,
+        stato VARCHAR(255) NOT NULL,
+        comune VARCHAR(255) NOT NULL,
+        via VARCHAR(255) NOT NULL,
+        numeroCivico INT NOT NULL,
+        timestamp TIMESTAMP         
 );
 
-NOTIFICA
-CREATE TABLE notifica (
-        notificaID INT AUTO_INCREMENT PRIMARY_KEY,
-        utenteID VARCHAR(255) FOREGIN_KEY REFERENCES utente(utenteID),
-        tipo VARCHAR(255),
-        tipoID VARCHAR(255),
-        letta BIT DEFAULT 0
+PAZIENTE
+CREATE TABLE paziente (
+        id INT FOREGIN_KEY REFERENCES utente(id),
+        note TEXT,
+        altezza INT NOT NULL,
+        peso INT NOT NULL,
+        timestamp TIMESTAMP        
 );
 
-AMICIZIA
-CREATE TABLE amicizia (
-        utenteID1 INT FOREGIN KEY REFERENCES utente(utenteID),
-        utenteID2 INT FOREGIN_KEY REFERENCES utente(utenteID),
-        timestamp TIMESTAMP,
-        Stato VARCHAR(255) NOT_NULL DEFAULT 'sospesa'
+REPARTO
+CREATE TABLE reparto (
+	id INT PRIMARY_KEY,
+    nome VARCHAR(255) NOT_NULL, 
+    identificativo VARCHAR(255) NOT NULL,
+    descrizione TEXT,
+    timestamp TIMESTAMP, 
 );
 
-COMMENTO
-CRATE TABLE commento (
-        commentoID INT AUTO_INCREMENT PRIMARY_KEY,
-        utenteID INT FOREGIN_KEY REFERENCES utente(utenteID),
-        postID INT FOREGIN_KEY REFERENCES post(postID),
-        contenuto TEXT NOT_NULL,
+SALA
+CRATE TABLE sala (
+        id INT AUTO INCREMENT PRIMARY KEY,
+        identificativo VARCHAR(255) NOT NULL,
+        idReparto INT FOREGIN KEY REFERENCES reparto(id),
+        piano INT,
        	timestamp TIMESTAMP
 );
 
-POST
-CREATE TABLE post (
-        postID INT AUTO_INCREMENT PRIMARY_KEY,
+STAFF
+CREATE TABLE staff (
+        id INT FOREGIN_KEY REFERENCES utente(id),
+        idReparto INT FOREGIN_KEY REFERENCES utente(idReparto),
+        identificativo VARCHAR(255) NOT NULL,
         contenuto TETX NOT_NULL,
-        timestamp TIMESTAMP,
-        utenteID FOREGIN_KEY REFERENCES utente(utenteID)
+        timestamp TIMESTAMP
 );
 
-MEDIA
-CREATE TABLE media (
-        mediaID INT AUTO_INCREMENT PRIMARY_KEY,
-        postID INT FOREGIN_KEY REFERENCES post(PostID),
-        percorso TEXT NOT_NULL
+FARMACO
+CREATE TABLE farmaco (
+        id INT AUTO INCREMENT PRIMARY KEY,
+        descrizione TEXT NOT NULL,
+        nome VARCHAR(255) NOT NULL,
+        categoria VARCHAR(255) NOT NULL,
+       	timestamp TIMESTAMP
 );
 
-REAZIONE
-CREATE TABLE rezione (
-        reazioneID INT AUTO_INCREMENT PRIMARY_KEY,
-        utenteID INT FOREGIN_KEY REFERENCES utente(utenteID),
-        postID INT FOREGIN_KEY REFERENCES post(postID),
-        flag BIT
+PRESTAZIONE
+CREATE TABLE prestazione (
+        id INT AUTO_INCREMENT PRIMARY_KEY,
+        idReparto INT FOREGIN_KEY REFERENCES reparto(idReparto),
+        identificativo VARCHAR(255) NOT NULL,
+        note TEXT,
+        attivo BIT NOT NULL,
+        effettuata BIT NOT NULL,
+        timestamp TIMESTAMP
+);
+
+REFERTO
+CREATE TABLE referto (
+        id INT FOREGIN_KEY REFERENCES prestazione(id),
+        idPaziente INT FOREGIN_KEY REFERENCES prestazione(idPaziente),
+        identificativo VARCHAR(255) NOT NULL,
+        esito TEXT NOT NULL,
+        note TEXT,
+        timestamp TIMESTAMP
 );
 \end{verbatim}
 
