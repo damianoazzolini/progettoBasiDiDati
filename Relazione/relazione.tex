@@ -215,27 +215,12 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	\node[attribute] (comune) [left of = stato] {Comune} edge (indirizzo);
 	\node[attribute] (via) [left of = indirizzo] {Via} edge (indirizzo);
 	\node[attribute] (numeroCivico) [right of = stato] {Civico} edge (indirizzo);
-	\node[attribute] (provincia) [left of = comune] {Provincia} edge (indirizzo);
-	
-	
-		
-	
+	\node[attribute] (provincia) [left of = comune] {Provincia} edge (indirizzo);	
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
 
-%L'entità utente è l'entità principale di tutto il database ed è costituita dai seguenti attributi:
-%\begin{itemize}
-%\item \textit{Nome}: nome dell'utente.
-%\item \textit{Cognome}: cognome dell'utente.
-%\item \textit{UserID}: identificativo numerico dell'utente e chiave primaria.
-%\item \textit{Password}: password dell'account.
-%\item \textit{Email}: email dell'utente. Nel databse non possono esistere due utenti diversi con la stessa mail.
-%\item \textit{DataNascita}: data di nascita dell'utente.
-%\item \textit{Attivo}: flag booleano, solitamente fissato a 0, 1 se l'utente si è cancellato dal social network. 
-%\end{itemize}
-
-\subsection{Amicizia}
+\subsection{Paziente}
 \begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
@@ -247,25 +232,18 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	node distance=7em,
 	scale=0.8, transform shape] 
 	
-	\node[entity] (amicizia) {Amicizia}; %entità debole?
+	\node[entity] (paziente) {Paziente};
 	
-	\node[attribute] (userid1) [above of = amicizia] {UserID1} edge (amicizia); %da rimuovere
-	\node[attribute] (userid2) [above left of = amicizia] {UserID2} edge (amicizia); %da rimuovere
-	\node[attribute] (data) [below right of = amicizia] {Data} edge (amicizia);	
-	\node[attribute] (ora) [below left of = amicizia] {Ora} edge (amicizia);
-	\node[attribute] (stato) [above right of = amicizia] {Stato} edge (amicizia);
+	\node[attribute] (altezza) [above left of = paziente] {Altezza} edge (paziente);
+	\node[attribute] (note) [left of = paziente] {Note} edge (utente);
+	\node[attribute] (peso) [right of = paziente] {Peso} edge (paziente);
+	\node[attribute] (timestamp) [above right of = paziente] {Timestamp} edge (paziente);		
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
+L'entità \textit{Paziente} è una specializzazione della entità \textit{Utente}. Ha come chiave esterna l'id dell'utente al quale si riferisce.
 
-\begin{itemize}
-\item \textit{UserID1}: rappresenta l'identificativo dell'utente che richiede l'amicizia, chiave esterna.
-\item \textit{UserID2}: rappresenta l'identificativo dell'utente che riceve la richiesta di amicizia, chiave esterna.
-\item \textit{timestamp}: timestamp della richiesta dell'amicizia.
-\item \textit{Stato}: variabile intera che rappresenta se l'amicizia è stata richiesta, accettata, in sospeso o rifiutata.
-\end{itemize}
-
-\subsection{Post}
+\subsection{Staff}
 \begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
@@ -277,95 +255,17 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	node distance=7em,
 	scale=0.8, transform shape] 
 	
-	\node[entity] (post) {Post};
+	\node[entity] (staff) {Staff};
 	
-	\node[attribute] (postid) [below left of=post] {\key{PostID}} edge (post);
-	\node[attribute] (contenuto) [above left of=post] {Contenuto} edge (post);
-	\node[attribute] (data) [below right of=post] {Data} edge (post);
-	\node[attribute] (ora) [right of = post] {Ora} edge (post);
-	\node[attribute] (userid) [above right of=post] {UserID} edge (post); %da rimuovere
-	\node[attribute] (attivo) [left of = post] {Attivo} edge (post);
-	
-	
+	\node[attribute] (altezza) [above of = staff] {Identificativo} edge (staff);
+	\node[attribute] (stipendio) [above left = 1cm of staff] {Stipendio} edge (staff);
+		\node[attribute] (timestamp) [above right = 1cm of staff] {Timestamp} edge (staff);		
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
+L'entità \textit{Staff}, analogamente ad \textit{Paziente}, è una specializzazione della entità \textit{Utente}. Ha come chiave esterna l'id dell'utente al quale si riferisce e il reparto di appartenenza.
 
-\begin{itemize}
-\item \textit{PostID1}: rappresenta l'identificativo del post, funge da chiave primaria.
-\item \textit{Contenuto}: campo di testo che rappresenta il contenuto del post.
-\item \textit{Data}: data di pubblicazione del post.
-\item \textit{Ora}: ora di pubblicazione del post.
-\item \textit{UserID}: chiave esterna, identificativo dell'utente autore del post.
-\item \textit{Attivo}: flag booleano che indica se il post è attivo (1) o cancellato (0).
-\end{itemize}
-
-\subsection{Commento}
-\begin{center}
-\vspace{0.5cm}
-\begin{tikzpicture}[
-	%->, frecce orietate
-	%>=stealth',
-  %	%shorten >=1pt,
-  	auto,	
-  	semithick, %linee più spesse
-	node distance=7em,
-	scale=0.8, transform shape] 
-
-	\node[entity] (commento) {Commento}; %entità debole post
-	
-	\node[attribute] (commentid) [above right of = commento] {\key{CommentoID}} edge (commento);
-	\node[attribute] (contenuto) [above left of = commento] {Contenuto} edge (commento);
-	\node[attribute] (userid) [left of = commento] {UserID} edge (commento);	 %da rimuovere
-	\node[attribute] (data) [below left of = commento] {Data} edge (commento); 
-	\node[attribute] (postid) [below of = commento] {PostID} edge (commento);
-	\node[attribute] (ora) [below right of = commento] {Ora} edge (commento); %da rimuovere
-	\node[attribute] (attivo) [right of = commento] {Attivo} edge (commento);
-		
-\end{tikzpicture}
-\vspace{0.5cm}
-\end{center}
-
-\begin{itemize}
-\item \textit{CommentoID}: identificativo numerico del commento e chiave primaria.
-\item \textit{Contenuto}: contenuto del commento.
-\item \textit{UserID}: identificativo dell'utente autore del commento, chiave esterna.
-\item \textit{Data}: data del commento.
-\item \textit{Ora}: ora del commento.
-\item \textit{PostID}: identificativo numerico del post commentato, chiave esterna.
-\item \textit{Attivo}: flag booleano che indica se il commento è attivo (1) o cancellato (0).
-\end{itemize}
-
-\subsection{Media}
-\begin{center}
-\vspace{0.5cm}
-\begin{tikzpicture}[
-	%->, frecce orietate
-	%>=stealth',
-  %	%shorten >=1pt,
-  	auto,	
-  	semithick, %linee più spesse
-	node distance=7em,
-	scale=0.8, transform shape] 
-
-	\node[entity] (media) {Media}; %entia debole post
-	
-	\node[attribute] (mediaid) [above right of=media] {\key{MediaID}} edge (media);
-	\node[attribute] (percorso) [above left of=media] {Percorso} edge (media);
-	\node[attribute] (postid) [below of=media] {PostID} edge (media); %modificare
-		
-\end{tikzpicture}
-\vspace{0.5cm}
-\end{center}
-
-\begin{itemize}
-\item \textit{MediaID}: identificativo del media (foto, video, ...), chiave primaria.
-\item \textit{Percorso}: link al media.
-\item \textit{PostID}: identificativo del post nel quale il media viene inserito.
-\end{itemize}
-
-
-\subsection{Reazione}
+\subsection{Reparto}
 \begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
@@ -377,26 +277,18 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	node distance=7em,
 	scale=0.8, transform shape] 
 	
-	\node[entity] (reazione) {Reazione}; %entita debole post
+	\node[entity] (reparto) {Reparto};
 	
-	\node[attribute] (userid) [above right of = reazione] {UserID} edge (reazione);
-	\node[attribute] (postid) [below left of = reazione] {PostID} edge (reazione); %modificare
-	\node[attribute] (flag) [below right of = reazione] {Attivo} edge (reazione);
-	\node[attribute] (userid) [above left of = reazione] {\key{ReazioneID}} edge (reazione);
-
+	\node[attribute] (id) [above of = reparto] {\key{ID}} edge (reparto);
+	\node[attribute] (nome) [above left = 1cm of reparto] {Nome} edge (reparto);
+	\node[attribute] (identificativo) [above right = 1cm of reparto] {Identificativo} edge (reparto);
+	\node[attribute] (descrizione) [left = 1cm of reparto] {Descrizione} edge (reparto);
+	\node[attribute] (timestamp) [right = 1cm of reparto] {Timestamp} edge (reparto);				
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
 
-\begin{itemize}
-\item \textit{ReazioneID}: identificativo numerico della reazione.
-\item \textit{UserID}: identificativo dell'utente che mette la reazione.
-\item \textit{PostID}: identificativo del post sul quale viene messa una reazione.
-\item \textit{Attivo}: flag booleano che indica se ila reazione è attiva (1) o è stata cancellata (0).
-\end{itemize}
-
-\subsection{Notifica}
-
+\subsection{Sala}
 \begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
@@ -408,28 +300,91 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 	node distance=7em,
 	scale=0.8, transform shape] 
 	
-	\node[entity] (notifica) {Notifica};
+	\node[entity] (sala) {Sala};
 	
-	\node[attribute] (userid) [above left of=notifica] {UserID} edge (notifica); %modificare
-	\node[attribute] (tipo) [above of=notifica] {Tipo} edge (notifica);
-	\node[attribute] (tipo_id) [above right of=notifica] {TipoID} edge (notifica);
-	\node[attribute] (id) [below left of = notifica] {\key{NotificaID}} edge (notifica); 	
-	\node[attribute] (letta) [below right of=notifica] {Letta} edge (notifica);
+	\node[attribute] (id) [above of = sala] {\key{ID}} edge (sala);
+	\node[attribute] (identificativo) [above left = 1cm of sala] {Identificativo} edge (sala);
+	\node[attribute] (descrizione) [above right = 1cm of sala] {Descrizione} edge (sala);
+	\node[attribute] (timestamp) [left = 1cm of sala] {Timestamp} edge (sala);	
+	\node[attribute] (piano) [right = 1cm of sala] {Piano} edge (sala);				
+\end{tikzpicture}
+\vspace{0.5cm}
+\end{center}
+L'entità \textit{Sala} ha come chiave esterna l'id del reparto alla quale è assegnata.
+
+\subsection{Farmaco}
+\begin{center}
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
 	
+	\node[entity] (farmaco) {Farmaco};
+	
+	\node[attribute] (id) [above of = farmaco] {\key{ID}} edge (farmaco);
+	\node[attribute] (nome) [above left = 1cm of sala] {Nome} edge (farmaco);
+	\node[attribute] (descrizione) [above right = 1cm of farmaco] {Descrizione} edge (farmaco);
+	\node[attribute] (timestamp) [left = 1cm of farmaco] {Timestamp} edge (farmaco);	
+	\node[attribute] (categoria) [right = 1cm of farmaco] {Categoria} edge (farmaco);				
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
 
-\begin{itemize}
-\item \textit{NotiificaID}: identificativo numerico della notifica.
-\item \textit{Tipo}:
-\item \textit{TipoID}:
-\item \textit{UserID}:
-\item \textit{Letta}:
-\end{itemize}
+\subsection{Prestazione}
+\begin{center}
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+	
+	\node[entity] (prestazione) {Prestazione};
+	
+	\node[attribute] (id) [below right = 1cm of prestazione] {\key{ID}} edge (prestazione);
+	\node[attribute] (effettuata) [above left = 1cm of prestazione] {Effettuata} edge (prestazione);
+	\node[attribute] (note) [right = 1cm of prestazione] {Note} edge (prestazione);
+	\node[attribute] (attivo) [left = 1cm of prestazione] {Attivo} edge (prestazione);	
+	\node[attribute] (timestamp) [above right = 1cm of prestazione] {Timestamp} edge (prestazione);	
+	\node[attribute] (identificativo) [below left = 1cm of prestazione] {Identificativo} edge (prestazione);			
+\end{tikzpicture}
+\vspace{0.5cm}
+\end{center}
 
-\subsection{Gruppo}
-Entità da aggiungere
+\subsection{Referto}
+\begin{center}
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+	
+	\node[entity] (referto) {Referto};
+	
+	\node[attribute] (note) [above of = referto] {Note} edge (referto);
+	\node[attribute] (esito) [above right = 1cm of farmaco] {Esito} edge (referto);
+	\node[attribute] (timestamp) [above left = 1cm of referto] {Timestamp} edge (referto);				
+\end{tikzpicture}
+\vspace{0.5cm}
+\end{center}
+L'entità \textit{Referto} è una entità debole, collegata a prestazione. Infatti non ha chiave primaria ed ha come chiavi esterne l'id del paziente e l'id della prestazione alla quale fa riferimento.
+
+%\node[isa] (isa1) [below = of student, node %distance=5em] {ISA} edge node [auto,swap] %{disjoint} (student)
+
+
+
 
 
 
