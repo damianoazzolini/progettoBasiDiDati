@@ -16,6 +16,6 @@ class CreateTableFarmaco extends Migration {
     }
 
     public function down() {
-        Schema::dropIfExists('qualifica');
+        Schema::dropIfExists('farmaco');
     }
 }
