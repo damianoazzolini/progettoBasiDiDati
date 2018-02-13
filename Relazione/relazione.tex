@@ -19,6 +19,8 @@
 \usetikzlibrary{mindmap,trees}
 \usepackage{pgfplots} %per istorgrammi
 
+\usepackage{float}
+
 \usepackage{pdflscape}
 
 %%% Custom sectioning
@@ -73,7 +75,7 @@
 		\normalfont \normalsize \textsc{Universit\`a degli Studi di Ferrara \\ Ingegneria Informatica e dell'Automazione
 			\\ Basi di Dati} \\ [25pt]
 		\horrule{0.5pt} \\[0.4cm]
-		\Huge Realizzazione Database per Social Network \date{}\\%[0.2cm]
+		\Huge Realizzazione Database per Ospedale \date{}\\%[0.2cm]
 		\horrule{0.5pt} \\[0.4cm]
 		\LARGE Azzolini Damiano - Bertagnon Alessandro \\ [0.4cm]
 		%\normalfont \normalsize Azzolini Damiano, Bertasi Francesco, Decarlo Dario, \\
@@ -443,7 +445,7 @@ Dopo aver completato lo schema ER, è necessario mappare le entità e le relazio
 \item Traduzione di tipi di entità
 \begin{itemize}
 \item Traduzione entità forti.
-\item Traduzione entità deboli.
+\item Traduzione entità deboli e specializzazioni.
 \end{itemize}
 \item Traduzione di tipi di associazioni binarie.
 \begin{itemize}
@@ -455,16 +457,81 @@ Dopo aver completato lo schema ER, è necessario mappare le entità e le relazio
 \item Traduzioni di tipi di associazione N-arie.
 \end{itemize}
 
-\subsection{Traduzione entità forti}
+\section{Traduzione entità forti}
+Le entità forti presenti nello schema sono:
+\begin{itemize}
+\item Utente
+\item Farmaco
+\item Reparto
+\item Sala
+\item Prestazione
+\end{itemize}
+Le chiavi primarie sono evidenziate in giallo, le chiavi esterne in verde e gli attributi unici in azzurro. La loro rappresentazione è la seguente:
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4]{utenteSchema}
+\end{center}
+\end{figure}
 
-\subsection{Traduzione entità deboli}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4]{farmacoSchema}
+\end{center}
+\end{figure}
 
-\subsection{Traduzioni associazioni 1:1}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4]{repartoSchema}
+\end{center}
+\end{figure}
 
-\subsection{Traduzioni associazioni 1:N}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4]{salaSchema}
+\end{center}
+\end{figure}
 
-\subsection{Traduzioni associazioni N:M}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4]{prestazioneSchema}
+\end{center}
+\end{figure}
 
+\section{Traduzione entità deboli e specializzazioni}
+Nello schema è presente un'unica entità debole: \textit{Referto}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4]{refertoSchema}
+\end{center}
+\end{figure}
+
+Le specializzazioni di \textit{Utente} (\textit{Paziente} e \textit{Staff}) sono rappresentate nel modo seguente:
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4]{pazienteSchema}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4]{staffSchema}
+\end{center}
+\end{figure}
+
+\section{Traduzioni associazioni 1:1}
+L'unica relazione \textit{1:1} è \textit{Emette}, che collega \textit{Prestazione} a \textit{Referto}. Essendo \textit{Referto} una entità debole collegata a \textit{Prestazione}, in \textit{Referto} viene inserita la chiave primaria di \textit{Referto}. 
+
+\section{Traduzioni associazioni 1:N}
+Per tradurre una associazione \textit{1:N}, nel lato \textit{N} viene inserita la chiave primaria dell'entità lato \textit{1}. In questo caso sono quindi state inserite le seguenti chiavi:
+\begin{itemize}
+\item \textit{id} di \textit{Paziente} in \textit{Referto}.
+\item \textit{id} di \textbf{Paziente} in \textit{Prestazione}.
+\item \textit{id} di \textit{Reparto} in \textit{Staff}.
+\item \textit{id} di \textit{Reparto} in \textit{Sala}.
+\item \textit{id} di \textit{Sala} in \textit{Prestazione}.
+\end{itemize}
+
+\section{Traduzioni associazioni N:M}
 Per ogni associazione \textit{N:M} è stata creata una nuova tabella nel database, in particolare:
 \begin{itemize}
 \item StaffPrestazione: contiene, come chiavi esterne, le chiavi primarie delle tabelle \textit{Staff} e \textit{Prestazione}.
@@ -472,10 +539,32 @@ Per ogni associazione \textit{N:M} è stata creata una nuova tabella nel databas
 \item PrestazioneFarmaco: contiene, come chiavi esterne, le chiavi primarie delle tabelle \textit{Prestazione} e \textit{Farmaco}.
 \end{itemize}
 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4]{staffPrestazioneSchema}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4]{pazienteFarmacoSchema}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4]{farmacoPrestazioneSchema}
+\end{center}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Normalizzazione}
 
-
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.85]{schema_relazionale}
+\end{center}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% NORMALIZZAZIONE
 
