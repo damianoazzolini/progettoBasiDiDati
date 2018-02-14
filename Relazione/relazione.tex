@@ -130,8 +130,8 @@ La clinica in questione eroga diversi tipi di \textbf{prestazioni} ai suoi utent
 
 L'utente \textbf{PAZIENTE} potrà:
 \begin{itemize}
-\item Registrarsi sulla piattaforma e fare il login. Modificare il proprio profilo.
-\item Aggiungere/rimuovere i farmaci che assume regolarmente.
+\item Registrarsi sulla piattaforma, fare il login e modificare il proprio profilo.
+\item Aggiungere/Rimuovere i farmaci che assume regolarmente.
 \item Visionare le prestazioni effettuate con i referti corrispondenti.
 \end{itemize}
 
@@ -458,6 +458,7 @@ Dopo aver completato lo schema ER, è necessario mappare le entità e le relazio
 \end{itemize}
 
 \section{Traduzione entità forti}
+Per ogni tipo di entità forte E nello schema ER, viene costruita una relazione R che contiene tutti gli attributi semplice di E. Di un attributo composto vanno inseriti solamente gli attributi componenti semplici. Come chiave primaria viene scelto uno degli attributi chiavi di E.
 Le entità forti presenti nello schema sono:
 \begin{itemize}
 \item Utente
@@ -498,12 +499,14 @@ Le chiavi primarie sono evidenziate in giallo, le chiavi esterne in verde e gli 
 \end{figure}
 
 \section{Traduzione entità deboli e specializzazioni}
+Per ogni tipo di entità debole W dello scema ER con entità proprietaria E, viene costruita una relazione R che ha come attributi, tutti gli attributi semplici di W. Inoltre vengono inseriti come attributi di chiave esterna in R, le chiavi primarie delle relazioni proprietari. La chiave primaria di R è data dalla combinazione della chiave primaria delle varie entità proprietarie e dell'eventuale chiave parziale dell'entità debole W.
 Nello schema è presente un'unica entità debole: \textit{Referto}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.4]{refertoSchema}
 \end{center}
 \end{figure}
+Gli attributi \textit{idPrestazione} e \textit{idPaziente} sono rispettivamente le chiavi primarie di \textit{Prestazione} e \textit{Paziente}, entità proprietarie di \textit{Referto}. La chiave primaria di \textit{Referto} è quindi la combinazione di \textit{idPrestazione} e \textit{idPaziente} (\textit{Referto} non ha chiave parziale).\\
 
 Le specializzazioni di \textit{Utente} (\textit{Paziente} e \textit{Staff}) sono rappresentate nel modo seguente:
 \begin{figure}[H]
@@ -522,7 +525,7 @@ Le specializzazioni di \textit{Utente} (\textit{Paziente} e \textit{Staff}) sono
 L'unica relazione \textit{1:1} è \textit{Emette}, che collega \textit{Prestazione} a \textit{Referto}. Essendo \textit{Referto} una entità debole collegata a \textit{Prestazione}, in \textit{Referto} viene inserita la chiave primaria di \textit{Referto}. 
 
 \section{Traduzioni associazioni 1:N}
-Per tradurre una associazione \textit{1:N}, nel lato \textit{N} viene inserita la chiave primaria dell'entità lato \textit{1}. In questo caso sono quindi state inserite le seguenti chiavi:
+Per ogni associazione R binaria del tipo \textit{1:N} nello schema ER, vengono individuate le due relazioni corrispondenti alle due entità partecipanti. Viene quindi inserita nel lato \textit{N}, la chiave primaria della relazione lato \textit{1}. In questo caso sono quindi state inserite le seguenti chiavi:
 \begin{itemize}
 \item \textit{id} di \textit{Paziente} in \textit{Referto}.
 \item \textit{id} di \textbf{Paziente} in \textit{Prestazione}.
@@ -532,7 +535,8 @@ Per tradurre una associazione \textit{1:N}, nel lato \textit{N} viene inserita l
 \end{itemize}
 
 \section{Traduzioni associazioni N:M}
-Per ogni associazione \textit{N:M} è stata creata una nuova tabella nel database, in particolare:
+Per ogni associazione binaria R del tipo \textit{N:M}, viene costruita una nuova relazione S che la rappresenta. Come attributi di chiave esterna si S, vengono inserite le chiavi primarie delle relazioni rappresentanti le entità partecipanti: la combinazione di queste due chiavi forma la chiave primaria di S. In particolare:
+
 \begin{itemize}
 \item StaffPrestazione: contiene, come chiavi esterne, le chiavi primarie delle tabelle \textit{Staff} e \textit{Prestazione}.
 \item PazienteFarmaco: contiene, come chiavi esterne, le chiavi primarie delle tabelle \textit{Paziente} e \textit{Farmaco}.
@@ -557,9 +561,27 @@ Per ogni associazione \textit{N:M} è stata creata una nuova tabella nel databas
 \end{center}
 \end{figure}
 
+
+Per ogni associazione \textit{N:M} viene quindi creata una nuova tabella nel database.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Normalizzazione}
-
+Il processo di normalizzazione si basa su una serie di test che verificano se uno schema di relazione soddisfa una determinata \textit{forma normale}. Esistono diversi tipi di forma normale:
+\begin{itemize}
+\item Prima forma normale (1NF).
+\item Seconda forma normale (2NF).
+\item Terza forma normale (3NF).
+\item Forma normale di Boyce e Codd.
+\item Quarta forma normale (4NF).
+\item Quinta forma normale.
+\end{itemize}
+L'obiettivo della normalizzazione dei dati è quello di minimizzare la ridondanza e le anomalie dovute all'inserimento, cancellazione o modifica dei dati nel database. Questa caratteristica si ottiene attraverso una analisi degli schemi forniti e una decomposizione degli schemi che non soddisfano certe condizioni, in schemi più piccoli (che verificano le proprietà desiderate). In questa applicazione, si raggiunge solamente la terza forma normale.
+\\
+La \textit{prima forma normale} richiede che il dominio di un attributo contenga solamente valori indivisibili e che il valore di un qualsiasi attributo in una tupla sia un valore singolo del dominio. Lo schema presentato è già in prima forma normale.
+\\
+Per soddisfare la \textit{seconda forma normale}, nello schema di relazione R, ogni attributo non primo di R (quindi non fa parte di una chiave candidata) deve dipendete funzionalmente in modo completo dalla chiave primaria di R. La definizione di dipendenza funzionale completa è le seguente: una dipendenza funzionale $X \rightarrow Y$ si dice \textit{dipendenza funzionale completa} se la rimozione di un qualsiasi attributo A da X, comporta che la dipendenza funzionale non sussista più. Per ottenere la seconda forma normale, si decompone la relazione principale R in un certo numero di relazioni nelle quali gli attributi non primi sono associati solamente alla parte della chiave primaria da cui sono funzionalmente dipendenti in modo completo.
+\\
+Uno schema di relazione R è in terza forma normale se soddisfa la seconda forma normale e nessun attributo non primo di R dipende in modo transitivo dalla chiave primaria.
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.85]{schema_relazionale}
