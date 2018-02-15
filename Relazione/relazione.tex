@@ -126,7 +126,7 @@ Il progetto di basa sulla realizzazione di una applicazione web per la gestione 
 \item amministratore
 \end{itemize}  
 
-La clinica in questione eroga diversi tipi di \textbf{prestazioni} ai suoi utenti, ad esempio: visite specialistiche, esami diagnostici, day surgery e terapie. Ogni prestazione può essere effettuata da uno o più membri dello \textbf{staff} (a seconda della complessità) in una delle \textbf{sale} della clinica. Al termine di ogni prestazione il medico compila un \textbf{referto} corrispondete alla prestazione appena effettuata. Il sistema deve anche gestire i \textbf{farmaci} assunti dagli utenti e utilizzati durante le prestazioni. Per motivi di organizzazione interna ogni membro del personale e ogni sala afferisce a uno specifico \textbf{reparto} della clinica. Più in dettaglio:\\
+La clinica in questione eroga diversi tipi di \textbf{prestazioni} ai suoi utenti, ad esempio: visite specialistiche, esami diagnostici, day surgery e terapie. Ogni prestazione può essere effettuata da uno o più membri dello \textbf{staff} (a seconda della complessità) in una delle \textbf{sale} della clinica. Al termine di ogni prestazione il medico compila un \textbf{referto} corrispondete alla prestazione appena effettuata. Il sistema deve anche gestire i \textbf{farmaci} assunti dagli utenti e utilizzati durante le prestazioni. Per motivi di organizzazione interna ogni membro del personale e ogni sala afferisce a uno specifico \textbf{reparto} della clinica. Ad ogni utente sono associati dei \textbf{permessi}, ovvero  azioni che esso può svolgere sulla piattaforma, i permessi di base assegnati a ciascun utente dipendono dalla tipologia dello stesso e sono:\\
 
 L'utente \textbf{PAZIENTE} potrà:
 \begin{itemize}
@@ -163,8 +163,6 @@ L'utente \textbf{IMPIEGATO} potrà:
 		\item Modificare lo stipendio dei vari membri dello staff.
 		\item Modificare il reparto di appartenenza.
 	\end{itemize}
-	
-\item Aggiungere/Modificare/Cancellare le tipologie di prestazioni. 
 \item Aggiungere/Modificare/Cancellare i farmaci nella lista della farmacia.
 \end{itemize}
 
@@ -176,7 +174,7 @@ L'utente \textbf{AMMINISTRATORE} potrà:
 \item Aggiungere/Modificare/Cancellare le sale della clinica.
 \item Aggiungere/Modificare/Cancellare i reparti della clinica.
 \item Gestire tutta la base utenti.
-\item Aggiungere/Rimuovere i singoli ruoli (permessi) agli utenti.
+\item Aggiungere/Rimuovere i singoli permessi agli utenti.
 \end{itemize}
 
 \section{Entità}
@@ -362,7 +360,7 @@ L'entità \textit{Sala} rappresenta le varie sale disponibili nell'ospedale. Ha 
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Farmaco} rappresenta ciascun farmaco che viene assunto dal paziente (eventualmente anche prima di essere diventato un paziente dell'ospedale). I farmaci possono essere prescritti a seguito di una \textit{Prestazione} attraverso un \textit{Referto}. Ciascun \textit{Farmaco} è caratterizzato da una categoria (salvavita, pressione, ecc) ed include un campo di testo \textit{Descrizione} dove può essere inserita la posologia.
+L'entità \textit{Farmaco} rappresenta ciascun farmaco che viene assunto dal paziente. I farmaci possono essere inseriti direttamente dal paziente nel profilo (farmaci assunti regolarmente dovuti a prescrizioni esterne all'ospedale) oppure prescritti a seguito di una \textit{Prestazione} attraverso un \textit{Referto}. Ciascun \textit{Farmaco} è caratterizzato da una categoria (salvavita, pressione, ecc) ed include un campo di testo \textit{Descrizione} dove può essere inserita la posologia.
 
 \subsection{Prestazione}
 \begin{center}
@@ -409,7 +407,7 @@ L'entità \textit{Prestazione} rappresenta una prestazione effettuata all'intern
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Referto} è una entità debole, collegata a prestazione. Infatti non ha chiave primaria ed ha come chiavi esterne l'\textit{ID} del paziente e l'\textit{ID} della prestazione alla quale fa riferimento.
+L'entità \textit{Referto} è una entità debole, collegata a prestazione. \textit{Referto} è stato introdotto come entità debole in quanto non può esistere senza una corrispondente prestazione.
 
 \subsection{Permesso}
 \begin{center}
@@ -439,7 +437,7 @@ L'entità \textit{Permesso} identifica i permessi sull'applicazione concessi ad 
 Le associazioni rappresentano i vari legami che intercorrono tra le varie entità. Sono le seguenti
 \begin{itemize}
 \item Utilizza: associazione \textit{N:M} tra \textit{Paziente} e \textit{Farmaco}: un \textit{Paziente} può utilizzare diversi farmaci e analogamente un \textit{Farmaco} può essere utilizzato da diversi pazienti.
-\item Riguarda: relazione \textit{1:N} tra \textit{Paziente} e \textit{Referto}: un \textit{Paziente} può avere associati ad esso diversi referti ma uno specifico \textit{Referto} è associato ad un solo paziente. Inoltre un referto deve essere necessariamente essere associato ad un paziente, infatti nello schema ER è legato da un vincolo di partecipazione totale.
+\item Riguarda: relazione \textit{1:N} tra \textit{Paziente} e \textit{Referto}: un \textit{Paziente} può avere associati ad esso diversi referti ma uno specifico \textit{Referto} è associato ad un solo paziente. Inoltre un referto deve essere necessariamente essere associato ad un paziente, infatti nello schema ER è legato da un vincolo di partecipazione totale. Questa associazione è stata introdotta per ridondanza (vedi l'associazione \textit{Emette} tra \textit{Referto} e \textit{Prestazione})
 \item Ottiene: relazione \textit{1:N} tra \textit{Paziente} e \textit{Prestazione}: un \textit{Paziente} può ottenere diverse prestazioni, ma una specifica \textit{Prestazione} deve essere associata univocamente ad un utente, viene quindi rappresentata con un vincolo di partecipazione totale.
 \item Effettua: relazione \textit{M:N} tra \textit{Staff} e \textit{Prestazione}: un membro di uno \textit{Staff} può effettuare più prestazioni e ciascuna \textit{Prestazione} può essere effettuata da più membri dello staff (si pensi per esempio ad una operazione chirurgica che coinvolge diversi membri dello staff come anestesista e chirurgo). \textit{Prestazione} ha un vincolo di partecipazione totale.
 \item Appartiene: relazione \textit{N:1} tra \textit{Staff} e \textit{Reparto}: un membro dello \textit{Staff} deve appartenere necessariamente (vincolo di partecipazione totale) ad un solo reparto ma un \textit{Reparto} comprende più membri dello staff.
@@ -711,7 +709,7 @@ Di seguito lo schema completo in \textit{terza forma normale}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%% CODICE SQL
 \chapter{Codice SQL}
 \section{Introduzione}
-L'intero progetto è stato sviluppato utilizzando il framework \textit{laravel}. Le tabelle del database sono state create utilizzando le \texttt{migration}. Per ogni tabella del database è stato eseguito il comando \texttt{php artisan make:migration create\_table\_nomeTabella}. Questo comando genera una classe \texttt{migration} all'interno del file \texttt{create\_table\_nomeTabella.php} nella quale sono definiti i metodi \texttt{up()} e \texttt{down()}. All'interno di \texttt{up()} vengono inseriti tutti i comandi per la creazione delle tabelle. Generate le migrations per tutte le tabelle, il comando \texttt{php artisan migrate} traduce i comandi specificati nel metodo \texttt{up}, in comandi SQL per la creazione delle tabelle. Di seguito viene riportato il codice SQL generato dalle migrations.
+L'intero progetto è stato sviluppato utilizzando il framework php \textit{Laravel}. Le tabelle del database sono state create utilizzando le \texttt{migration}. Per ogni tabella del database è stato eseguito il comando \texttt{php artisan make:migration create\_table\_nomeTabella}. Questo comando genera una classe \texttt{migration} all'interno del file \texttt{create\_table\_nomeTabella.php} nella quale sono definiti i metodi \texttt{up()} e \texttt{down()}. All'interno di \texttt{up()} vengono inseriti tutti i comandi per la creazione delle tabelle. Generate le migrations per tutte le tabelle, il comando \texttt{php artisan migrate} traduce i comandi specificati nel metodo \texttt{up}, in comandi SQL per la creazione delle tabelle. Di seguito viene riportato il codice SQL generato dalle migrations.
 \section{Codice}
 \begin{verbatim}
 UTENTE
