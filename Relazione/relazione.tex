@@ -314,7 +314,7 @@ Le entità \textit{Paziente} e \textit{Staff} sono disgiunte: non può esistere 
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-\textit{Reparto} caratterizza un particolare reparto dell'ospedale (cardiologia, pneumologia, ecc) attraverso l'attributo \textit{Nome}. Tuttavia ogni reparto è caratterizzato anche da un \textit{ID} unico. 
+\textit{Reparto} caratterizza un particolare reparto dell'ospedale (cardiologia, pneumologia, ecc) attraverso l'attributo \textit{Nome}. Inoltre ogni reparto è caratterizzato anche da un \textit{ID} unico. 
 
 \subsection{Sala}
 \begin{center}
@@ -338,7 +338,7 @@ Le entità \textit{Paziente} e \textit{Staff} sono disgiunte: non può esistere 
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Sala} rappresenta le varie sale disponibili nell'ospedale e ha come chiave esterna l'\textit{ID} del reparto alla quale è assegnata. 
+L'entità \textit{Sala} rappresenta le varie sale disponibili nell'ospedale. Ha come chiave esterna l'\textit{ID} del reparto alla quale è assegnata. 
 
 \subsection{Farmaco}
 \begin{center}
@@ -411,6 +411,28 @@ L'entità \textit{Prestazione} rappresenta una prestazione effettuata all'intern
 \end{center}
 L'entità \textit{Referto} è una entità debole, collegata a prestazione. Infatti non ha chiave primaria ed ha come chiavi esterne l'\textit{ID} del paziente e l'\textit{ID} della prestazione alla quale fa riferimento.
 
+\subsection{Permesso}
+\begin{center}
+\vspace{0.5cm}
+\begin{tikzpicture}[
+	%->, frecce orietate
+	%>=stealth',
+  %	%shorten >=1pt,
+  	auto,	
+  	semithick, %linee più spesse
+	node distance=7em,
+	scale=0.8, transform shape] 
+	
+	\node[entity] (permesso) {Permesso};
+	
+	\node[attribute] (id) [right of = permesso] {\key{ID}} edge (permesso);
+	\node[attribute] (nome) [left of = permesso] {Nome} edge (permesso);
+	\node[attribute] (descrizione) [above right of = permesso] {Descrizione} edge (permesso);
+	\node[attribute] (timestamp) [above left = 1cm of permesso] {Timestamp} edge (permesso);				
+\end{tikzpicture}
+\vspace{0.5cm}
+\end{center}
+L'entità \textit{Permesso} identifica i permessi sull'applicazione concessi ad un determinato utente.
 %\node[isa] (isa1) [below = of student, node %distance=5em] {ISA} edge node [auto,swap] %{disjoint} (student)
 
 \section{Associazioni}
@@ -466,6 +488,7 @@ Le entità forti presenti nello schema sono:
 \item Reparto
 \item Sala
 \item Prestazione
+\item Permesso
 \end{itemize}
 Le chiavi primarie sono evidenziate in giallo, le chiavi esterne in verde e gli attributi unici in azzurro. La loro rappresentazione è la seguente:
 \begin{figure}[H]
@@ -498,6 +521,12 @@ Le chiavi primarie sono evidenziate in giallo, le chiavi esterne in verde e gli 
 \end{center}
 \end{figure}
 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4]{permessiSchema}
+\end{center}
+\end{figure}
+
 \section{Traduzione entità deboli e specializzazioni}
 Per ogni tipo di entità debole W dello scema ER con entità proprietaria E, viene costruita una relazione R che ha come attributi, tutti gli attributi semplici di W. Inoltre vengono inseriti come attributi di chiave esterna in R, le chiavi primarie delle relazioni proprietari. La chiave primaria di R è data dalla combinazione della chiave primaria delle varie entità proprietarie e dell'eventuale chiave parziale dell'entità debole W.
 Nello schema è presente un'unica entità debole: \textit{Referto}
@@ -521,6 +550,8 @@ Le specializzazioni di \textit{Utente} (\textit{Paziente} e \textit{Staff}) sono
 \end{center}
 \end{figure}
 
+dove \textit{id} rappresenta, sia per \textit{Paziente} che per \textit{Staff}, l'identificativo dell'utente (chiave primaria della tabella \textit{Utente}). In \textit{Staff} è stata anche inserita, come chiave esterna (a causa della relazione \textit{N:1} che lega \textit{Staff} a \textit{Reparto}) la chiave primaria di \textit{Reparto} (i.e. \textit{idReparto}). 
+
 \section{Traduzioni associazioni 1:1}
 L'unica relazione \textit{1:1} è \textit{Emette}, che collega \textit{Prestazione} a \textit{Referto}. Essendo \textit{Referto} una entità debole collegata a \textit{Prestazione}, in \textit{Referto} viene inserita la chiave primaria di \textit{Referto}. 
 
@@ -528,7 +559,7 @@ L'unica relazione \textit{1:1} è \textit{Emette}, che collega \textit{Prestazio
 Per ogni associazione R binaria del tipo \textit{1:N} nello schema ER, vengono individuate le due relazioni corrispondenti alle due entità partecipanti. Viene quindi inserita nel lato \textit{N}, la chiave primaria della relazione lato \textit{1}. In questo caso sono quindi state inserite le seguenti chiavi:
 \begin{itemize}
 \item \textit{id} di \textit{Paziente} in \textit{Referto}.
-\item \textit{id} di \textbf{Paziente} in \textit{Prestazione}.
+\item \textit{id} di \textit{Paziente} in \textit{Prestazione}.
 \item \textit{id} di \textit{Reparto} in \textit{Staff}.
 \item \textit{id} di \textit{Reparto} in \textit{Sala}.
 \item \textit{id} di \textit{Sala} in \textit{Prestazione}.
@@ -541,6 +572,7 @@ Per ogni associazione binaria R del tipo \textit{N:M}, viene costruita una nuova
 \item StaffPrestazione: contiene, come chiavi esterne, le chiavi primarie delle tabelle \textit{Staff} e \textit{Prestazione}.
 \item PazienteFarmaco: contiene, come chiavi esterne, le chiavi primarie delle tabelle \textit{Paziente} e \textit{Farmaco}.
 \item PrestazioneFarmaco: contiene, come chiavi esterne, le chiavi primarie delle tabelle \textit{Prestazione} e \textit{Farmaco}.
+\item PermessoUtente: contiene, come chiavi esterne, le chiavi primarie delle tabelle \textit{Permesso} e \textit{Utente}.
 \end{itemize}
 
 \begin{figure}[H]
@@ -561,6 +593,11 @@ Per ogni associazione binaria R del tipo \textit{N:M}, viene costruita una nuova
 \end{center}
 \end{figure}
 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.4]{permessiUtenteSchema}
+\end{center}
+\end{figure}
 
 Per ogni associazione \textit{N:M} viene quindi creata una nuova tabella nel database.
 
@@ -674,7 +711,7 @@ Di seguito lo schema completo in \textit{terza forma normale}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%% CODICE SQL
 \chapter{Codice SQL}
 \section{Introduzione}
-Come detto nella descrizione, l'intero progetto è stato sviluppato utilizzando il framework \textit{laravel}. Le tabelle del database sono state create utilizzando le \texttt{migration}. Per ogni tabella del database è stato eseguito il comando \texttt{php artisan make:migration create\_table\_nomeTabella}. Questo comando genera una classe \texttt{migration} all'interno del file \texttt{create\_table\_nomeTabella.php} nella quale sono definiti i metodi \texttt{up()} e \texttt{down()}. All'interno di \texttt{up()} vengono inseriti tutti i comandi per la creazione delle tabelle. Generate le migrations per tutte le tabelle, il comando \texttt{php artisan migrate} traduce i comandi specificati nel metodo \texttt{up}, in comandi SQL per la creazione delle tabelle. Di seguito viene riportato il codice SQL generato dalle migrations.
+L'intero progetto è stato sviluppato utilizzando il framework \textit{laravel}. Le tabelle del database sono state create utilizzando le \texttt{migration}. Per ogni tabella del database è stato eseguito il comando \texttt{php artisan make:migration create\_table\_nomeTabella}. Questo comando genera una classe \texttt{migration} all'interno del file \texttt{create\_table\_nomeTabella.php} nella quale sono definiti i metodi \texttt{up()} e \texttt{down()}. All'interno di \texttt{up()} vengono inseriti tutti i comandi per la creazione delle tabelle. Generate le migrations per tutte le tabelle, il comando \texttt{php artisan migrate} traduce i comandi specificati nel metodo \texttt{up}, in comandi SQL per la creazione delle tabelle. Di seguito viene riportato il codice SQL generato dalle migrations.
 \section{Codice}
 \begin{verbatim}
 UTENTE
@@ -762,13 +799,45 @@ CREATE TABLE referto (
         note TEXT,
         timestamp TIMESTAMP
 );
+
+PERMESSO
+CREATE TABLE permesso (
+        id INT AUTO_INCREMENT PRIMARY_KEY,
+        nome VARCHAR(255) NOT NULL,
+        descrizione TEXT NOT NULL,
+        timestamp TIMESTAMP
+);
+
+STAFF_PRESTAZIONE
+CREATE TABLE staff_prestazione (
+        idPrestazione INT FOREGIN_KEY REFERENCES prestazione(id),
+        idStaff INT FOREGIN_KEY REFERENCES staff(id),
+        timestamp TIMESTAMP
+);
+
+PAZIENTE_FARMACO
+CREATE TABLE paziente_farmaco (
+        idPaziente INT FOREGIN_KEY REFERENCES paziente(id),
+        idFarmaco INT FOREGIN_KEY REFERENCES farmaco(id),
+        timestamp TIMESTAMP
+);
+
+FARMACO_PRESTAZIONE
+CREATE TABLE farmaco_prestazione (
+        idPrestazione INT FOREGIN_KEY REFERENCES prestazione(id),
+        idFarmaco INT FOREGIN_KEY REFERENCES farmaco(id),
+        timestamp TIMESTAMP
+);
+
 \end{verbatim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% INTERROGAZIONI
 \chapter{Query}
+La parte relativa alle query verrà inserita non appena il sistema sarà terminato.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% INTERFACCIA
 \chapter{Interfaccia}
+La parte relativa all'interfaccia verrà inserita non appena il sistema sarà terminato.
 
 %%%%%%%%%%%%%%%%%%%%%%%%% BIBLIOGRAFIA
 
