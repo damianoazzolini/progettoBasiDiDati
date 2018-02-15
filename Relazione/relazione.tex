@@ -221,9 +221,8 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Utente} contiene tutte le informazioni riguardo alle persone che usufruiscono di un servizio ospedaliero, sia che siano componenti dello staff che pazienti. Ogni utente è caratterizzato in maniera univoca da un \textit{ID}. Il contenuto degli attributi \textit{email} e \textit{C.F.} (codice fiscale) deve essere unico (non possono esserci due utenti con lo stesso valore nel campo \textit{mail} e/o \textit{C.F.}). L'attributo \textit{Attivo} viene utilizzato per indicare se un utente è attivo oppure no (l'utente ha la possibilità di cancellarsi dall'ospedale, tuttavia non viene eliminata la riga corrispondente dal database, ma viene impostato a 0 l'attributo \textit{attivo}).
+L'entità \textit{Utente} contiene tutte le informazioni riguardo alle persone che usufruiscono di un servizio ospedaliero, sia che siano componenti dello staff che pazienti. Ogni utente è caratterizzato in maniera univoca da un \textit{ID}. Il contenuto degli attributi \textit{email} e \textit{C.F.} (codice fiscale) deve essere unico (non possono esserci due utenti con lo stesso valore nel campo \textit{mail} e/o \textit{C.F.}). L'attributo \textit{Attivo} viene utilizzato per indicare se un utente è attivo oppure no (l'utente ha la possibilità di cancellarsi dall'ospedale, tuttavia non viene eliminata la riga corrispondente dal database, ma viene impostato a 0 l'attributo \textit{attivo}). L'utente presenta due sottoclassi: \textit{Paziente} e \textit{Staff}:
 
-\subsection{Paziente}
 \begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
@@ -244,9 +243,8 @@ L'entità \textit{Utente} contiene tutte le informazioni riguardo alle persone c
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Paziente} è una specializzazione della entità \textit{Utente}. Ha come chiave esterna l'\textit{ID} dell'utente al quale si riferisce e presenta anche un attributo \textit{note} per eventuali informazioni aggiuntive.
+La sottoclasse \textit{Paziente} è una specializzazione della entità \textit{Utente}. Presenta un attributo \textit{note} per eventuali informazioni aggiuntive.
 
-\subsection{Staff}
 \begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
@@ -266,9 +264,8 @@ L'entità \textit{Paziente} è una specializzazione della entità \textit{Utente
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Staff}, analogamente ad \textit{Paziente}, è una specializzazione di \textit{Utente}. Ha come chiave esterna l'\textit{ID} dell'utente al quale si riferisce e il reparto di appartenenza. Inoltre presenta un attributo \textit{Identificativo} per specificarne la funzione.
+La sottoclasse \textit{Staff}, analogamente a \textit{Paziente}, è una specializzazione di \textit{Utente}. Ha due attributi aggiuntivi: \textit{Identificativo} per specificarne la funzione e \textit{Stipendio} per specificare il compenso dell'operatore.
 
-\subsection{Utente - Paziente - Staff}
 \begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
@@ -288,7 +285,7 @@ L'entità \textit{Staff}, analogamente ad \textit{Paziente}, è una specializzaz
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-Le entità \textit{Paziente} e \textit{Staff} sono disgiunte: non può esistere un \textit{Utente} nel database che appartenga sia a \textit{Paziente} che \textit{Staff}.
+\textit{Paziente} e \textit{Staff} sono disgiunte: non può esistere un \textit{Utente} nel database che appartenga sia a \textit{Paziente} che \textit{Staff}.
 
 \subsection{Reparto}
 \begin{center}
@@ -824,6 +821,14 @@ FARMACO_PRESTAZIONE
 CREATE TABLE farmaco_prestazione (
         idPrestazione INT FOREGIN_KEY REFERENCES prestazione(id),
         idFarmaco INT FOREGIN_KEY REFERENCES farmaco(id),
+        timestamp TIMESTAMP
+);
+
+PERMESSO_UTENTE
+CREATE TABLE permesso_utente (
+ 		id INT AUTO_INCREMENT PRIMARY_KEY,
+        idPermesso INT FOREGIN_KEY REFERENCES permesso(id),
+        idUtente INT FOREGIN_KEY REFERENCES utente(id),
         timestamp TIMESTAMP
 );
 
