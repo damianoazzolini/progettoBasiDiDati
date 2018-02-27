@@ -740,11 +740,11 @@ CREATE TABLE paziente (
 
 REPARTO
 CREATE TABLE reparto (
-	id INT PRIMARY_KEY,
-    nome VARCHAR(255) NOT_NULL, 
-    identificativo VARCHAR(255) NOT NULL,
-    descrizione TEXT,
-    timestamp TIMESTAMP, 
+	    id INT PRIMARY_KEY,
+        nome VARCHAR(255) NOT_NULL, 
+        identificativo VARCHAR(255) NOT NULL,
+        descrizione TEXT,
+        timestamp TIMESTAMP, 
 );
 
 SALA
@@ -759,7 +759,7 @@ CRATE TABLE sala (
 STAFF
 CREATE TABLE staff (
         id INT FOREGIN_KEY REFERENCES utente(id),
-        idReparto INT FOREGIN_KEY REFERENCES utente(idReparto),
+        idReparto INT FOREGIN_KEY REFERENCES reparto(id),
         identificativo VARCHAR(255) NOT NULL,
         contenuto TETX NOT_NULL,
         timestamp TIMESTAMP
@@ -777,7 +777,8 @@ CREATE TABLE farmaco (
 PRESTAZIONE
 CREATE TABLE prestazione (
         id INT AUTO_INCREMENT PRIMARY_KEY,
-        idReparto INT FOREGIN_KEY REFERENCES reparto(idReparto),
+        idReparto INT FOREGIN_KEY REFERENCES reparto(id),
+        idSala INT FOREGIN_KEY REFERENCES sala(id),
         identificativo VARCHAR(255) NOT NULL,
         note TEXT,
         attivo BIT NOT NULL,
