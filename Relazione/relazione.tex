@@ -103,8 +103,8 @@
 \tableofcontents
 \thispagestyle{empty}
 
-\listoffigures
-\thispagestyle{empty}
+%\listoffigures
+%\thispagestyle{empty}
 
 
 \newpage
@@ -186,6 +186,7 @@ L'utente \textbf{AMMINISTRATORE} potrà:
 \item Aggiungere/Rimuovere i singoli permessi agli utenti.
 \end{itemize}
 
+\newpage
 \section{Entità}
 Di seguito vengono analizzate tutte le entità presenti nel database:
 
@@ -232,7 +233,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 \end{center}
 L'entità \textit{Utente} contiene tutte le informazioni riguardo alle persone che usufruiscono di un servizio ospedaliero, sia che siano componenti dello staff che pazienti. Ogni utente è caratterizzato in maniera univoca da un \textit{ID}. Il contenuto degli attributi \textit{email} e \textit{C.F.} (codice fiscale) deve essere unico (non possono esserci due utenti con lo stesso valore nel campo \textit{mail} e/o \textit{C.F.}). L'attributo \textit{Attivo} viene utilizzato per indicare se un utente è attivo oppure no (operazione di \textit{soft delete}). L'utente presenta due sottoclassi: \textit{Paziente} e \textit{Staff}:
 \begin{itemize}
-\item La sottoclasse \textit{Paziente} che presenta ulteriori attributi quali: \textit{altezza}, \textit{peso} e \textit{note} per eventuali informazioni aggiuntive;
+\item La sottoclasse \textit{Paziente} presenta ulteriori attributi quali: \textit{altezza}, \textit{peso} e \textit{note} per eventuali informazioni aggiuntive;
 \item La sottoclasse \textit{Staff} che possiede due attributi aggiuntivi: \textit{Identificativo} per specificarne la funzione e \textit{Stipendio} per specificare il compenso dell'operatore.
 \end{itemize}
 
@@ -265,6 +266,7 @@ L'entità \textit{Utente} contiene tutte le informazioni riguardo alle persone c
 \vspace{0.5cm}
 \end{center}
 \textit{Paziente} e \textit{Staff} sono disgiunte: non può esistere un \textit{Utente} nel database che appartenga sia a \textit{Paziente} che \textit{Staff}.
+In questo caso la specializzazione è di tipo \textbf{totale} in quanto è presente il \textit{vincolo di completezza} che stabilisce che l'entità della superclasse (\textit{Utente}) deve essere membro di almeno una sottoclasse.
 
 \subsection{Reparto}
 \begin{center}
@@ -288,7 +290,7 @@ L'entità \textit{Utente} contiene tutte le informazioni riguardo alle persone c
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-\textit{Reparto} caratterizza un particolare reparto dell'ospedale (cardiologia, pneumologia, ecc) attraverso l'attributo \textit{Nome}. Inoltre ogni reparto è caratterizzato anche da un \textit{ID} unico. 
+\textit{Reparto} caratterizza un particolare reparto dell'ospedale (cardiologia, pneumologia, ecc) attraverso l'attributo \textit{Identificativo} e in maniera più specifica attraverso l'attributo \textit{Nome} (es. \textit{Identificativo} = chirurgia, \textit{Nome} = toracica). L'attributo \textit{Descrizione} permette di inserire generiche informazioni riguardanti il reparto. Ogni reparto è caratterizzato anche da un \textit{ID} unico. 
 
 \subsection{Sala}
 \begin{center}
@@ -312,7 +314,7 @@ L'entità \textit{Utente} contiene tutte le informazioni riguardo alle persone c
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Sala} rappresenta le varie sale disponibili nell'ospedale. Ha come chiave esterna l'\textit{ID} del reparto alla quale è assegnata. 
+L'entità \textit{Sala} rappresenta le varie sale disponibili nell'ospedale. L'attributo \textit{Identificativo} specifica di quale tipologia di sala si tratta (sala operatoria, ambulatorio, ecc) mentre l'attributo \textit{Piano} il piano al quale questa si trova.
 
 \subsection{Farmaco}
 \begin{center}
@@ -361,7 +363,7 @@ L'entità \textit{Farmaco} rappresenta ciascun farmaco che viene assunto dal paz
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Prestazione} rappresenta una prestazione effettuata all'interno dell'ospedale, sia visita medica che operazione chirurgica. Ogni prestazione è caratterizzata da un \textit{ID} univoco e da un \textit{Identificativo} per distinguerne i vari tipi. L'attributo \textit{Attivo} è stato inserito per discriminare le prestazioni prenotate (in questo caso \textit{Attivo} viene posto a 1) e cancellate (\textit{Attivo} a 0). \textit{Effettuata} viene impostato a 1 se la prestazione è stata effettuata, 0 se invece deve essere ancora effettuata: in entrambi i casi, la prestazione non deve essere stata cancellata (\textit{Attivo} deve essere impostato a 1).
+L'entità \textit{Prestazione} rappresenta una qualsiasi prestazione effettuata all'interno dell'ospedale. Ogni prestazione è caratterizzata da un \textit{ID} univoco e da un \textit{Identificativo} per distinguerne i vari tipi. L'attributo \textit{Attivo} è stato inserito per discriminare le prestazioni prenotate (in questo caso \textit{Attivo} viene posto a 1) e cancellate (\textit{Attivo} a 0). L'attributo \textit{Effettuata} viene impostato a 1 se la prestazione è stata effettuata, 0 se invece deve essere ancora effettuata: in entrambi i casi, la prestazione non deve essere stata cancellata (\textit{Attivo} deve essere impostato a 1).
 
 \subsection{Referto}
 \begin{center}
@@ -383,7 +385,7 @@ L'entità \textit{Prestazione} rappresenta una prestazione effettuata all'intern
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Referto} è una entità debole, collegata a prestazione. \textit{Referto} è stato introdotto come entità debole in quanto non può esistere senza una corrispondente prestazione.
+L'entità \textit{Referto} è una entità debole, collegata a prestazione. \textit{Referto} è stato introdotto come entità debole in quanto non può esistere senza una corrispondente prestazione. Possiede due attributi: \textit{Esito} e \textit{Note}. 
 
 \subsection{Permesso}
 \begin{center}
@@ -406,22 +408,23 @@ L'entità \textit{Referto} è una entità debole, collegata a prestazione. \text
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Permesso} identifica i permessi sull'applicazione concessi ad un determinato utente.
-%\node[isa] (isa1) [below = of student, node %distance=5em] {ISA} edge node [auto,swap] %{disjoint} (student)
+L'entità \textit{Permesso} identifica i permessi sull'applicazione concessi ad un determinato utente. Questo permette di avere una maggiore flessibilità rispetto ai sistemi con i permessi fissi in base al ruolo dell'utente.
 
+\newpage
 \section{Associazioni}
 Le associazioni rappresentano i vari legami che intercorrono tra le varie entità. Sono le seguenti:
 \begin{itemize}
-\item Utilizza: associazione \textit{N:M} tra \textit{Paziente} e \textit{Farmaco}: un \textit{Paziente} può utilizzare diversi farmaci e analogamente un \textit{Farmaco} può essere utilizzato da diversi pazienti.
-\item Riguarda: relazione \textit{1:N} tra \textit{Paziente} e \textit{Referto}: un \textit{Paziente} può avere associati ad esso diversi referti ma uno specifico \textit{Referto} è associato ad un solo paziente. Inoltre un referto deve essere necessariamente essere associato ad un paziente, infatti nello schema ER è legato da un vincolo di partecipazione totale. Questa associazione è stata introdotta per ridondanza (vedi l'associazione \textit{Emette} tra \textit{Referto} e \textit{Prestazione})
-\item Ottiene: relazione \textit{1:N} tra \textit{Paziente} e \textit{Prestazione}: un \textit{Paziente} può ottenere diverse prestazioni, ma una specifica \textit{Prestazione} deve essere associata univocamente ad un utente, viene quindi rappresentata con un vincolo di partecipazione totale.
-\item Effettua: relazione \textit{M:N} tra \textit{Staff} e \textit{Prestazione}: un membro di uno \textit{Staff} può effettuare più prestazioni e ciascuna \textit{Prestazione} può essere effettuata da più membri dello staff (si pensi per esempio ad una operazione chirurgica che coinvolge diversi membri dello staff come anestesista e chirurgo). \textit{Prestazione} ha un vincolo di partecipazione totale.
-\item Appartiene: relazione \textit{N:1} tra \textit{Staff} e \textit{Reparto}: un membro dello \textit{Staff} deve appartenere necessariamente (vincolo di partecipazione totale) ad un solo reparto ma un \textit{Reparto} comprende più membri dello staff.
-\item Emette: relazione \textit{1:1} tra \textit{Prestazione} e \textit{Referto}: ogni \textit{Prestazione} ha un unico referto ed uno specifico \textit{Referto} è associato ad una sola prestazione. \textit{Referto} è entità debole (non può esistere senza una prestazione) quindi è caratterizzato da un vincolo di partecipazione totale. Essendo una relazione \textit{1 - 1}, si sarebbero potuti includere gli attributi di \textit{Referto} all'interno di \textit{Prestazione}. Tuttavia è stata creata l'entità \textit{Prestazione} per poter semplificare le query e poter risalire, per esempio, in maniera veloce a tutti i referti riguardanti un determinato utente.
-\item Prescrive: relazione \textit{N:M} tra \textit{Prestazione} e \textit{Farmaco}: una \textit{Prestazione} può descrivere uno o più farmaci e un \textit{Farmaco} può essere prescritto da una prestazione (ricordiamo che nel database possono essere inseriti anche farmaci non prescritti da una prestazione, che l'utente assumeva già in maniera autonoma).
-\item Ha: relazione \textit{N:1} tra \textit{Prestazione} e \textit{Sala}: una \textit{Prestazione} deve (vincolo partecipazione totale) utilizzare una sola sala ma una \textit{Sala} viene utilizzata per più prestazioni.
-\item Rep Prest: relazione \textit{N:1} tra \textit{Prestazione} e \textit{Reparto}: una \textit{Prestazione} deve (vincolo di partecipazione totale) essere effettuata in un reparto ma in un \textit{Reparto} possono essere effettuate più prestazioni.
-\item Rep Sala: relazione \textit{N:1} tra \textit{Sala} e \textit{Reparto}: una \textit{Sala} deve (vincolo di partecipazione totale) essere assegnata ad un reparto mente ad un \textit{Reparto} sono assegnate più sale. 
+\item \textbf{Utilizza}: associazione \textit{N:M} tra \textit{Paziente} e \textit{Farmaco}: un \textit{Paziente} può utilizzare diversi farmaci e analogamente un \textit{Farmaco} può essere utilizzato da diversi pazienti.
+\item \textbf{Riguarda}: relazione \textit{1:N} tra \textit{Paziente} e \textit{Referto}: un \textit{Paziente} può avere associati ad esso diversi referti ma uno specifico \textit{Referto} è associato ad un solo paziente. Inoltre un referto deve essere necessariamente essere associato ad un paziente, infatti nello schema ER è legato da un vincolo di partecipazione totale. Questa associazione è stata introdotta per ridondanza (vedi l'associazione \textit{Emette} tra \textit{Referto} e \textit{Prestazione})
+\item \textbf{Ottiene}: relazione \textit{1:N} tra \textit{Paziente} e \textit{Prestazione}: un \textit{Paziente} può ottenere diverse prestazioni, ma una specifica \textit{Prestazione} deve essere associata univocamente ad un utente, viene quindi rappresentata con un vincolo di partecipazione totale.
+\item \textbf{Effettua}: relazione \textit{M:N} tra \textit{Staff} e \textit{Prestazione}: un membro di uno \textit{Staff} può effettuare più prestazioni e ciascuna \textit{Prestazione} può essere effettuata da più membri dello staff (si pensi per esempio ad una operazione chirurgica che coinvolge diversi membri dello staff come anestesista e chirurgo). \textit{Prestazione} ha un vincolo di partecipazione totale.
+\item \textbf{Appartiene}: relazione \textit{N:1} tra \textit{Staff} e \textit{Reparto}: un membro dello \textit{Staff} deve appartenere necessariamente (vincolo di partecipazione totale) ad un solo reparto ma un \textit{Reparto} comprende più membri dello staff.
+\item \textbf{Emette}: relazione \textit{1:1} tra \textit{Prestazione} e \textit{Referto}: ogni \textit{Prestazione} ha un unico referto ed uno specifico \textit{Referto} è associato ad una sola prestazione. \textit{Referto} è entità debole (non può esistere senza una prestazione) quindi è caratterizzato da un vincolo di partecipazione totale. Essendo una relazione \textit{1 - 1}, si sarebbero potuti includere gli attributi di \textit{Referto} all'interno di \textit{Prestazione}. Tuttavia è stata creata l'entità \textit{Prestazione} per poter semplificare le query e poter risalire, per esempio, in maniera veloce a tutti i referti riguardanti un determinato utente.
+\item \textbf{Prescrive}: relazione \textit{N:M} tra \textit{Prestazione} e \textit{Farmaco}: una \textit{Prestazione} può prescrivere uno o più farmaci e un \textit{Farmaco} può essere prescritto in più prestazioni.
+\item \textbf{Ha}: relazione \textit{N:1} tra \textit{Prestazione} e \textit{Sala}: una \textit{Prestazione} deve (vincolo partecipazione totale) utilizzare una sola sala ma una \textit{Sala} viene utilizzata per più prestazioni.
+\item \textbf{Rep Prest}: relazione \textit{N:1} tra \textit{Prestazione} e \textit{Reparto}: una \textit{Prestazione} deve (vincolo di partecipazione totale) essere effettuata in un reparto ma in un \textit{Reparto} possono essere effettuate più prestazioni.
+\item \textbf{Rep Sala}: relazione \textit{N:1} tra \textit{Sala} e \textit{Reparto}: una \textit{Sala} deve (vincolo di partecipazione totale) essere assegnata ad un reparto mente ad un \textit{Reparto} sono assegnate più sale. 
+\item \textbf{Detiene}: relazione \textit{M:N} tra \textit{Utente} e \textit{Permesso}: a un \textit{Utente} deve (vincolo di partecipazione totale) essere assegnato almeno un \textit{Permesso} mentre ciascun permesso può essere assegnato a più utenti. 
 \end{itemize}
 
 
@@ -645,9 +648,9 @@ L'obiettivo della normalizzazione dei dati è quello di minimizzare la ridondanz
 \\
 La \textit{prima forma normale} richiede che il dominio di un attributo contenga solamente valori indivisibili e che il valore di un qualsiasi attributo in una tupla sia un valore singolo del dominio. Lo schema presentato è già in prima forma normale.
 \\
-Per soddisfare la \textit{seconda forma normale}, nello schema di relazione R, ogni attributo non primo di R (quindi non fa parte di una chiave candidata) deve dipendete funzionalmente in modo completo dalla chiave primaria di R. La definizione di dipendenza funzionale completa è le seguente: una dipendenza funzionale $X \rightarrow Y$ si dice \textit{dipendenza funzionale completa} se la rimozione di un qualsiasi attributo A da X, comporta che la dipendenza funzionale non sussista più. Per ottenere la seconda forma normale, si decompone la relazione principale R in un certo numero di relazioni nelle quali gli attributi non primi sono associati solamente alla parte della chiave primaria da cui sono funzionalmente dipendenti in modo completo.
+Per soddisfare la \textit{seconda forma normale}, nello schema di relazione R, ogni attributo non primo di R (quindi non fa parte di una chiave candidata) deve dipendete funzionalmente in modo completo dalla chiave primaria di R. La definizione di dipendenza funzionale completa è le seguente: una dipendenza funzionale $X \rightarrow Y$ si dice \textit{dipendenza funzionale completa} se la rimozione di un qualsiasi attributo A da X, comporta che la dipendenza funzionale non sussista più. Per ottenere la seconda forma normale, si decompone la relazione principale R in un certo numero di relazioni nelle quali gli attributi non primi sono associati solamente alla parte della chiave primaria da cui sono funzionalmente dipendenti in modo completo. Lo schema soddisfa anche la seconda forma normale.
 \\
-Uno schema di relazione R è in terza forma normale se soddisfa la seconda forma normale e nessun attributo non primo di R dipende in modo transitivo dalla chiave primaria.
+Uno schema di relazione R è in \textit{terza forma normale} se soddisfa la seconda forma normale e nessun attributo non primo di R dipende in modo transitivo dalla chiave primaria. Lo schema presentato, come per i casi precedenti, soddisfa anche la terza forma normale senza bisogno di ulteriori modifiche.
 
 \begin{figure}
 \begin{center}
@@ -705,7 +708,7 @@ Uno schema di relazione R è in terza forma normale se soddisfa la seconda forma
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.35]{immagini_normalizzazione/permessi_utente}
+\includegraphics[scale=0.33]{immagini_normalizzazione/permessi_utente}
 \end{center}
 \end{figure}
 
