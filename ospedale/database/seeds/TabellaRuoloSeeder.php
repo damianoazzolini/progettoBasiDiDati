@@ -10,6 +10,7 @@ class TabellaRuoloSeeder extends Seeder
      *
      * @return void
      */
+    /*
     public function run()
     {
         $role_employee = new Ruolo();
@@ -362,4 +363,5 @@ class TabellaRuoloSeeder extends Seeder
         $role_employee->descrizione = 'Autorizzazione ad accedere al metodo REST ruolo_destroy';
         $role_employee->save();
     }
+    */
 }

@@ -11,10 +11,23 @@
 |
 */
 
+/*
 Route::get('/', function () {
     return view('welcome');
 });
+*/
 
 Auth::routes();
+Route::get('/', 'LoginController@showLogin');
+Route::post('/','LoginController@login');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', [
+    'uses' => 'DashboardController@show'//,
+    //'middleware' => 'roles',
+    //'roles' => ['Paziente','Medico','Infermiere','Impiegato','Amministratore']
+]); //in roles specifico i ruoli che possono accedere ad una determinata risorsa
+Route::post('/dashboard', [
+    'uses' => 'DashboardController@assegnaRuolo'//,
+    //'middleware' => 'roles',
+    //'roles' => ['Amministratore']
+]);

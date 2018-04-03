@@ -11,7 +11,7 @@ class Utente extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Ruolo::class);
+        return $this->belongsToMany('App\Role','utente_role','user_id','role_id');
     }
 
     /**
@@ -27,21 +27,32 @@ class Utente extends Model
                 abort(401, 'This action is unauthorized.');
     }
 
-    /**
-    * Check multiple roles
-    * @param array $roles
-    */
-    public function hasAnyRole($roles)
-    {
-        return null !== $this->roles()->whereIn('nome', $roles)->first();
+  
+    public function hasAnyRole($roles) {
+        //return null !== $this->roles()->whereIn('nome', $roles)->first();
+        if(is_array($roles)) {
+            foreach($roles as $role) {
+                if($this->hasRole($role)) {
+                    return true;
+                }
+            }
+        }
+        else{
+            if($this->hasRole($roles)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    /**
-    * Check one role
-    * @param string $role
-    */
-    public function hasRole($role)
-    {
-        return null !== $this->roles()->where('nome', $role)->first();
+    public function hasRole($role) {
+        //return null !== $this->roles()->where('nome', $role)->first();
+        if($this->roles()->where('name',$role)->first()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
