@@ -20,6 +20,10 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/', 'LoginController@showLogin');
 Route::post('/','LoginController@login');
+Route::get('/logout', 'LoginController@logout');
+Route::get('/registrazione', 'LoginController@showRegistrazione');
+Route::post('/registrazione', 'LoginController@store');
+Route::get('/profilo','DashboardController@showProfilo');
 
 Route::get('/dashboard', [
     'uses' => 'DashboardController@show'//,

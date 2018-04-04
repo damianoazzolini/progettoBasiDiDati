@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Utente;
 use App\Role;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -41,12 +42,21 @@ class DashboardController extends Controller
         //
     }
 
+    public function trovaRuolo() {
+        $id = Auth::id();
+        $ruoloID = DB::table('utente_role')->where('user_id', $id)->value('role_id');
+        $ruolo = DB::table('roles')->where('id',$ruoloID)->value('name');
+        return $ruolo;
+    }
     
     public function show() {
         //$users = DB::table('utente')->get();
         //ATTENZIONE, TIRO SU TUTTI GLI UTENTI, RISCHIO DI BUTTARE GIU IL PROGRAMMA 
         $users = Utente::all();
-        return view('dashboard',['users' => $users]);
+        $ruolo = $this->trovaRuolo();
+
+
+        return view('dashboard',['users' => $users,'ruolo' => $ruolo]);
     }
 
     /**
@@ -105,5 +115,9 @@ class DashboardController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function showProfilo() {
+        
     }
 }

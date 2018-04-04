@@ -23,6 +23,7 @@ class CreateTableUtente extends Migration {
             $table->string('via');
             $table->integer('numeroCivico');
             $table->timestamps();
+            $table->string('remember_token');
         });
     }
 

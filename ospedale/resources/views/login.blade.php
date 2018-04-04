@@ -21,5 +21,17 @@ Amministratore, amministratore@amministratore.com, password<br>
     <input type="submit" value="Submit">
 </form> 
 
+<div>
+<h1> NON SERI REGISTRATO:  <a href="registrazione">clicca qui</a> </h1>
+</div>
+
+<div>
+@if (session('status'))
+    <div>
+        {{ session('status') }}
+    </div>
+@endif
+</div>
+
 </body>
 </html>
