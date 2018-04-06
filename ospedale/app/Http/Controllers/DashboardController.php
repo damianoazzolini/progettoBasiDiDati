@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Utente;
 use App\Role;
+use App\PazienteFarmaco;
+use App\Farmaco;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -119,5 +121,14 @@ class DashboardController extends Controller
 
     public function showProfilo() {
         
+    }
+
+    public function showFarmaci() {
+        $id = Auth::id();
+        $idFarmaco = PazienteFarmaco::where('idPaziente',$id)->get('idFarmaco');
+        //per ogni farmaco assunto dal paziente cerco nella lista farmaci
+        //forach($idFarmaco  $farmaco) {
+        //    $farm = Farmaco::where('id',$farmaco)->first(); //dovrebbe essere uno solo 
+        //}
     }
 }
