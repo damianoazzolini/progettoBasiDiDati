@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Ruolo;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Utente extends Model
 {
@@ -54,5 +56,12 @@ class Utente extends Model
         else {
             return false;
         }
+    }
+
+    public static function trovaRuolo() {
+        $id = Auth::id();
+        $ruoloID = DB::table('utente_role')->where('user_id', $id)->value('role_id');
+        $ruolo = DB::table('roles')->where('id',$ruoloID)->value('name');
+        return $ruolo;
     }
 }

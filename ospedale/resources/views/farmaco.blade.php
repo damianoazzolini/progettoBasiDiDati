@@ -1,7 +1,11 @@
 @extends('layouts.sidebar')
-<html>
-<body>
+
+@section('content')
 <h1> MY FARMACO </h1>
+
+
+
+{{--
 Elenco farmaci:<br>
 <table>
 <thead>
@@ -25,7 +29,8 @@ Elenco farmaci:<br>
     </form>
 @endforeach
 </tbody>
-</table>
+</table
+--}}
 
-</body>
-</html>
+print_r($listafarmaci)
+@endsection

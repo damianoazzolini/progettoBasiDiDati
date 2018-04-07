@@ -24,6 +24,7 @@ Route::get('/logout', 'LoginController@logout');
 Route::get('/registrazione', 'LoginController@showRegistrazione');
 Route::post('/registrazione', 'LoginController@store');
 Route::get('/profilo','DashboardController@showProfilo');
+Route::get('/myfarmaco','FarmacoController@show');
 
 Route::get('/dashboard', [
     'uses' => 'DashboardController@show'//,

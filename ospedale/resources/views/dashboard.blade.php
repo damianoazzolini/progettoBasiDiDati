@@ -1,4 +1,4 @@
-<!--
+{{-- 
 <html>
 <body>
 <h1> DASHBOARD </h1>
@@ -39,6 +39,10 @@ Elenco utenti:<br>
 
 </body>
 </html>
--->
+--}}
 @extends('layouts.sidebar')
+@section('content')
+<h1> Contenuto </h1>
+
+@endsection
 

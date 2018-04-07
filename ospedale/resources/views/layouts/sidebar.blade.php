@@ -71,6 +71,10 @@ body {
     <h2>Sidenav Example</h2>
     <p>Ruolo: {{ $ruolo }}</p>
 </div>
+
+<div class="container" style="margin-left:12%">
+    @yield('content')
+</div>
      
 </body>
 </html> 

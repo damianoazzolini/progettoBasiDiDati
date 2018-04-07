@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use App\Utente;
-use App\Role;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\PazienteFarmaco;
+use App\Farmaco;
+use App\Utente;
 
-class DashboardController extends Controller
+class FarmacoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,15 +41,26 @@ class DashboardController extends Controller
     {
         //
     }
-    
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show() {
-        //ATTENZIONE, TIRO SU TUTTI GLI UTENTI, RISCHIO DI BUTTARE GIU IL PROGRAMMA 
-        $users = Utente::all();
-        //$ruolo = $this->trovaRuolo();
+        //$id = Auth::id();
+        //$idFarmaco = PazienteFarmaco::where('idPaziente',$id)->get('idFarmaco');
+        //per ogni farmaco assunto dal paziente cerco nella lista farmaci
         $ruolo = Utente::trovaRuolo(Auth::id());
+        $listafarmaci = array();
 
-
-        return view('dashboard',['users' => $users,'ruolo' => $ruolo]);
+        /*
+        foreach($idFarmaco as $farmaco) {
+            $listafarmaci[] = Farmaco::where('id',$farmaco)->first(); //dovrebbe essere uno solo 
+        }
+        */
+        return view('farmaco',['listafarmaci' => $listafarmaci, 'ruolo' => $ruolo]);
     }
 
     /**
@@ -84,33 +95,5 @@ class DashboardController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    //l'admin cambia i ruoli
-    public function assegnaRuolo(Request $request) {
-
-        $user = Utente::where('email',$request['email'])->first();
-        $user->roles()->detach();
-        if($request['ruolo_paziente']) {
-            $user->roles()->attach(Role::where('name','Paziente')->first());
-        }
-        if($request['ruolo_medico']) {
-            $user->roles()->attach(Role::where('name','Medico')->first());
-        }
-        if($request['ruolo_infermiere']) {
-            $user->roles()->attach(Role::where('name','Infermiere')->first());
-        }
-        if($request['ruolo_impiegato']) {
-            $user->roles()->attach(Role::where('name','Impiegato')->first());
-        }
-        if($request['ruolo_amministratore']) {
-            $user->roles()->attach(Role::where('name','Amministratore')->first());
-        }
-
-        return redirect()->back();
-    }
-
-    public function showProfilo() {
-        
     }
 }
