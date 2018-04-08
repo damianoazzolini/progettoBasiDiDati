@@ -23,7 +23,8 @@ Route::post('/','LoginController@login');
 Route::get('/logout', 'LoginController@logout');
 Route::get('/registrazione', 'LoginController@showRegistrazione');
 Route::post('/registrazione', 'LoginController@store');
-Route::get('/profilo','DashboardController@showProfilo');
+Route::get('/profilo','ProfiloController@show');
+Route::post('/profilo','ProfiloController@update'); //da implementare
 Route::get('/myfarmaco','FarmacoController@show');
 
 Route::get('/dashboard', [
