@@ -58,6 +58,7 @@ class TabellaUtenteSeeder extends Seeder
         $utente_paziente->comune = 'empty';
         $utente_paziente->via = 'empty';
         $utente_paziente->numeroCivico = '0';
+        $utente_paziente->remember_token = 'empty';
         $utente_paziente->save();
         $utente_paziente->roles()->attach($role_paziente);
 
@@ -76,6 +77,7 @@ class TabellaUtenteSeeder extends Seeder
         $utente_medico->comune = 'empty';
         $utente_medico->via = 'empty';
         $utente_medico->numeroCivico = '0';
+        $utente_medico->remember_token = 'empty';
         $utente_medico->save();
         $utente_medico->roles()->attach($role_medico);
 
@@ -94,6 +96,7 @@ class TabellaUtenteSeeder extends Seeder
         $utente_infermiere->comune = 'empty';
         $utente_infermiere->via = 'empty';
         $utente_infermiere->numeroCivico = '0';
+        $utente_infermiere->remember_token = 'empty';
         $utente_infermiere->save();
         $utente_infermiere->roles()->attach($role_infermiere);
 
@@ -112,6 +115,7 @@ class TabellaUtenteSeeder extends Seeder
         $utente_impiegato->comune = 'empty';
         $utente_impiegato->via = 'empty';
         $utente_impiegato->numeroCivico = '0';
+        $utente_impiegato->remember_token = 'empty';
         $utente_impiegato->save();
         $utente_impiegato->roles()->attach($role_impiegato);
 
@@ -130,6 +134,7 @@ class TabellaUtenteSeeder extends Seeder
         $utente_amministratore->comune = 'empty';
         $utente_amministratore->via = 'empty';
         $utente_amministratore->numeroCivico = '0';
+        $utente_amministratore->remember_token = 'empty';
         $utente_amministratore->save();
         $utente_amministratore->roles()->attach($role_amministratore);        
     }

@@ -11,8 +11,6 @@ class CreateTableStaff extends Migration {
             $table->foreign('id')->references('id')->on('utente');
             $table->integer('idReparto')->unsigned();
             $table->foreign('idReparto')->references('id')->on('reparto');
-            $table->integer('idQualifica')->unsigned();
-            $table->foreign('idQualifica')->references('id')->on('qualifica');
             $table->string('identificativo');
             $table->integer('stipendio')->nullable();
             $table->timestamps();

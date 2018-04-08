@@ -36,3 +36,4 @@ Route::post('/dashboard', [
     //'middleware' => 'roles',
     //'roles' => ['Amministratore']
 ]);
+Route::get('/elencoPazienti', 'PazienteController@index');

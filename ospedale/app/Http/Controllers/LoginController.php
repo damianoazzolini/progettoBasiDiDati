@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Role;
 use App\Utente;
+use App\Paziente;
+use App\Staff;
+use DB;
 
 class LoginController extends Controller
 {
@@ -35,17 +38,17 @@ class LoginController extends Controller
             return redirect('/dashboard');       
         } else {
             if(DB::table('utente')->where('email', $request->email)->where('attivo','1')->first() != null) {
-                return redirect()->back()->withErrors(['errore' => ['MAIL O PASSWORD ERRATA']]);
+                return redirect()->back()->withErrors(['errore' => ['Mail o password errata']]);
             }
             else {
-                return redirect()->back()->withErrors(['errore' => ['MAIL NON VERIFICATA']]);
+                return redirect()->back()->withErrors(['errore' => ['Utente disabilitato']]);
             }
         }        
     }
 
     public function logout() {
         Auth::logout();
-        $message = "LOGOUT EFFETTUATO";
+        $message = "Logout Effettuato";
         return redirect('/')->with('status',$message);
     }
 
@@ -80,6 +83,7 @@ class LoginController extends Controller
         $utente->comune = request('comune');
         $utente->via = request('via');
         $utente->numeroCivico = (int)request('civico');
+        $utente->remember_token = 'empty';
         $utente->save();
 
         $role_paziente = Role::where('name','Paziente')->first();
@@ -91,24 +95,52 @@ class LoginController extends Controller
 
         if($ruolo == 'paziente') {
             $utente->roles()->attach($role_paziente);
+            $paziente = new Paziente();
+            $paziente->id = $utente->id;
+            $paziente->note = request('note');
+            $paziente->altezza = request('altezza');
+            $paziente->peso = request('peso');
+            $paziente->save();
         }
         if($ruolo == 'medico') {
             $utente->roles()->attach($role_medico);
+            $staff = new Staff();
+            $staff->id = $utente->id;
+            $staff->idReparto = request('idReparto');
+            $staff->identificativo = request('identificativo');
+            $staff->stipendio = request('stipendio');
+            $staff->save();
         }
         if($ruolo == 'infermiere') {
             $utente->roles()->attach($role_infermiere);
+            $staff = new Staff();
+            $staff->id = $utente->id;
+            $staff->idReparto = request('idReparto');
+            $staff->identificativo = request('identificativo');
+            $staff->stipendio = request('stipendio');
+            $staff->save();
         }
         if($ruolo == 'impiegato') {
             $utente->roles()->attach($role_impiegato);
+            $staff = new Staff();
+            $staff->id = $utente->id;
+            $staff->idReparto = request('idReparto');
+            $staff->identificativo = request('identificativo');
+            $staff->stipendio = request('stipendio');
+            $staff->save();
         }
         if($ruolo == 'amministratore') {
             $utente->roles()->attach($role_amministratore);
+            $staff = new Staff();
+            $staff->id = $utente->id;
+            $staff->idReparto = request('idReparto');
+            $staff->identificativo = request('identificativo');
+            $staff->stipendio = request('stipendio');
+            $staff->save();
         }
 
-        return redirect('/')->with('status','Utente registrato');
+        return redirect('/dashboard')->with('status','Utente registrato con successo');
     }
-
-    
 
     public function showLogin() {
         return view('login');
