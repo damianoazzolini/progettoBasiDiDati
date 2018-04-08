@@ -45,25 +45,29 @@ body {
 
 <div class="sidenav">
     <a href="/profilo">Profilo</a> <!-- paziente, medico, infermiere, impiegato -->
-    <a href="/prestazioni">Prestazioni</a> <!-- paziente, medico, infermiere -->
-    <a href="/myfarmaco">My Farmaco</a> <!-- paziente -->
-    <a href="/registrazione">Registra nuovo paziente</a> <!-- medico, impiegato -->
-    <a href="/cercaPaziente">Ricerca Paziente</a> <!-- medico, infermiere -->
-    @if($ruolo != "Amministratore")
-        <a href="/reparti">Reparti</a>
-    @else
-        <a href="/reparti">Non visibile all'admin</a>
-    @endif
-
-    @if($ruolo == "Amministratore")
-        <a href="/reparti">Visibile solo all'admin</a>
+    <a href="/prestazioni">Prestazioni</a> <!-- paziente, medico, infermiere, impiegato -->
+    
+    @if($ruolo == "Paziente")
+        <a href="/myfarmaco">My Farmaco</a> <!-- paziente -->
     @endif
     
-    <a href="/sala">Sale</a>
-    <a href="/prenotaPrestazione">Prenota prestazione</a> <!-- impiegato -->
-    <a href="/ricercaPrestazione">Ricerca prestazione</a> <!-- impiegato -->
-    <a href="/gestionePersonale">Gestione personale</a> <!-- impiegato -->
-    <a href="/farmacia">Farmacia</a> <!-- impiegato -->
+    @if($ruolo == "Medico" || $ruolo == "Impiegato" || $ruolo == "Amministratore")
+        <a href="/registrazione">Registra nuovo paziente</a> <!-- medico, impiegato -->
+    @endif
+
+    @if($ruolo == "Medico" || $ruolo == "Infermiere" || $ruolo == "Amministratore")
+        <a href="/cercaPaziente">Ricerca Paziente</a> <!-- medico, infermiere -->
+    @endif
+    
+    @if($ruolo == "Impiegato" || $ruolo == "Amministratore")
+        <a href="/reparti">Reparti</a>   
+        <a href="/sala">Sale</a>
+        <a href="/prenotaPrestazione">Prenota prestazione</a> <!-- impiegato -->
+        <a href="/ricercaPrestazione">Ricerca prestazione</a> <!-- impiegato -->
+        <a href="/gestionePersonale">Gestione personale</a> <!-- impiegato -->
+        <a href="/farmacia">Farmacia</a> <!-- impiegato -->
+    @endif
+
     <a href="{{ url('/logout') }}"> Logout </a>
 </div>
 
