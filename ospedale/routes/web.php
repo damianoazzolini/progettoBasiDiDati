@@ -38,3 +38,8 @@ Route::post('/dashboard', [
     //'roles' => ['Amministratore']
 ]);
 Route::get('/elencoPazienti', 'PazienteController@index');
+Route::post('/elencoPazienti/ricerca', 'PazienteController@ricerca');
+Route::get('/mostraPaziente/{id}', 'PazienteController@show');
+Route::get('/modificaPaziente/{id}', 'PazienteController@edit');
+Route::post('/modificaPaziente/{id}', 'PazienteController@update');
+Route::get('/cancellaPaziente/{id}', 'PazienteController@destroy');

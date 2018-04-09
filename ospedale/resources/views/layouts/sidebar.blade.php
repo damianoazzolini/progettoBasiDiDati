@@ -158,9 +158,6 @@ max-width: 200px;
 
     <!-- Icons -->
     <script charset="utf-8" type="text/javascript" src="{{asset('/js/fontawesome-all.js')}}"></script>
-    <script>
-      feather.replace()
-    </script>
 
 </body>
 </html>
