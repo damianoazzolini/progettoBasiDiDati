@@ -51,6 +51,7 @@ max-width: 200px;
                 Profilo
             </a>
             </li>
+            
             @if($ruolo == "Medico" || $ruolo == "Impiegato" || $ruolo == "Infermiere" || $ruolo == "Amministratore")
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                 <span>Prestazioni</span>
@@ -76,6 +77,7 @@ max-width: 200px;
                 </a>
                 </li>
             @endif
+            
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Farmaci</span>
             </h6>
