@@ -107,7 +107,7 @@ class ProfiloController extends Controller
                     provincia = '$provincia', stato = '$stato', comune = '$comune', via = '$via', numeroCivico = '$numeroCivico' 
                     WHERE id = $id");
 
-        return redirect('/profilo')->with('status','Utente aggiornato con successo');
+        return redirect('/profilo')->with('status','Profilo aggiornato con successo');
     }
 
     /**

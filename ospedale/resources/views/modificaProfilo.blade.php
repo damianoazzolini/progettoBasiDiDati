@@ -139,7 +139,7 @@
     </div>
     <br/>
     <a type="button" class="btn btn-primary" style="color:white" data-toggle="modal" data-target="#confirmModal"><i class="fas fa-edit" style="color:white"></i> Aggiorna</a>
-    <a type="button" class="btn btn-secondary" href="/elencoPazienti"></i>Annulla</a>
+    <a type="button" class="btn btn-secondary" href="/profilo"></i>Annulla</a>
 </form> 
 
 
