@@ -28,7 +28,7 @@ Route::get('/profilo','ProfiloController@show');
 Route::get('/modificaProfilo/{id}', 'ProfiloController@edit');
 Route::post('/modificaProfilo/{id}','ProfiloController@update');
 
-Route::get('/myfarmaco','FarmacoController@show');
+//Route::get('/myfarmaco','FarmacoController@show');
 
 Route::get('/dashboard', [
     'uses' => 'DashboardController@show'//,
@@ -56,3 +56,11 @@ Route::post('/modificaFarmaco/{id}', 'FarmacoController@update');
 Route::get('/cancellaFarmaco/{id}', 'FarmacoController@destroy');
 Route::get('/aggiungiFarmaco', 'FarmacoController@create');
 Route::post('/aggiungiFarmaco', 'FarmacoController@store');
+Route::get('/reparti', 'RepartoController@index');
+Route::post('/reparti', 'RepartoController@ricerca');
+Route::get('/mostraReparto/{id}', 'RepartoController@show');
+Route::get('/modificaReparto/{id}', 'RepartoController@edit');
+Route::post('/modificaReparto/{id}', 'RepartoController@update');
+Route::get('/cancellaReparto/{id}', 'RepartoController@destroy');
+Route::get('/aggiungiReparto', 'RepartoController@create');
+Route::post('/aggiungiReparto', 'RepartoController@store');
