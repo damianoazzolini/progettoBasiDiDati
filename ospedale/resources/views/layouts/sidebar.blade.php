@@ -51,27 +51,33 @@ max-width: 200px;
                 Profilo
             </a>
             </li>
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Prestazioni</span>
-            </h6>
-            <li class="nav-item">
-            <a class="nav-link" href="/prestazioni">
-                <i class="fas fa-list"></i>                
-                Elenco Prestazioni
-            </a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/prenotaPrestazione">
-                <i class="fas fa-plus"></i>  
-                Nuova prestazione
-            </a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/ricercaPrestazione">
-                <i class="fas fa-search"></i>  
-                Ricerca Prestazione
-            </a>
-            </li>
+            
+            @if($ruolo == "Medico" || $ruolo == "Impiegato" || $ruolo == "Infermiere" || $ruolo == "Amministratore")
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Prestazioni</span>
+                </h6>
+                <li class="nav-item">
+                <a class="nav-link" href="/prestazioni">
+                    <i class="fas fa-list"></i>                
+                    Elenco Prestazioni
+                </a>
+                </li>
+                @if($ruolo != "Infermiere")
+                    <li class="nav-item">
+                    <a class="nav-link" href="/prenotaPrestazione">
+                        <i class="fas fa-plus"></i>  
+                        Nuova prestazione
+                    </a>
+                    </li>
+                @endif
+                <li class="nav-item">
+                <a class="nav-link" href="/ricercaPrestazione">
+                    <i class="fas fa-search"></i>  
+                    Ricerca Prestazione
+                </a>
+                </li>
+            @endif
+            
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Farmaci</span>
             </h6>

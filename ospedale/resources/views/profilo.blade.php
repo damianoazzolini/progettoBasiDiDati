@@ -1,78 +1,36 @@
 @extends('layouts.sidebar')
-
 @section('content')
-<h1> PROFILO </h1>
 
-{{--
-Mostro le info come form così se voglio modificare i dati 
-posso fare semplicemente submit
---}}
+@if (session('status'))
+    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+        {{ session('status') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <br/>
+@endif
 
-@foreach($info as $inf)
-<form method="post">
-
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-    Nome:<br>
-    <input type="text" name="nome" value="{{$inf->nome}}"><br>
-    Cognome:<br>
-    <input type="text" name="cognome" value="{{$inf->cognome}}"><br>
-    Data di nascita:<br>
-    <input type="date" name="dataNascita" value="{{$inf->dataNascita}}"><br>
-    Sesso:<br>
-    <input type="radio" name="sesso" value="uomo" {{$inf->sesso == '1' ? 'checked' : ''}}> Uomo<br>
-    <input type="radio" name="sesso" value="donna" {{$inf->sesso == '0' ? 'checked' : ''}}> Donna<br>
-    Codce fiscale:<br>
-    <input type="text" name="codiceFiscale" value="{{$inf->codiceFiscale}}"><br>
-    Email:<br>
-    <input type="email" name="email" value="{{$inf->email}}"><br>
-    Telefono:<br>
-    <input type="text" name="telefono" value="{{$inf->telefono}}"><br>
-    Provincia:<br>
-    <input type="text" name="provincia" value="{{$inf->provincia}}"><br>
-    Stato:<br>
-    <input type="text" name="stato" value="{{$inf->stato}}"><br>
-    Comune:<br>
-    <input type="text" name="comune" value="{{$inf->comune}}"><br>
-    Via:<br>
-    <input type="text" name="via" value="{{$inf->via}}"><br>
-    Numero Civico:<br>
-    <input type="text" name="civico" value="{{$inf->numeroCivico}}"><br>
-    Ruolo:<br>
-    <input type="checkbox" {{ $ruolo == 'Paziente' ? 'checked' : ''}} name="ruolo_paziente" disabled>Paziente<br>
-    <input type="checkbox" {{ $ruolo == 'Medico' ? 'checked' : ''}} name="ruolo_medico" disabled>Medico<br>
-    <input type="checkbox" {{ $ruolo == 'Infermiere' ? 'checked' : ''}} name="ruolo_nfermiere" disabled>Infermiere<br>
-    <input type="checkbox" {{ $ruolo == 'Impiegato' ? 'checked' : ''}} name="ruolo_impiegato" disabled>Impiegato<br>
-    <input type="checkbox" {{ $ruolo == 'Amministratore' ? 'checked' : ''}} name="ruolo_amministratore" disabled>Amministratore<br>
-
-    <input type="submit" value="Submit">
-</form> 
-@endforeach
-
-{{ print_r($info) }}
-
+<h4>Dettaglio paziente: </h4><h3>{{ $datiUtente->nome }} {{ $datiUtente->cognome }}</h3>
+<div class="row">
+  <div class="col"></div>
+  <div class="col">
+    <a type="button" class="btn btn-warning float-sm-right" style="margin-left: 5px; color:white" href="/modificaProfilo/{{ $datiUtente->id}}"><i class="fas fa-edit"></i> Modifica</a>
+  </div>
+</div>
+<br/>
+<div class="card bg-light">
+  <div class="card-header"><p class="h6">Dati Anagrafici</p></div>
+  <div class="card-body">
+    <!--<h5 class="card-title">Dati anagrafici</h5>-->
+    <p class="card-text"><b>Sesso: </b><?php if($datiUtente->sesso == '1') echo 'Uomo'; else echo 'Donna';?></p>
+    <p class="card-text"><b>Data di Nascita: </b>{{ $datiUtente->dataNascita }}</p>
+    <p class="card-text"><b>Codice Fiscale: </b>{{ $datiUtente->codiceFiscale }}</p>
+    <p class="card-text"><b>Residenza Via: </b>{{ $datiUtente->via }} <b>Civico: </b>{{ $datiUtente->numeroCivico }}</p>
+    <p class="card-text"><b>Città: </b>{{ $datiUtente->comune }} <b>Provincia: </b>{{ $datiUtente->provincia }} <b>Stato: </b>{{ $datiUtente->stato }}</p>
+    <p class="card-text"><b>Email: </b>{{ $datiUtente->email }}</p>
+    <p class="card-text"><b>Telefono: </b>{{ $datiUtente->telefono }}</p>
+  </div>
+</div>
 
 @endsection
-
-{{--
-
-id             | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
-| nome           | varchar(255)     | NO   |     | NULL    |                |
-| cognome        | varchar(255)     | NO   |     | NULL    |                |
-| dataNascita    | date             | NO   |     | NULL    |                |
-| sesso          | tinyint(1)       | NO   |     | NULL    |                |
-| codiceFiscale  | varchar(255)     | NO   | UNI | NULL    |                |
-| email          | varchar(255)     | NO   | UNI | NULL    |                |
-| password       | varchar(255)     | NO   |     | NULL    |                |
-| telefono       | varchar(255)     | NO   |     | NULL    |                |
-| attivo         | tinyint(1)       | NO   |     | NULL    |                |
-| provincia      | varchar(255)     | NO   |     | NULL    |                |
-| stato          | varchar(255)     | NO   |     | NULL    |                |
-| comune         | varchar(255)     | NO   |     | NULL    |                |
-| via            | varchar(255)     | NO   |     | NULL    |                |
-| numeroCivico   | int(11)          | NO   |     | NULL    |                |
-| created_at     | timestamp        | YES  |     | NULL    |                |
-| updated_at     | timestamp        | YES  |     | NULL    |                |
-| remember_token | text             | YES  |     | NULL    |             
-
- --}}
