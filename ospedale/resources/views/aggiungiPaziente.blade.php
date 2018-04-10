@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 @section('content')
-<h4>Aggiorna dati paziente: </h4><h3>{{ $datiPaziente->nome }} {{ $datiPaziente->cognome }}</h3>
+<h4>Inserimento nuovo paziente</h4>
 <br/>
 <form method="post">
     <div class="card bg-light">
@@ -13,13 +13,13 @@
           <div class="form-group row col-md-6">
               <label for="nome" class="col-sm-2 col-form-label">Nome</label>
               <div class="col-sm-10">
-              <input type="text" class="form-control" id="nome" name="nome" value="{{ $datiPaziente->nome }}">
+              <input type="text" class="form-control" id="nome" name="nome">
               </div>
           </div>
           <div class="form-group row col-md-6">
               <label for="cognome" class="col-sm-2 col-form-label">Cognome</label>
               <div class="col-sm-10">
-              <input type="text" class="form-control" id="cognome" name="cognome" value="{{ $datiPaziente->cognome }}">
+              <input type="text" class="form-control" id="cognome" name="cognome">
               </div>
           </div>
         </div>
@@ -27,28 +27,18 @@
           <div class="form-group row col-md-6">
               <label for="dataNascita" class="col-sm-2 col-form-label">Data di nascita</label>
               <div class="col-sm-10">
-              <input type="date" class="form-control" id="dataNascita" name="dataNascita" value="{{ $datiPaziente->dataNascita }}">
+              <input type="date" class="form-control" id="dataNascita" name="dataNascita">
               </div>
           </div>
           <div class="form-group row col-md-6">
               <label class="col-sm-2 col-form-label">Sesso</label>
               <div class="col-sm-10">
                   <div class="form-check form-check-inline">
-                      <?php if($datiPaziente->sesso == '1') {?>
-                      <input class="form-check-input" type="radio" id="inlineRadio1" name="sesso" value="uomo" checked>
-                      <?php } ?>
-                      <?php if($datiPaziente->sesso == '0') {?>
                       <input class="form-check-input" type="radio" id="inlineRadio1" name="sesso" value="uomo">
-                      <?php } ?>
                       <label class="form-check-label" for="inlineRadio1">Uomo</label>
                   </div>
                   <div class="form-check form-check-inline">
-                      <?php if($datiPaziente->sesso == '1') {?>
                       <input class="form-check-input" type="radio" id="inlineRadio2" name="sesso" value="donna">
-                      <?php } ?>
-                      <?php if($datiPaziente->sesso == '0') {?>
-                      <input class="form-check-input" type="radio" id="inlineRadio2" name="sesso" value="donna" checked>
-                      <?php } ?>
                       <label class="form-check-label" for="inlineRadio2">Donna</label>
                   </div>
               </div>
@@ -58,7 +48,7 @@
           <div class="form-group row col-md-6">
               <label for="codiceFiscale" class="col-sm-2 col-form-label">Codice Fiscale</label>
               <div class="col-sm-10">
-              <input type="text" class="form-control" id="codiceFiscale" name="codiceFiscale" value="{{ $datiPaziente->codiceFiscale }}">
+              <input type="text" class="form-control" id="codiceFiscale" name="codiceFiscale">
               </div>
           </div>
         </div>
@@ -66,51 +56,60 @@
           <div class="form-group row col-md-6">
               <label for="email" class="col-sm-2 col-form-label">Email</label>
               <div class="col-sm-10">
-              <input type="email" class="form-control" id="email" name="email" value="{{ $datiPaziente->email }}">
+              <input type="email" class="form-control" id="email" name="email">
               </div>
           </div>
+          <div class="form-group row col-md-6">
+              <label for="telefono" class="col-sm-2 col-form-label">Password</label>
+              <div class="col-sm-10">
+              <input type="password" class="form-control" id="password" name="password">
+              </div>
+          </div>
+        </div>
+        <div class="form-row">
           <div class="form-group row col-md-6">
               <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>
               <div class="col-sm-10">
-              <input type="text" class="form-control" id="telefono" name="telefono" value="{{ $datiPaziente->telefono }}">
+              <input type="text" class="form-control" id="telefono" name="telefono">
               </div>
           </div>
         </div>
         <div class="form-row">
-          <div class="form-group row col-md-6">
-              <label for="via" class="col-sm-2 col-form-label">Via</label>
-              <div class="col-sm-10">
-              <input type="text" class="form-control" id="via" name="via" value="{{ $datiPaziente->via }}">
-              </div>
-          </div>
-          <div class="form-group row col-md-6">
-              <label for="civico" class="col-sm-2 col-form-label">Civico</label>
-              <div class="col-sm-10">
-              <input type="text" class="form-control" id="civico" name="civico" value="{{ $datiPaziente->numeroCivico }}">
-              </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group row col-md-6">
-                <label for="comune" class="col-sm-2 col-form-label">Comune</label>
+            <div class="form-group row col-md-6">
+                <label for="via" class="col-sm-2 col-form-label">Via</label>
                 <div class="col-sm-10">
-                <input type="text" class="form-control" id="comune" name="comune" value="{{ $datiPaziente->comune }}">
+                <input type="text" class="form-control" id="via" name="via">
                 </div>
             </div>
-          <div class="form-group row col-md-6">
-              <label for="provincia" class="col-sm-2 col-form-label">Provincia</label>
-              <div class="col-sm-10">
-              <input type="text" class="form-control" id="provincia" name="provincia" value="{{ $datiPaziente->provincia }}">
-              </div>
-          </div>
+            <div class="form-group row col-md-6">
+                <label for="civico" class="col-sm-2 col-form-label">Civico</label>
+                <div class="col-sm-10">
+                <input type="text" class="form-control" id="civico" name="civico">
+                </div>
+            </div>
         </div>
         <div class="form-row">
-          <div class="form-group row col-md-6">
+
+            <div class="form-group row col-md-6">
+                    <label for="comune" class="col-sm-2 col-form-label">Comune</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" id="comune" name="comune">
+                    </div>
+            </div>    
+        </div>
+        <div class="form-row">
+            <div class="form-group row col-md-6">
+              <label for="provincia" class="col-sm-2 col-form-label">Provincia</label>
+              <div class="col-sm-10">
+              <input type="text" class="form-control" id="provincia" name="provincia">
+              </div>
+            </div>
+            <div class="form-group row col-md-6">
                 <label for="stato" class="col-sm-2 col-form-label">Stato</label>
                 <div class="col-sm-10">
-                <input type="text" class="form-control" id="stato" name="stato" value="{{ $datiPaziente->stato }}">
+                <input type="text" class="form-control" id="stato" name="stato">
                 </div>
-          </div>
+            </div>
         </div>
       </div>
     </div>
@@ -124,20 +123,20 @@
           <div class="form-group row col-md-6">
               <label for="altezza" class="col-sm-2 col-form-label">Altezza</label>
               <div class="col-sm-10">
-              <input type="number" class="form-control" id="altezza" name="altezza" value="{{ $datiPaziente->altezza }}">
+              <input type="number" class="form-control" id="altezza" name="altezza">
               </div>
           </div>
           <div class="form-group row col-md-6">
               <label for="peso" class="col-sm-2 col-form-label">Peso</label>
               <div class="col-sm-10">
-              <input type="number" class="form-control" id="peso" name="peso" value="{{ $datiPaziente->peso }}">
+              <input type="number" class="form-control" id="peso" name="peso">
               </div>
           </div>
         </div>
         <div class="form-group row">
             <label for="note" class="col-sm-2 col-form-label">Note mediche</label>
             <div class="col-sm-10">
-            <textarea cols="40" rows="5" class="form-control" id="note" name="note">{{ $datiPaziente->note }}</textarea>
+            <textarea cols="40" rows="5" class="form-control" id="note" name="note"></textarea>
             </div>
         </div>
       </div>
@@ -154,18 +153,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Stai aggiornando i dati del paziente.</p>
-                <p>Premi su <b>Conferma</b> per applicare le modifiche.</p>
+                <p>Stai creando un nuovo paziente.</p>
+                <p>Premi su <b>Conferma</b> per procedere.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                <button type="submit" class="btn btn-success"><i class="fas fa-edit"></i> Conferma</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> Conferma</button>
             </div>
             </div>
         </div>
     </div>
     <br/>
-    <a type="button" class="btn btn-primary" style="color:white" data-toggle="modal" data-target="#confirmModal"><i class="fas fa-edit" style="color:white"></i> Aggiorna</a>
+    <a type="button" class="btn btn-primary" style="color:white" data-toggle="modal" data-target="#confirmModal"><i class="fas fa-plus" style="color:white"></i> Inserisci</a>
     <a type="button" class="btn btn-secondary" href="/elencoPazienti"></i>Annulla</a>
 </form> 
 <br/>

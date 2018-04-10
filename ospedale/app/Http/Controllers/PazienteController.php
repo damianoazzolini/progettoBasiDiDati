@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Role;
 use App\Utente;
+use App\Paziente;
 use DB;
 
 class PazienteController extends Controller
@@ -48,7 +50,8 @@ class PazienteController extends Controller
      */
     public function create()
     {
-        //
+        $ruolo = Utente::trovaRuolo(Auth::id());
+        return view('aggiungiPaziente',['ruolo' => $ruolo]);
     }
 
     /**
@@ -59,7 +62,48 @@ class PazienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate(request(), [
+            'nome' => 'required|min:3',
+            'cognome' => 'required|min:3',
+            'email' => 'required|min:3|unique:utente',
+            'password' => 'required|min:3',
+        ]);
+    	
+        $utente = new Utente();
+        $utente->nome = request('nome');
+        $utente->cognome = request('cognome');
+        $utente->dataNascita = request('dataNascita');
+        $sesso = request('sesso');
+        if($sesso == 'uomo') {
+            $utente->sesso = '1';
+        }
+        else {
+            $utente->sesso = '0';
+        }
+        $utente->codiceFiscale = request('codiceFiscale');
+        $utente->email = request('email');
+        $utente->password = bcrypt(request('password'));
+        $utente->attivo = '1';
+        $utente->telefono = request('telefono');
+        $utente->provincia = request('provincia');
+        $utente->stato = request('stato');
+        $utente->comune = request('comune');
+        $utente->via = request('via');
+        $utente->numeroCivico = (int)request('civico');
+        $utente->remember_token = 'empty';
+        $utente->save();
+
+        $role_paziente = Role::where('name','Paziente')->first();
+        $utente->roles()->attach($role_paziente);
+
+        $paziente = new Paziente();
+        $paziente->id = $utente->id;
+        $paziente->note = request('note');
+        $paziente->altezza = request('altezza');
+        $paziente->peso = request('peso');
+        $paziente->save();
+
+        return redirect('/elencoPazienti')->with('status','Utente creato con successo');
     }
 
     /**

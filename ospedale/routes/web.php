@@ -38,8 +38,18 @@ Route::post('/dashboard', [
     //'roles' => ['Amministratore']
 ]);
 Route::get('/elencoPazienti', 'PazienteController@index');
-Route::post('/elencoPazienti/ricerca', 'PazienteController@ricerca');
+Route::post('/elencoPazienti', 'PazienteController@ricerca');
 Route::get('/mostraPaziente/{id}', 'PazienteController@show');
 Route::get('/modificaPaziente/{id}', 'PazienteController@edit');
 Route::post('/modificaPaziente/{id}', 'PazienteController@update');
 Route::get('/cancellaPaziente/{id}', 'PazienteController@destroy');
+Route::get('/aggiungiPaziente', 'PazienteController@create');
+Route::post('/aggiungiPaziente', 'PazienteController@store');
+Route::get('/farmacia', 'FarmacoController@index');
+Route::post('/farmacia', 'FarmacoController@ricerca');
+Route::get('/mostraFarmaco/{id}', 'FarmacoController@show');
+Route::get('/modificaFarmaco/{id}', 'FarmacoController@edit');
+Route::post('/modificaFarmaco/{id}', 'FarmacoController@update');
+Route::get('/cancellaFarmaco/{id}', 'FarmacoController@destroy');
+Route::get('/aggiungiFarmaco', 'FarmacoController@create');
+Route::post('/aggiungiFarmaco', 'FarmacoController@store');

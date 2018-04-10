@@ -14,17 +14,23 @@
         <br/>
     @endif
 </div>
-<form action="/elencoPazienti/ricerca" method="post">
+<form action="/elencoPazienti" method="post">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    <div class="form-row col-md-8">
-        <div class="col-3">
-            <label class="col-form-label"><b>Ricerca paziente</b></label>
+    <div class="row">
+        <div class="form-row col-md-8">
+            <div class="col-3">
+                <label class="col-form-label"><b>Ricerca paziente</b></label>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" name="search" placeholder="Nome/Cognome/CF">
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Cerca</button>
+                <a type="button" class="btn btn-primary" href="/elencoPazienti"><i class="fas fa-list-ul" style="color:white"></i> Mostra tutti</a>
+            </div>
         </div>
         <div class="col">
-            <input type="text" class="form-control" name="search" placeholder="Nome/Cognome/CF">
-        </div>
-        <div class="col">
-            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Cerca</button>
+                <a type="button" class="btn btn-primary float-sm-right" href="/aggiungiPaziente"><i class="fas fa-plus" style="color:white"></i> Aggiungi nuovo</a>
         </div>
     </div>
 </form>
