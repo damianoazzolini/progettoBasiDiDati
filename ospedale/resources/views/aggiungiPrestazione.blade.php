@@ -2,6 +2,11 @@
 @section('content')
 <h4> Aggiunta nuova prestazione </h4>
 <br/>
+
+@if($errors->any())
+    <h4>{{$errors->first()}}</h4>
+@endif
+
 <form method="post" class="col-sm-8">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="form-group row">
@@ -11,7 +16,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="sala" class="col-sm-2 col-form-label">Sala</label>
+        <label for="sala" class="col-sm-2 col-form-label">Numero sala</label>
         <div class="col-sm-10">
         <input type="text" class="form-control" id="sala" name="sala" placeholder="Sala">
         </div>
@@ -30,6 +35,13 @@
     </div>
     
     <div class="form-group row">
+        <label for="durata" class="col-sm-2 col-form-label">Durata della prestazione</label>
+        <div class="col-sm-10">
+        <input type="text" class="form-control" id="durata" name="durata" placeholder="Durata">
+        </div>
+    </div>
+
+    <div class="form-group row">
         <label for="nomePaziente" class="col-sm-2 col-form-label">Nome Paziente</label>
         <div class="col-sm-10">
         <input type="text" class="form-control" id="nomePaziente" name="nomePaziente" placeholder="Nome Paziente">
@@ -37,9 +49,9 @@
     </div>
     
     <div class="form-group row">
-        <label for="cognomePaziente" class="col-sm-2 col-form-label">CognomePaziente</label>
+        <label for="cognomePaziente" class="col-sm-2 col-form-label">Cognome Paziente</label>
         <div class="col-sm-10">
-        <input type="text" class="form-control" id="cognomePaziente" name="cognomePaziente" placeholder="CognomePaziente">
+        <input type="text" class="form-control" id="cognomePaziente" name="cognomePaziente" placeholder="Cognome Paziente">
         </div>
     </div>
 
@@ -51,11 +63,19 @@
     </div>
 
     <div class="form-group row">
-        <label for="nomeStaff" class="col-sm-2 col-form-label">Nome Staff</label>
+        <label for="nomeStaff" class="col-sm-2 col-form-label">Nome Membro Staff</label>
         <div class="col-sm-10">
         <input type="text" class="form-control" id="nomeStaff" name="nomeStaff" placeholder="Nome Staff">
         </div>
     </div>
+
+    <div class="form-group row">
+        <label for="cognomeStaff" class="col-sm-2 col-form-label">Cognome Membro Staff</label>
+        <div class="col-sm-10">
+        <input type="text" class="form-control" id="cognomeStaff" name="cognomeStaff" placeholder="Cognome Staff">
+        </div>
+    </div>
+
 
     <div class="form-group row">
         <label for="note" class="col-sm-2 col-form-label">Note</label>

@@ -147,7 +147,8 @@ class LoginController extends Controller
     }
 
     public function showRegistrazione() {
-        return view('registrazione');
+        $ruolo = Utente::trovaRuolo(Auth::id());
+        return view('registrazione',['ruolo' => $ruolo]);
     }
 
     public function show($id) {

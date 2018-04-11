@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Utente;
 use App\Role;
+use App\Prestazione;
+use App\StaffPrestazione;
+use App\Staff;
+
 
 class PrestazioneController extends Controller {
     public function index() {
@@ -79,6 +83,81 @@ class PrestazioneController extends Controller {
 
     //salvo i dati di una nuova prestazione
     public function store(Request $request) {
+        /* reparto sala data ora nomePaziente cognomePaziente codiceFiscale nomeStaff cognomeStaff note durata */
+        //necessito di tutti i campi
+        foreach ($request->except('_token') as $data => $value) {
+            $valids[$data] = "required";
+        }
+        $request->validate($valids);
+        
+        $idReparto = DB::select("SELECT id FROM reparto WHERE nome = $request->nomeReparto");
+        if($idReparto === null)
+            return redirect()->back()->withErrors(['msg', 'Reparto inesistente']);
+        
+        //controllo che la sala sia ssegnata al reparto
+        $descrizioneSala = DB::select("SELECT descrizione FROM sala WHERE idReparto = $idReparto");
+        if($descrizioneSala === null)
+            return redirect()->back()->withErrors(['msg', 'Sala non assegnata al reparto']);
+        
+        //controllo se il nome paziente esiste
+        $idUtente = DB::select("SELECT id FROM utente 
+            WHERE nome = $request->nomePaziente AND cognome = $request->cognomePaziente AND codiceFiscale = $request->codiceFiscale AND attivo = 1");
+        if($idUtente === null)
+            return redirect()->back()->withErrors(['msg', 'Utente inesistente']);
+        
+        //controllo se il paziente esiste
+        $query = DB::select("SELECT altezza FROM paziente
+            JOIN utente ON utente.id = paziente.id
+            WHERE utente.attivo = 1 AND utente.id = $idUtente");
+        if($query === null)
+            return redirect()->back()->withErrors(['msg', 'Utente scelto non è un paziente']);
+
+        //controllo se il componente dello staff esiste e che non sia un paziente
+        $idStaff = DB::select("SELECT id FROM utente 
+            WHERE nome = $request->nomeStaff AND cognome = $request->cognomeStaff AND attivo = 1 
+            AND id NOT IN (SELECT id FROM paziente WHERE attivo = 1)");
+        if($idStaff === null)
+            return redirect()->back()->withErrors(['msg', 'Componente dello staff inesistente']);
+        
+        //controllo che non ci sia una prestazione alla stessa ora nella stessa sala dello stesso reparto
+        $prestazione = DB::select("SELECT id FROM prestazione 
+            WHERE idReparto = $idReparto AND idSala = $request->idSala AND ora = $request->ora AND data = $request->data");
+        if($prestazione != null)
+            return redirect()->back()->withErrors(['msg', 'Esiste già una prestazione alla stessa ora nella stessa sala alla stessa data']);
+        
+        //controllare se c'è una prestazione che finisce dopo che una è iniziata nella stessa sala   
+        /*     
+        $inizioPrestazione = DB::select("SELECT ora FROM prestazione 
+            WHERE idReparto = $idReparto AND idSala = $request->idSala AND data = $request->data");
+        $durataPrestazione = DB::select("SELECT durata FROM prestazione 
+            WHERE idReparto = $idReparto AND idSala = $request->idSala AND data = $request->data");
+        if($inizioPrestazione != null && $durataPrestazione != null) {
+            for(int i = 0; i < count($inizioPrestazione)) {
+            $endTime = DB::select(ADDTIME($inizioPrestazione[0],$durataPrestazione[0]));
+            
+        }
+        */
+
+        //inserisco la prestazione
+        $prestazione = new Prestazione();
+        $prestazione->idReparto = $idReparto;
+        $prestazione->idSala = $Request->idSala;
+        $prestazione->idPaziente = $idUtente;
+        $prestazione->identificativo = $request->identificativo;
+        $prestazione->note = $request->note;
+        $prestazione->attivo = '1';
+        $prestazione->effettuata = '0';
+        $prestazione->data = $request->data;
+        $prestazione->ora = $request->ora;
+        $prestazione->durata = $request->durata;
+        $prestazione->save();
+
+        //inserisco staff prestazione
+        $staff_prestazione = new StaffPrestazione();
+        $staff_prestazione->idPrestazione = $prestazione->id;
+        $staff_prestazione->idStaff = $idStaff;
+        $staff_prestazione->save();
+
         return redirect('/elencoPrestazioni')->with('status','Prestazione creata con successo');        
     }
 
