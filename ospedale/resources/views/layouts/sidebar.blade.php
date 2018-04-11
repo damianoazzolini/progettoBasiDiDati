@@ -57,14 +57,14 @@ max-width: 200px;
                 <span>Prestazioni</span>
                 </h6>
                 <li class="nav-item">
-                <a class="nav-link" href="/prestazioni">
+                <a class="nav-link" href="/elencoPrestazioni">
                     <i class="fas fa-list"></i>                
                     Elenco Prestazioni
                 </a>
                 </li>
                 @if($ruolo != "Infermiere")
                     <li class="nav-item">
-                    <a class="nav-link" href="/prenotaPrestazione">
+                    <a class="nav-link" href="/aggiungiPrestazione">
                         <i class="fas fa-plus"></i>  
                         Nuova prestazione
                     </a>

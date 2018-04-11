@@ -28,6 +28,12 @@ Route::get('/profilo','ProfiloController@show');
 Route::get('/modificaProfilo/{id}', 'ProfiloController@edit');
 Route::post('/modificaProfilo/{id}','ProfiloController@update');
 
+Route::get('/elencoPrestazioni','PrestazioneController@index');
+Route::post('/elencoPrestazioni','PrestazioneController@ricerca');
+Route::get('/mostraPrestazione/{id}','PrestazioneController@show');
+Route::get('/aggiungiPrestazione', 'PrestazioneController@create');
+Route::post('/aggiungiPrestazione', 'PrestazioneController@store');
+
 //Route::get('/myfarmaco','FarmacoController@show');
 
 Route::get('/dashboard', [
