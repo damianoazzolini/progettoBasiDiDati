@@ -10,6 +10,10 @@ class CreateTablePrestazione extends Migration {
             $table->increments('id');
             $table->integer('idReparto')->unsigned();
             $table->foreign('idReparto')->references('id')->on('reparto');
+            $table->integer('idPaziente')->unsigned();
+            $table->foreign('idPaziente')->references('id')->on('paziente');
+            $table->integer('idSala')->unsigned();
+            $table->foreign('idSala')->references('id')->on('sala');
             $table->string('identificativo');
             $table->text('note')->nullable();
             $table->boolean('attivo');
