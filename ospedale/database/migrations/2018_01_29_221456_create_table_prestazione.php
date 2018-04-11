@@ -18,6 +18,9 @@ class CreateTablePrestazione extends Migration {
             $table->text('note')->nullable();
             $table->boolean('attivo');
             $table->boolean('effettuata');
+            $table->date('data');
+            $table->time('ora');
+            $table->integer('durata');
             $table->timestamps();
         });
     }
