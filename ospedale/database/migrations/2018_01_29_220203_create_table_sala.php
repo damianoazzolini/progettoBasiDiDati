@@ -10,7 +10,7 @@ class CreateTableSala extends Migration {
             $table->increments('id');
             $table->string('identificativo');
             $table->integer('idReparto')->unsigned();
-            $table->foreign('idReparto')->references('id')->on('reparto');
+            $table->foreign('idReparto')->references('id')->on('reparto')->onDelete('cascade');
             $table->text('descrizione')->nullable();
             $table->integer('piano');
             $table->timestamps();

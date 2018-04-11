@@ -16,8 +16,8 @@ class CreateTableRuoloUtente extends Migration
         Schema::create('ruolo_utente', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('ruolo_id')->unsigned();
-            $table->integer('utente_id')->unsigned();
+            $table->integer('ruolo_id')->unsigned()->onDelete('cascade');
+            $table->integer('utente_id')->unsigned()->onDelete('cascade');
         });
     }
 

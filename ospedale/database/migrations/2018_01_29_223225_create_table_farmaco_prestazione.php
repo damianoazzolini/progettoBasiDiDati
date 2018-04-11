@@ -9,9 +9,9 @@ class CreateTableFarmacoPrestazione extends Migration
     public function up() {
         Schema::create('farmaco_prestazione', function (Blueprint $table) {
             $table->integer('idFarmaco')->unsigned();
-            $table->foreign('idFarmaco')->references('id')->on('farmaco');
+            $table->foreign('idFarmaco')->references('id')->on('farmaco')->onDelete('cascade');
             $table->integer('idPrestazione')->unsigned();
-            $table->foreign('idPrestazione')->references('id')->on('prestazione');
+            $table->foreign('idPrestazione')->references('id')->on('prestazione')->onDelete('cascade');
             $table->timestamps();
         });
     }

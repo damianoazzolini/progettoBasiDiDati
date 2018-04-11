@@ -8,9 +8,9 @@ class CreateTableReferto extends Migration {
     public function up() {
         Schema::create('referto', function (Blueprint $table) {
             $table->integer('id')->unsigned();
-            $table->foreign('id')->references('id')->on('prestazione');
+            $table->foreign('id')->references('id')->on('prestazione')->onDelete('cascade');
             $table->integer('idPaziente')->unsigned();
-            $table->foreign('idPaziente')->references('id')->on('paziente');
+            $table->foreign('idPaziente')->references('id')->on('paziente')->onDelete('cascade');
             $table->text('esito');
             $table->text('note')->nullable();
             $table->timestamps();

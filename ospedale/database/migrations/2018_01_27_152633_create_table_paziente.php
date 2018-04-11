@@ -8,7 +8,7 @@ class CreateTablePaziente extends Migration {
     public function up() {
         Schema::create('paziente', function (Blueprint $table) {
             $table->integer('id')->unsigned();
-            $table->foreign('id')->references('id')->on('utente');
+            $table->foreign('id')->references('id')->on('utente')->onDelete('cascade');
             $table->text('note')->nullable();
             $table->integer('altezza')->nullable();
             $table->integer('peso')->nullable();
