@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 @section('content')
-<h4>Inserimento nuovo famraco</h4>
+<h4>Aggiorna dati farmaco: </h4><h3>{{ $farmaco->nome }}</h3>
 <br/>
 <form method="post" class="col-sm-8">
     <div class="card bg-light">
@@ -12,19 +12,19 @@
         <div class="form-group row">
             <label for="nome" class="col-sm-2 col-form-label">Nome</label>
             <div class="col-sm-10">
-            <input type="text" class="form-control" id="nome" name="nome">
+            <input type="text" class="form-control" id="nome" name="nome" value="{{ $farmaco->nome }}">
             </div>
         </div>
         <div class="form-group row">
             <label for="categoria" class="col-sm-2 col-form-label">Categoria</label>
             <div class="col-sm-10">
-            <input type="text" class="form-control" id="categoria" name="categoria">
+            <input type="text" class="form-control" id="categoria" name="categoria" value="{{ $farmaco->categoria }}">
             </div>
         </div>
         <div class="form-group row">
             <label for="descrizione" class="col-sm-2 col-form-label">Descrizione</label>
             <div class="col-sm-10">
-            <textarea cols="40" rows="5" class="form-control" id="descrizione" name="descrizione"></textarea>
+            <textarea cols="40" rows="5" class="form-control" id="descrizione" name="descrizione">{{ $farmaco->descrizione }}</textarea>
             </div>
         </div>
       </div>
@@ -41,19 +41,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Stai creando un nuovo farmaco.</p>
-                <p>Premi su <b>Conferma</b> per procedere.</p>
+                <p>Stai aggiornando i dati del farmaco.</p>
+                <p>Premi su <b>Conferma</b> per applicare le modifiche.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> Conferma</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-edit"></i> Conferma</button>
             </div>
             </div>
         </div>
     </div>
 
     <br/>
-    <a type="button" class="btn btn-primary" style="color:white" data-toggle="modal" data-target="#confirmModal"><i class="fas fa-plus" style="color:white"></i> Inserisci</a>
+    <a type="button" class="btn btn-primary" style="color:white" data-toggle="modal" data-target="#confirmModal"><i class="fas fa-edit" style="color:white"></i> Aggiorna</a>
     <a type="button" class="btn btn-secondary" href="/farmacia"></i>Annulla</a>
 
 </form> 

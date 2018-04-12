@@ -1,11 +1,11 @@
 @extends('layouts.sidebar')
 @section('content')
-<h4>Inserimento nuovo famraco</h4>
+<h4>Inserimento nuovo reparto</h4>
 <br/>
 <form method="post" class="col-sm-8">
     <div class="card bg-light">
       <div class="card-header">
-        <p class="h6">Dati tecnici</p>
+        <p class="h6">Dati reparto</p>
       </div>
       <div class="card-body">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -16,9 +16,9 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="categoria" class="col-sm-2 col-form-label">Categoria</label>
+            <label for="identificativo" class="col-sm-2 col-form-label">Identificativo</label>
             <div class="col-sm-10">
-            <input type="text" class="form-control" id="categoria" name="categoria">
+            <input type="text" class="form-control" id="identificativo" name="identificativo">
             </div>
         </div>
         <div class="form-group row">
@@ -41,7 +41,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Stai creando un nuovo farmaco.</p>
+                <p>Stai creando un nuovo reparto.</p>
                 <p>Premi su <b>Conferma</b> per procedere.</p>
             </div>
             <div class="modal-footer">
@@ -54,7 +54,7 @@
 
     <br/>
     <a type="button" class="btn btn-primary" style="color:white" data-toggle="modal" data-target="#confirmModal"><i class="fas fa-plus" style="color:white"></i> Inserisci</a>
-    <a type="button" class="btn btn-secondary" href="/farmacia"></i>Annulla</a>
+    <a type="button" class="btn btn-secondary" href="/reparti"></i>Annulla</a>
 
 </form> 
 

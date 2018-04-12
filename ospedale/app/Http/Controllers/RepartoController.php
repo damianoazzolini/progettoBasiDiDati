@@ -23,6 +23,20 @@ class RepartoController extends Controller
         return view('reparti',['reparti' => $query, 'ruolo' => $ruolo]);
     }
 
+    public function ricerca(Request $request) {
+        $this->validate(request(), [
+            'search' => 'required|min:2|max:64',
+        ]);
+        $search = request('search');
+        
+        $query = DB::select("SELECT * FROM reparto
+            WHERE nome LIKE '$search%' OR 
+            identificativo LIKE '$search%'");
+        $ruolo = Utente::trovaRuolo(Auth::id());
+
+        return view('reparti',['reparti' => $query, 'ruolo' => $ruolo]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -30,7 +44,8 @@ class RepartoController extends Controller
      */
     public function create()
     {
-        //
+        $ruolo = Utente::trovaRuolo(Auth::id());
+        return view('aggiungiReparto',['ruolo' => $ruolo]);
     }
 
     /**
@@ -41,7 +56,19 @@ class RepartoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate(request(), [
+            'nome' => 'required|min:2|max:64',
+            'identificativo' => 'required|min:2|max:64',
+        ]);
+
+        $nome = request('nome');
+        $identificativo = request('identificativo');
+        $descrizione = request('descrizione');
+
+        $query = DB::select("INSERT INTO reparto (nome, identificativo, descrizione) VALUES ('$nome', '$identificativo', '$descrizione')");
+        $ruolo = Utente::trovaRuolo(Auth::id());
+
+        return redirect('/reparti')->with('status','Reparto creato con successo');
     }
 
     /**
@@ -52,7 +79,10 @@ class RepartoController extends Controller
      */
     public function show($id)
     {
-        //
+        $query = DB::select("SELECT * FROM reparto WHERE id = $id");
+        $ruolo = Utente::trovaRuolo(Auth::id());
+
+        return view('mostraReparto',['reparto' => $query[0], 'ruolo' => $ruolo]);
     }
 
     /**
@@ -63,7 +93,10 @@ class RepartoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $query = DB::select("SELECT * FROM reparto WHERE id = $id");
+        $ruolo = Utente::trovaRuolo(Auth::id());
+
+        return view('modificaReparto',['reparto' => $query[0], 'ruolo' => $ruolo]);
     }
 
     /**
@@ -75,7 +108,13 @@ class RepartoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $nome = request('nome');
+        $identificativo = request('identificativo');
+        $descrizione = request('descrizione');
+        DB::statement("UPDATE reparto SET nome = '$nome', identificativo = '$identificativo', 
+                    descrizione = '$descrizione' WHERE id = $id");
+
+        return redirect('/reparti')->with('status','Reparto aggiornato con successo');
     }
 
     /**
@@ -86,6 +125,8 @@ class RepartoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::statement("DELETE FROM reparto WHERE id = $id");
+
+        return redirect('/reparti')->with('status','Reparto cancellato con successo');
     }
 }
