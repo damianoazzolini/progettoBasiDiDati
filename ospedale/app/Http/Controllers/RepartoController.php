@@ -65,7 +65,7 @@ class RepartoController extends Controller
         $identificativo = request('identificativo');
         $descrizione = request('descrizione');
 
-        $query = DB::select("INSERT INTO reparto (nome, identificativo, descrizione) VALUES ('$nome', '$identificativo', '$descrizione')");
+        DB::statement("INSERT INTO reparto (nome, identificativo, descrizione) VALUES ('$nome', '$identificativo', '$descrizione')");
         $ruolo = Utente::trovaRuolo(Auth::id());
 
         return redirect('/reparti')->with('status','Reparto creato con successo');

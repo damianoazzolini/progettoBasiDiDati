@@ -133,7 +133,7 @@ max-width: 200px;
             <span>Sale</span>
             </h6>
             <li class="nav-item">
-            <a class="nav-link" href="/sala">
+            <a class="nav-link" href="/sale">
                 <i class="fas fa-tags"></i> 
                 Sale
             </a>
@@ -159,8 +159,10 @@ max-width: 200px;
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script charset="utf-8" type="text/javascript" src="{{asset('/js/jquery-3.js')}}" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script charset="utf-8" type="text/javascript" src="{{asset('/js/popper.js')}}"></script>
     <script charset="utf-8" type="text/javascript" src="{{asset('/js/bootstrap.js')}}"></script>
+    @yield('scripts')
 
     <!-- Icons -->
     <script charset="utf-8" type="text/javascript" src="{{asset('/js/fontawesome-all.js')}}"></script>

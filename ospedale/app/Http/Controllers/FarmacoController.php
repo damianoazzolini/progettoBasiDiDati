@@ -66,7 +66,7 @@ class FarmacoController extends Controller
         $categoria = request('categoria');
         $descrizione = request('descrizione');
 
-        $query = DB::select("INSERT INTO farmaco (nome, categoria, descrizione) VALUES ('$nome', '$categoria', '$descrizione')");
+        DB::statement("INSERT INTO farmaco (nome, categoria, descrizione) VALUES ('$nome', '$categoria', '$descrizione')");
         $ruolo = Utente::trovaRuolo(Auth::id());
 
         return redirect('/farmacia')->with('status','Farmaco creato con successo');
