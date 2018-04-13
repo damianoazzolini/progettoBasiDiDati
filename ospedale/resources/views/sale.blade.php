@@ -49,7 +49,7 @@
     <tr>
         <th scope="row">{{ $sala->id}}</th>
         <td> {{ $sala->nomeSala }} </td>
-        <td> {{ $sala->identificativoReparto }} </td>
+        <td> <a href="/mostraReparto/{{ $sala->idReparto }} "> {{ $sala->identificativoReparto }} </a></td>
         <td> {{ $sala->piano }} </td>
         <td>
             <div>

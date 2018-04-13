@@ -19,7 +19,7 @@ class SalaController extends Controller
     public function index()
     {
         $query = DB::select("SELECT sala.id as id, sala.nome as nomeSala,
-            sala.descrizione as descrizione, sala.piano as piano,
+            sala.idReparto as idReparto, sala.descrizione as descrizione, sala.piano as piano,
             reparto.identificativo as identificativoReparto FROM sala
             JOIN reparto ON sala.idReparto = reparto.id");
         $ruolo = Utente::trovaRuolo(Auth::id());
@@ -34,7 +34,7 @@ class SalaController extends Controller
         $search = request('search');
         
         $query = DB::select("SELECT sala.id as id, sala.nome as nomeSala,
-            sala.descrizione as descrizione, sala.piano as piano,
+            sala.idReparto as idReparto, sala.descrizione as descrizione, sala.piano as piano,
             reparto.identificativo as identificativoReparto FROM sala
             JOIN reparto ON sala.idReparto = reparto.id
             WHERE sala.nome LIKE '$search%'");

@@ -5,7 +5,7 @@
 <div class="row">
   <div class="col"></div>
   <div class="col">
-    <a type="button" class="btn btn-secondary float-sm-right" style="margin-left: 5px; color:white" href="/reparti"></i>Chiudi</a>
+    <a type="button" class="btn btn-secondary float-sm-right" style="margin-left: 5px; color:white" href="{{ URL::previous() }}"></i>Chiudi</a>
     <a type="button" class="btn btn-warning float-sm-right" style="margin-left: 5px; color:white" href="/modificaReparto/{{ $reparto->id}}"><i class="fas fa-edit"></i> Modifica</a>
     <a type="button" class="btn btn-danger float-sm-right" style="margin-left: 5px; color:white" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash-alt"></i> Cancella</a>
   </div>

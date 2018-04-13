@@ -70,7 +70,7 @@
     </div>
 
     <br/>
-    <a type="button" class="btn btn-primary" style="color:white" data-toggle="modal" data-target="#confirmModal"><i class="fas fa-plus" style="color:white"></i> Inserisci</a>
+    <a type="button" class="btn btn-primary" style="color:white" data-toggle="modal" data-target="#confirmModal"><i class="fas fa-edit" style="color:white"></i> Aggiorna</a>
     <a type="button" class="btn btn-secondary" href="/sale"></i>Annulla</a>
 
 </form> 
