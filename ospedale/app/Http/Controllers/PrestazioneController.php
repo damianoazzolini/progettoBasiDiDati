@@ -14,48 +14,16 @@ use App\Staff;
 
 class PrestazioneController extends Controller {
     public function index() {
-        /*
-        | id             | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
-        | idReparto      | int(10) unsigned | NO   | MUL | NULL    |                |
-        | idPaziente     | int(10) unsigned | NO   | MUL | NULL    |                |
-        | idSala         | int(10) unsigned | NO   | MUL | NULL    |                |
-        | identificativo | varchar(255)     | NO   |     | NULL    |                |
-        | note           | text             | YES  |     | NULL    |                |
-        | attivo         | tinyint(1)       | NO   |     | NULL    |                |
-        | effettuata     | tinyint(1)       | NO   |     | NULL    |                |
-        | created_at     | timestamp        | YES  |     | NULL    |                |
-        | updated_at     | timestamp        | YES  |     | NULL    | 
-        */
-        $query = DB::select("SELECT * FROM prestazione");
-        $ruolo = Utente::trovaRuolo(Auth::id());
-        $reparti = [];
-        $sale = [];
+        //restituisco solo paziente data ora effettuata attiva
+        $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione WHERE attivo=1");
         $pazienti = [];
-        $staff = [];
-        $farmaci = [];
-
-        foreach($query as $prestazione) {
-            $queryReparto = DB::select("SELECT nome FROM reparto WHERE id = $prestazione->idReparto");
-            $querySala = DB::select("SELECT identificativo FROM sala WHERE id = $prestazione->idSala");
-            $queryPaziente = DB::select("SELECT nome,cognome,codiceFiscale,attivo FROM utente JOIN paziente ON utente.id = paziente.id");
-            $queryStaff = DB::select("SELECT identificativo FROM staff JOIN staff_prestazione ON staff.id = staff_prestazione.idStaff 
-                WHERE staff_prestazione.idPrestazione = $prestazione->id");
-            $queryFarmaci = DB::select("SELECT nome FROM farmaco JOIN farmaco_prestazione ON farmaco_prestazione.idFarmaco = farmaco.id
-                WHERE farmaco_prestazione.idPrestazione = $prestazione->id ");  
-            array_push($reparti,$queryReparto);
-            array_push($sale,$querySala);
-            array_push($pazienti,$queryPaziente);
-            array_push($staff,$queryStaff);
-            array_push($farmaci,$queryFarmaco);
+        foreach ($prestazioni as $prestazione) {
+            $queryPaziente = DB::select("SELECT nome,cognome FROM utente WHERE id=$prestazione->id");
+            array_push($pazienti,$queryPaziente[0]);
         }
 
-        return view('elencoPrestazioni',[
-            'prestazioni' => $query, 
-            'reparti' => $reparti, 
-            'sale' => $sale,
-            'staff' => $staff,
-            'farmaci' => $farmaci,
-            'ruolo' => $ruolo]);
+        $ruolo = Utente::trovaRuolo(Auth::id());
+        return view('elencoPrestazioni',['prestazioni' => $prestazioni,'pazienti' => $pazienti ,'ruolo' => $ruolo]);
     }
 
     public function ricerca(Request $request) {
@@ -165,35 +133,29 @@ class PrestazioneController extends Controller {
     public function show($id) {
         $query = DB::select("SELECT * FROM prestazione");
         $ruolo = Utente::trovaRuolo(Auth::id());
-        $reparti = [];
-        $sale = [];
-        $pazienti = [];
-        $staff = [];
-        $farmaci = [];
-
-        foreach($query as $prestazione) {
-            $queryReparto = DB::select("SELECT nome FROM reparto WHERE id = $prestazione->idReparto");
-            $querySala = DB::select("SELECT identificativo FROM sala WHERE id = $prestazione->idSala");
-            $queryPaziente = DB::select("SELECT nome,cognome,codiceFiscale,attivo FROM utente JOIN paziente ON utente.id = paziente.id");
-            $queryStaff = DB::select("SELECT identificativo FROM staff JOIN staff_prestazione ON staff.id = staff_prestazione.idStaff 
-                WHERE staff_prestazione.idPrestazione = $prestazione->id");
-            $queryFarmaci = DB::select("SELECT nome FROM farmaco JOIN farmaco_prestazione ON farmaco_prestazione.idFarmaco = farmaco.id
-                WHERE farmaco_prestazione.idPrestazione = $prestazione->id ");  
-            array_push($reparti,$queryReparto);
-            array_push($sale,$querySala);
-            array_push($pazienti,$queryPaziente);
-            array_push($staff,$queryStaff);
-            array_push($farmaci,$queryFarmaco);
+               
+        $queryReparto = DB::select("SELECT nome FROM reparto WHERE id = $prestazione->idReparto");
+        $querySala = DB::select("SELECT identificativo FROM sala WHERE id = $prestazione->idSala");
+        $queryPaziente = DB::select("SELECT nome,cognome,codiceFiscale,attivo FROM utente JOIN paziente ON utente.id = paziente.id");
+        $idStaff = DB::select("SELECT id FROM staff JOIN staff_prestazione ON staff.id = staff_prestazione.idStaff 
+            WHERE staff_prestazione.idPrestazione = $prestazione->id");
+        $queryStaff = [];//seleziono nome cognome dagli utenti con quell'id
+        foreach($idStaff as $elementoStaff) {
+            $nomeCognome = DB::select("SELECT nome, cognome FROM utente WHERE id=$elementoStaff");
+            array_push($queryStaff,$nomeCognome[0]);
         }
 
-        return view('mostraPrestazione',[
-            'prestazioni' => $query, 
-            'reparti' => $reparti, 
-            'sale' => $sale,
-            'staff' => $staff,
-            'farmaci' => $farmaci,
-            'ruolo' => $ruolo]);
+        $queryFarmaci = DB::select("SELECT nome FROM farmaco JOIN farmaco_prestazione ON farmaco_prestazione.idFarmaco = farmaco.id
+            WHERE farmaco_prestazione.idPrestazione = $prestazione->id ");  
         
+        return view('mostraPrestazione',[
+            'prestazione' => $query, 
+            'reparto' => $queryReparto, 
+            'sala' => $querySala,
+            'paziente' => $queryPaziente,
+            'staff' => $queryStaff,
+            'farmaci' => $queryFarmaci,
+            'ruolo' => $ruolo]);
     }
 
     //modfico la prestazione
@@ -206,14 +168,8 @@ class PrestazioneController extends Controller {
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id) {
+        DB::table('prestazione')->where('id', $id)->update(['attivo' => 0]);
+        return redirect('/elencoPrestazioni')->with('status','Prestazione cancellata con successo');  
     }
 }
