@@ -31,6 +31,8 @@ Route::post('/modificaProfilo/{id}','ProfiloController@update');
 Route::get('/elencoPrestazioni','PrestazioneController@index');
 Route::post('/elencoPrestazioni','PrestazioneController@ricerca');
 Route::get('/mostraPrestazione/{id}','PrestazioneController@show');
+Route::post('/modificaPrestazione/{id}', 'PrestazioneController@update');
+Route::get('/cancellaPrestazione/{id}', 'PrestazioneController@destroy');
 Route::get('/aggiungiPrestazione', 'PrestazioneController@create');
 Route::post('/aggiungiPrestazione', 'PrestazioneController@store');
 
