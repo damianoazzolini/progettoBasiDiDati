@@ -18,8 +18,8 @@ class SalaController extends Controller
      */
     public function index()
     {
-        $query = DB::select("SELECT sala.id as id, sala.identificativo as identificativoSala,
-            sala.idReparto as idReparto, sala.descrizione as descrizione, sala.piano as piano,
+        $query = DB::select("SELECT sala.id as id, sala.nome as nomeSala,
+            sala.descrizione as descrizione, sala.piano as piano,
             reparto.identificativo as identificativoReparto FROM sala
             JOIN reparto ON sala.idReparto = reparto.id");
         $ruolo = Utente::trovaRuolo(Auth::id());
@@ -33,11 +33,11 @@ class SalaController extends Controller
         ]);
         $search = request('search');
         
-        $query = DB::select("SELECT sala.id as id, sala.identificativo as identificativoSala,
-            sala.idReparto as idReparto, sala.descrizione as descrizione, sala.piano as piano,
+        $query = DB::select("SELECT sala.id as id, sala.nome as nomeSala,
+            sala.descrizione as descrizione, sala.piano as piano,
             reparto.identificativo as identificativoReparto FROM sala
             JOIN reparto ON sala.idReparto = reparto.id
-            WHERE sala.identificativo LIKE '$search%'");
+            WHERE sala.nome LIKE '$search%'");
         $ruolo = Utente::trovaRuolo(Auth::id());
 
         return view('sale',['sale' => $query, 'ruolo' => $ruolo]);
@@ -63,11 +63,11 @@ class SalaController extends Controller
     public function store(Request $request)
     {
         $this->validate(request(), [
-            'identificativoSala' => 'required|min:2|max:64',
+            'nomeSala' => 'required|min:2|max:64',
             'identificativoReparto' => 'required|min:2|max:64',
         ]);
 
-        $identificativoSala = request('identificativoSala');
+        $nomeSala = request('nomeSala');
         $identificativoReparto = request('identificativoReparto');
         $idReparto = DB::select("SELECT id FROM reparto 
             WHERE reparto.identificativo = '$identificativoReparto'");
@@ -77,9 +77,9 @@ class SalaController extends Controller
         else {
             $idReparto = (int) $idReparto[0]->id;
             $piano = (int) request('piano');
-            $descrizione = request('descrizione');
+            $descrizioneSala = request('descrizioneSala');
 
-            DB::statement("INSERT INTO sala (identificativo, idReparto, descrizione, piano) VALUES ('$identificativoSala', '$idReparto', '$descrizione', '$piano')");
+            DB::statement("INSERT INTO sala (nome, idReparto, descrizione, piano) VALUES ('$nomeSala', '$idReparto', '$descrizioneSala', '$piano')");
             $ruolo = Utente::trovaRuolo(Auth::id());
 
             return redirect('/sale')->with('status','Sala creata con successo');
@@ -94,7 +94,15 @@ class SalaController extends Controller
      */
     public function show($id)
     {
-        //
+        $query = DB::select("SELECT sala.id as id, sala.nome as nomeSala,
+            sala.descrizione as descrizioneSala, sala.piano as piano,
+            reparto.identificativo as identificativoReparto, reparto.nome as nomeReparto,  
+            reparto.descrizione as descrizioneReparto FROM sala
+            JOIN reparto ON sala.idReparto = reparto.id
+            WHERE sala.id = $id");
+        $ruolo = Utente::trovaRuolo(Auth::id());
+
+        return view('mostraSala',['sala' => $query[0], 'ruolo' => $ruolo]);
     }
 
     /**
@@ -105,7 +113,15 @@ class SalaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $query = DB::select("SELECT sala.id as id, sala.nome as nomeSala,
+            sala.descrizione as descrizioneSala, sala.piano as piano,
+            reparto.identificativo as identificativoReparto, reparto.nome as nomeReparto,  
+            reparto.descrizione as descrizioneReparto FROM sala
+            JOIN reparto ON sala.idReparto = reparto.id
+            WHERE sala.id = $id");
+        $ruolo = Utente::trovaRuolo(Auth::id());
+
+        return view('modificaSala',['sala' => $query[0], 'ruolo' => $ruolo]);
     }
 
     /**
@@ -117,7 +133,28 @@ class SalaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate(request(), [
+            'nomeSala' => 'required|min:2|max:64',
+            'identificativoReparto' => 'required|min:2|max:64',
+        ]);
+
+        $nomeSala = request('nomeSala');
+        $identificativoReparto = request('identificativoReparto');
+        $idReparto = DB::select("SELECT id FROM reparto 
+            WHERE reparto.identificativo = '$identificativoReparto'");
+        if(empty($idReparto)){
+            return redirect()->back()->with('status','Identificativo reparto non riconosciuto');
+        }
+        else {
+            $idReparto = (int) $idReparto[0]->id;
+            $piano = (int) request('piano');
+            $descrizioneSala = request('descrizioneSala');
+
+            DB::statement("UPDATE sala SET nome = '$nomeSala', idReparto = '$idReparto', 
+                descrizione = '$descrizioneSala', piano = '$piano' WHERE id = $id");
+
+            return redirect('/sale')->with('status','Sala aggiornata con successo');
+        }
     }
 
     /**

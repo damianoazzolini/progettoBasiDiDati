@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 @section('content')
-<h4>Inserimento nuova sala</h4>
+<h4>Aggiorna dati sala: </h4><h3>{{ $sala->nomeSala }}</h3>
 <br/>
 <div>
     @if (session('status'))
@@ -23,25 +23,25 @@
         <div class="form-group row">
             <label for="nomeSala" class="col-sm-2 col-form-label">Nome</label>
             <div class="col-sm-10">
-            <input type="text" class="form-control" id="nomeSala" name="nomeSala">
+            <input type="text" class="form-control" id="nomeSala" name="nomeSala" value="{{ $sala->nomeSala}}">
             </div>
         </div>
         <div class="form-group row">
             <label for="identificativoReparto" class="col-sm-2 col-form-label">Identificativo Reparto</label>
             <div class="col-sm-10">
-            <input type="text" class="form-control" id="identificativoReparto" name="identificativoReparto">
+            <input type="text" class="form-control" id="identificativoReparto" name="identificativoReparto" value="{{ $sala->identificativoReparto }}">
             </div>
         </div>
         <div class="form-group row">
             <label for="piano" class="col-sm-2 col-form-label">Piano</label>
             <div class="col-sm-10">
-            <input type="number" class="form-control" id="piano" name="piano">
+            <input type="number" class="form-control" id="piano" name="piano" value="{{ $sala->piano }}">
             </div>
         </div>
         <div class="form-group row">
             <label for="descrizioneSala" class="col-sm-2 col-form-label">Descrizione</label>
             <div class="col-sm-10">
-            <textarea cols="40" rows="5" class="form-control" id="descrizioneSala" name="descrizioneSala"></textarea>
+            <textarea cols="40" rows="5" class="form-control" id="descrizioneSala" name="descrizioneSala">{{ $sala->descrizioneSala }}</textarea>
             </div>
         </div>
       </div>
@@ -58,12 +58,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Stai creando una nuova sala.</p>
-                <p>Premi su <b>Conferma</b> per procedere.</p>
+                <p>Stai aggiornando i dati della sala.</p>
+                <p>Premi su <b>Conferma</b> per applicare le modifiche.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> Conferma</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-edit"></i> Conferma</button>
             </div>
             </div>
         </div>

@@ -8,7 +8,7 @@ class CreateTableSala extends Migration {
     public function up() {
         Schema::create('sala', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('identificativo');
+            $table->string('nome');
             $table->integer('idReparto')->unsigned();
             $table->foreign('idReparto')->references('id')->on('reparto')->onDelete('cascade');
             $table->text('descrizione')->nullable();

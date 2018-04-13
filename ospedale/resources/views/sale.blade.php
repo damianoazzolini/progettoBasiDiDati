@@ -22,7 +22,7 @@
                 <label class="col-form-label"><b>Ricerca sala</b></label>
             </div>
             <div class="col">
-                <input type="text" class="form-control" name="search" placeholder="Identificativo Sala">
+                <input type="text" class="form-control" name="search" placeholder="Nome">
             </div>
             <div class="col">
                 <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Cerca</button>
@@ -38,7 +38,7 @@
 <table class="table">
 <thead>
 <th scope="col"> ID </th>
-<th scope="col"> Identificativo Sala </th>
+<th scope="col"> Nome </th>
 <th scope="col"> Identificativo Reparto</th>
 <th scope="col"> Piano</th>
 <th scope="col"></th>
@@ -48,7 +48,7 @@
 @foreach($sale as $sala) 
     <tr>
         <th scope="row">{{ $sala->id}}</th>
-        <td> {{ $sala->identificativoSala }} </td>
+        <td> {{ $sala->nomeSala }} </td>
         <td> {{ $sala->identificativoReparto }} </td>
         <td> {{ $sala->piano }} </td>
         <td>
@@ -72,7 +72,8 @@
         <div class="modal-body">
             Vuoi davvero cancellare la sala:<br/>
             <b>ID: </b>{{ $sala->id }}<br/>
-            <b>Identificativo: </b>{{ $sala->identificativoSala }}<br/>
+            <b>Nome: </b>{{ $sala->nomeSala }}<br/>
+            <b>Reparto: </b>{{ $sala->identificativoReparto }}<br/>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
