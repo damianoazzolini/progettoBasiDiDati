@@ -82,7 +82,7 @@ max-width: 200px;
             <span>Farmaci</span>
             </h6>
             <li class="nav-item">
-            <a class="nav-link" href="/myfarmaco">
+            <a class="nav-link" href="/myfarmaci">
                 <i class="fas fa-pills"></i> 
                 Farmaci assunti
             </a>
