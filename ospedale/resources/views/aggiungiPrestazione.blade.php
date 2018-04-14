@@ -3,22 +3,30 @@
 <h4> Aggiunta nuova prestazione </h4>
 <br/>
 
-@if($errors->any())
-    <h4>{{$errors->first()}}</h4>
-@endif
+<div>
+    @if (session('status'))
+        <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+            {{ session('status') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <br/>
+    @endif
+</div>
 
 <form method="post" class="col-sm-8">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="form-group row">
-        <label for="reparto" class="col-sm-2 col-form-label">Reparto</label>
+        <label for="identificativoReparto" class="col-sm-2 col-form-label">Reparto</label>
         <div class="col-sm-10">
-        <input type="text" class="form-control" id="reparto" name="reparto" placeholder="Nome Reparto">
+        <input type="text" class="form-control" id="identificativoReparto" name="identificativoReparto" placeholder="Nome Reparto">
         </div>
     </div>
     <div class="form-group row">
-        <label for="sala" class="col-sm-2 col-form-label">Numero sala</label>
+        <label for="identificativoSala" class="col-sm-2 col-form-label">Identificativo sala</label>
         <div class="col-sm-10">
-        <input type="text" class="form-control" id="sala" name="sala" placeholder="Sala">
+        <input type="text" class="form-control" id="identificativoSala" name="identificativoSala" placeholder="Sala">
         </div>
     </div>
     <div class="form-group row">
@@ -30,14 +38,21 @@
     <div class="form-group row">
         <label for="ora" class="col-sm-2 col-form-label">Ora della prestazione</label>
         <div class="col-sm-10">
-        <input type="text" class="form-control" id="ora" name="ora" placeholder="Ora">
+        <input type="time" class="form-control" id="ora" name="ora" placeholder="Ora">
         </div>
     </div>
     
     <div class="form-group row">
         <label for="durata" class="col-sm-2 col-form-label">Durata della prestazione</label>
         <div class="col-sm-10">
-        <input type="text" class="form-control" id="durata" name="durata" placeholder="Durata">
+        <input type="number" class="form-control" id="durata" name="durata" placeholder="Durata in minuti">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="identificativo" class="col-sm-2 col-form-label">Tipo della prestazione</label>
+        <div class="col-sm-10">
+        <input type="text" class="form-control" id="identificativo" name="identificativo" placeholder="Tipo">
         </div>
     </div>
 
@@ -92,5 +107,12 @@
 
 <script charset="utf-8" type="text/javascript" src="{{asset('/js/registration.js')}}"></script>
 
+@endsection
+
+@section('scripts')
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<script charset="utf-8" type="text/javascript" src="{{asset('/js/prestazioni.js')}}" ></script>
 @endsection
 

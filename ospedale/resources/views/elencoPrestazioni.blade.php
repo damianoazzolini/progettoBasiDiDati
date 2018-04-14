@@ -50,18 +50,18 @@
         <td> {{ $pazienti[$i]->cognome }} </td>
         <td> {{ $prestazioni[$i]->data }} </td>
         <td> {{ $prestazioni[$i]->ora }} </td>
-        <td> {{ $prestazioni[$i]->attiva }} </td>
+        <td> {{ $prestazioni[$i]->attivo }} </td>
         <td> {{ $prestazioni[$i]->effettuata }} </td>
         <td>
             <div>
                 <a type="button" class="btn btn-success" href="/mostraPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-eye" style="color:black"></i></a>
-                <a type="button" class="btn btn-warning" href="/modificaPrestazione/{{ $$prestazioni[$i]->id }}"><i class="fas fa-edit"></i></a>
+                <a type="button" class="btn btn-warning" href="/modificaPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-edit"></i></a>
                 <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $prestazioni[$i]->id }}"><i class="fas fa-trash-alt"></i></a>
             </div>
         </td>
     </tr> 
     <!-- Modal di conferma cancellazione-->
-    <div class="modal fade" id="deleteModal{{ $$prestazioni[$i]->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="deleteModal{{ $prestazioni[$i]->id}}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
         <div class="modal-header">
@@ -74,7 +74,7 @@
             Vuoi davvero cancellare la prestazione:<br/>
             <b>Nome: </b>{{ $pazienti[$i]->nome }}<br/>
             <b>Cognome: </b>{{ $pazienti[$i]->cognome }}<br/>
-            <b>Data: </b>{{ $pazienti[$i]->data }}<br/>
+            <b>Data: </b>{{ $prestazioni[$i]->data }}<br/>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>

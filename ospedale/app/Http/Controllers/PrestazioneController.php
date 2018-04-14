@@ -51,73 +51,108 @@ class PrestazioneController extends Controller {
 
     //salvo i dati di una nuova prestazione
     public function store(Request $request) {
-        /* reparto sala data ora nomePaziente cognomePaziente codiceFiscale nomeStaff cognomeStaff note durata */
-        //necessito di tutti i campi
-        foreach ($request->except('_token') as $data => $value) {
-            $valids[$data] = "required";
+       
+        $request->validate([
+            'identificativoReparto' => 'required',
+            'identificativoSala' => 'required',
+            'data' => 'required',
+            'ora' => 'required',
+            'durata' => 'required',
+            'identificativo' => 'required',
+            'nomePaziente' => 'required',
+            'cognomePaziente' => 'required',
+            'codiceFiscale' => 'required',
+            'nomeStaff' => 'required',
+            'cognomeStaff' => 'required',
+        ]);
+
+        
+        //$idReparto = DB::select("SELECT id FROM reparto WHERE nome=$request->input('nomeReparto')");
+        $idReparto = DB::table('reparto')->where('nome',$request->input('identificativoReparto'))->pluck('id')->first();
+        if($idReparto == [])
+            return redirect()->back()->with('status', 'Reparto inesistente');
+        
+        //controllo che la sala sia assegnata al reparto
+        //$nomeSala = DB::select("SELECT nome FROM sala WHERE idReparto=$idReparto");
+        $idSala = DB::table('sala')->where('idReparto',$idReparto)->pluck('id')->first();
+        /*
+        $found = false;
+        foreach ($nomeSala as $sala) {
+            if($nomeSala == $request->input('identificativoSala')) {
+                $found = true;
+                break;
+            }
         }
-        $request->validate($valids);
-        
-        $idReparto = DB::select("SELECT id FROM reparto WHERE nome = $request->nomeReparto");
-        if($idReparto === null)
-            return redirect()->back()->withErrors(['msg', 'Reparto inesistente']);
-        
-        //controllo che la sala sia ssegnata al reparto
-        $descrizioneSala = DB::select("SELECT descrizione FROM sala WHERE idReparto = $idReparto");
-        if($descrizioneSala === null)
-            return redirect()->back()->withErrors(['msg', 'Sala non assegnata al reparto']);
-        
+        if($found == false)
+            return redirect()->back()->with('status', 'Sala non assegnata al reparto');
+        */
+
         //controllo se il nome paziente esiste
-        $idUtente = DB::select("SELECT id FROM utente 
-            WHERE nome = $request->nomePaziente AND cognome = $request->cognomePaziente AND codiceFiscale = $request->codiceFiscale AND attivo = 1");
-        if($idUtente === null)
-            return redirect()->back()->withErrors(['msg', 'Utente inesistente']);
+        $nome = request('nomePaziente');
+        $cognome = request('cognomePaziente');
+        $cf = request('codiceFiscale');
+        $idUtente = DB::table('utente')->where('nome',$nome)->where('cognome',$cognome)->where('codiceFiscale',$cf)->where('attivo',1)->pluck('id')->first();
+        //$idUtente = DB::select("SELECT id FROM utente 
+        //    WHERE nome='$nome' AND cognome='$cognome' AND codiceFiscale='$cf' AND attivo=1");
+        if($idUtente == null || $idUtente == [])
+            return redirect()->back()->with('status', 'Utente inesistente');
         
         //controllo se il paziente esiste
         $query = DB::select("SELECT altezza FROM paziente
             JOIN utente ON utente.id = paziente.id
-            WHERE utente.attivo = 1 AND utente.id = $idUtente");
-        if($query === null)
-            return redirect()->back()->withErrors(['msg', 'Utente scelto non è un paziente']);
+            WHERE utente.attivo = 1 AND utente.id=$idUtente");
+        if($query === null || $query == [])
+            return redirect()->back()->with('status', 'Utente scelto non è un paziente');
 
-        //controllo se il componente dello staff esiste e che non sia un paziente
+        //controllo se il componente dello staff esiste e che non sia un paziente - da fare
+        $nomeStaff = request('nomeStaff');
+        $cognomeStaff = request('cognomeStaff');
+        /*
+        $idStaff = DB::table('utente')
+            ->where('nome',$nomeStaff)
+            ->where('cognome',$cognomeStaff)
+            ->where('attivo',1)
+            ->whereNotIn('id', function($q) {
+                $q->select('id')->from('paziente');
+            })->first();
+        */
+        $idStaff = DB::table('utente')
+            ->where('nome',$nomeStaff)
+            ->where('cognome',$cognomeStaff)
+            ->where('attivo',1)
+            ->pluck('id')
+            ->first();
+            /*
         $idStaff = DB::select("SELECT id FROM utente 
-            WHERE nome = $request->nomeStaff AND cognome = $request->cognomeStaff AND attivo = 1 
-            AND id NOT IN (SELECT id FROM paziente WHERE attivo = 1)");
-        if($idStaff === null)
-            return redirect()->back()->withErrors(['msg', 'Componente dello staff inesistente']);
+            WHERE nome = '$nomeStaff' AND cognome = '$cognomeStaff' AND attivo=1 
+            AND id NOT IN (SELECT id FROM paziente)");
+        */
+        if($idStaff == null || $idStaff == [])
+            return redirect()->back()->with('status', 'Componente dello staff inesistente');
         
         //controllo che non ci sia una prestazione alla stessa ora nella stessa sala dello stesso reparto
+        
+        /*
+        $idSala = request('idSala');
         $prestazione = DB::select("SELECT id FROM prestazione 
             WHERE idReparto = $idReparto AND idSala = $request->idSala AND ora = $request->ora AND data = $request->data");
         if($prestazione != null)
-            return redirect()->back()->withErrors(['msg', 'Esiste già una prestazione alla stessa ora nella stessa sala alla stessa data']);
-        
-        //controllare se c'è una prestazione che finisce dopo che una è iniziata nella stessa sala   
-        /*     
-        $inizioPrestazione = DB::select("SELECT ora FROM prestazione 
-            WHERE idReparto = $idReparto AND idSala = $request->idSala AND data = $request->data");
-        $durataPrestazione = DB::select("SELECT durata FROM prestazione 
-            WHERE idReparto = $idReparto AND idSala = $request->idSala AND data = $request->data");
-        if($inizioPrestazione != null && $durataPrestazione != null) {
-            for(int i = 0; i < count($inizioPrestazione)) {
-            $endTime = DB::select(ADDTIME($inizioPrestazione[0],$durataPrestazione[0]));
-            
-        }
+            return redirect()->back()->with('status', 'Esiste già una prestazione alla stessa ora nella stessa sala alla stessa data');
         */
+        //controllare se c'è una prestazione che finisce dopo che una è iniziata nella stessa sala           
 
         //inserisco la prestazione
         $prestazione = new Prestazione();
         $prestazione->idReparto = $idReparto;
-        $prestazione->idSala = $Request->idSala;
+        $prestazione->idSala = $idSala;
         $prestazione->idPaziente = $idUtente;
-        $prestazione->identificativo = $request->identificativo;
-        $prestazione->note = $request->note;
+        $prestazione->note = request('note');
         $prestazione->attivo = '1';
         $prestazione->effettuata = '0';
-        $prestazione->data = $request->data;
-        $prestazione->ora = $request->ora;
-        $prestazione->durata = $request->durata;
+        $prestazione->data = request('data');
+        $prestazione->ora = request('ora');
+        $prestazione->durata = request('durata');
+        $prestazione->identificativo = request('identificativo');        
         $prestazione->save();
 
         //inserisco staff prestazione
@@ -131,25 +166,46 @@ class PrestazioneController extends Controller {
 
     //per il dettaglio prestazione
     public function show($id) {
-        $query = DB::select("SELECT * FROM prestazione");
+        $prestazione = DB::table('prestazione')->where('id',$id)->get()->first();
         $ruolo = Utente::trovaRuolo(Auth::id());
+        
                
-        $queryReparto = DB::select("SELECT nome FROM reparto WHERE id = $prestazione->idReparto");
-        $querySala = DB::select("SELECT identificativo FROM sala WHERE id = $prestazione->idSala");
-        $queryPaziente = DB::select("SELECT nome,cognome,codiceFiscale,attivo FROM utente JOIN paziente ON utente.id = paziente.id");
-        $idStaff = DB::select("SELECT id FROM staff JOIN staff_prestazione ON staff.id = staff_prestazione.idStaff 
-            WHERE staff_prestazione.idPrestazione = $prestazione->id");
+        //$queryReparto = DB::select("SELECT nome FROM reparto WHERE id = $prestazione->idReparto");
+        $queryReparto = DB::table('reparto')->where('id',$prestazione->idReparto)->pluck('nome')->first();
+        //$querySala = DB::select("SELECT nome FROM sala WHERE id = $prestazione->idSala");
+        $querySala = DB::table('sala')->where('id',$prestazione->idSala)->pluck('nome')->first();
+        //$queryPaziente = DB::select("SELECT nome,cognome,codiceFiscale,attivo FROM utente JOIN paziente ON utente.id = paziente.id");
+        $queryPaziente = DB::table('utente')
+            ->join('paziente','utente.id','=','paziente.id')
+            ->select('utente.nome','utente.cognome','utente.codiceFiscale','utente.attivo')
+            ->get();
+        
+        //$idStaff = DB::select("SELECT id FROM staff JOIN staff_prestazione ON staff.id = staff_prestazione.idStaff 
+        //    WHERE staff_prestazione.idPrestazione = $prestazione->id");
+        $idStaff = DB::table('staff')
+            ->join('staff_prestazione','staff.id','=','staff_prestazione.idStaff')
+            ->where('staff_prestazione.idPrestazione',$prestazione->id)
+            ->select('staff.id')
+            ->get();
+
         $queryStaff = [];//seleziono nome cognome dagli utenti con quell'id
         foreach($idStaff as $elementoStaff) {
-            $nomeCognome = DB::select("SELECT nome, cognome FROM utente WHERE id=$elementoStaff");
-            array_push($queryStaff,$nomeCognome[0]);
+            //$nomeCognome = DB::select("SELECT nome, cognome FROM utente WHERE id=$elementoStaff");
+            $nomeCognome = DB::table('utente')->where('id',$elementoStaff->id)->pluck('nome','cognome')->first();
+            array_push($queryStaff,$nomeCognome);
         }
 
-        $queryFarmaci = DB::select("SELECT nome FROM farmaco JOIN farmaco_prestazione ON farmaco_prestazione.idFarmaco = farmaco.id
-            WHERE farmaco_prestazione.idPrestazione = $prestazione->id ");  
+        //$queryFarmaci = DB::select("SELECT nome FROM farmaco JOIN farmaco_prestazione ON farmaco_prestazione.idFarmaco = farmaco.id
+        //    WHERE farmaco_prestazione.idPrestazione = $prestazione->id ");  
         
+        $queryFarmaci = DB::table('farmaco')
+            ->join('farmaco_prestazione','farmaco_prestazione.idFarmaco', '=', 'farmaco.id')
+            ->where('farmaco_prestazione.idPrestazione',$prestazione->id)
+            ->select('farmaco.nome')
+            ->get();
+
         return view('mostraPrestazione',[
-            'prestazione' => $query, 
+            'prestazione' => $prestazione, 
             'reparto' => $queryReparto, 
             'sala' => $querySala,
             'paziente' => $queryPaziente,
@@ -172,4 +228,28 @@ class PrestazioneController extends Controller {
         DB::table('prestazione')->where('id', $id)->update(['attivo' => 0]);
         return redirect('/elencoPrestazioni')->with('status','Prestazione cancellata con successo');  
     }
+
+    //SISTEMARE NON VA
+    public static function salaAutocomplete(){
+        $search = request('term');
+        $reparto = request('reparto');
+        $idReparto = DB::select("SELECT id FROM reparto WHERE nome='$reparto'");
+        $results = array();
+        $sale = DB::select("SELECT nome FROM sala WHERE nome LIKE '$search%' AND idReparto=$idReparto");
+        foreach ($sale as $sala) $results[] = ['value' => $sala->nome];
+        if(count($results)) return $results;
+        else return ['value'=>'Nessuna sala trovata'];
+        
+    }
+
+    public static function repartoAutocomplete(){
+        $search = request('term');
+        $results = array();
+        $reparti = DB::select("SELECT identificativo FROM reparto WHERE identificativo LIKE '$search%'");
+        foreach ($reparti as $reparto) $results[] = ['value' => $reparto->identificativo];
+        if(count($results)) return $results;
+        else return ['value'=>'Nessun reparto trovato'];
+    }
+
+    //INSERIRE AJAX PER IL CF
 }

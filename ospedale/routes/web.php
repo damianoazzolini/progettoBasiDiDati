@@ -35,6 +35,8 @@ Route::post('/modificaPrestazione/{id}', 'PrestazioneController@update');
 Route::get('/cancellaPrestazione/{id}', 'PrestazioneController@destroy');
 Route::get('/aggiungiPrestazione', 'PrestazioneController@create');
 Route::post('/aggiungiPrestazione', 'PrestazioneController@store');
+Route::get('/prestazioniReparto/ajax', 'PrestazioneController@repartoAutocomplete');
+Route::get('/prestazioniSala/ajax', 'PrestazioneController@salaAutocomplete');
 
 //Route::get('/myfarmaco','FarmacoController@show');
 

@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 @section('content')
 
-<h4>Dettaglio farmaco: </h4><h3>{{ $farmaco->nome }}</h3>
+<h4>Dettaglio prestazione</h4>
 <div class="row">
   <div class="col"></div>
   <div class="col">
@@ -15,18 +15,21 @@
   <div class="card-header"><p class="h6">Dati prestazione</p></div>
   <div class="card-body">
     <!--<h5 class="card-title">Dati anagrafici</h5>-->
-    <p class="card-text"><b>Nome Paziente: </b>{{ $paziente->nome }}</p>
-    <p class="card-text"><b>Cognome Paziente: </b>{{ $paziente->cognome }}</p>
-    <p class="card-text"><b>Reparto: </b>{{ $reparto->nome }}</p>
-    <p class="card-text"><b>Sala: </b>{{ $sala->identificativo }}</p>
+    <p class="card-text"><b>Nome Paziente: </b>{{ $paziente[0]->nome }}</p>
+    <p class="card-text"><b>Cognome Paziente: </b>{{ $paziente[0]->cognome }}</p>
+    <p class="card-text"><b>Cognome Paziente: </b>{{ $paziente[0]->codiceFiscale }}</p>
+    <p class="card-text"><b>Reparto: </b>{{ $reparto }}</p>
+    <p class="card-text"><b>Sala: </b>{{ $sala }}</p>
     <p class="card-text"><b>Identificativo: </b>{{ $prestazione->identificativo }}</p>
     <p class="card-text"><b>Note: </b>{{ $prestazione->note }}</p>
     <p class="card-text"><b>Attiva: </b>{{ $prestazione->attivo }}</p>
     <p class="card-text"><b>Effettuata: </b>{{ $prestazione->effettuata }}</p>
     <p class="card-text"><b>Staff: </b></br>
+    {{-- 
     @foreach($staff as $componenteStaff) 
         {{ $componenteStaff->nome }} {{ $componenteStaff->cognome }}
     @endforeach
+    --}}
     </p>
     <p class="card-text"><b>Farmaci: </b></br>
     @foreach($farmaci as $farmaco) 
@@ -58,4 +61,16 @@
     </div>
 </div>
 
+{{-- 
+{{ print_r($prestazione) }}
+</br>
+{{ print_r($reparto) }}
+</br>
+{{ print_r($sala) }}
+</br>
+{{ print_r($paziente) }}
+</br>
+{{ print_r($farmaci) }}
+--}}
+          
 @endsection
