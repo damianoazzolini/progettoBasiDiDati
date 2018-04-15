@@ -10,6 +10,7 @@ use App\Role;
 use App\Prestazione;
 use App\StaffPrestazione;
 use App\Staff;
+use App\FarmacoPrestazione;
 
 
 class PrestazioneController extends Controller {
@@ -193,14 +194,14 @@ class PrestazioneController extends Controller {
         //    WHERE staff_prestazione.idPrestazione = $prestazione->id");
         $idStaff = DB::table('staff')
             ->join('staff_prestazione','staff.id','=','staff_prestazione.idStaff')
-            ->where('staff_prestazione.idPrestazione',$prestazione->id)
+            ->where('staff_prestazione.idPrestazione',$id)
             ->select('staff.id')
             ->get();
 
         $queryStaff = [];//seleziono nome cognome dagli utenti con quell'id
         foreach($idStaff as $elementoStaff) {
             //$nomeCognome = DB::select("SELECT nome, cognome FROM utente WHERE id=$elementoStaff");
-            $nomeCognome = DB::table('utente')->where('id',$elementoStaff->id)->pluck('nome','cognome')->first();
+            $nomeCognome = DB::table('utente')->where('id',$elementoStaff->id)->select('nome','cognome','id')->first();
             array_push($queryStaff,$nomeCognome);
         }
 
@@ -243,14 +244,14 @@ class PrestazioneController extends Controller {
         //    WHERE staff_prestazione.idPrestazione = $prestazione->id");
         $idStaff = DB::table('staff')
             ->join('staff_prestazione','staff.id','=','staff_prestazione.idStaff')
-            ->where('staff_prestazione.idPrestazione',$prestazione->id)
+            ->where('staff_prestazione.idPrestazione',$id)
             ->select('staff.id')
             ->get();
 
         $queryStaff = [];//seleziono nome cognome dagli utenti con quell'id
         foreach($idStaff as $elementoStaff) {
             //$nomeCognome = DB::select("SELECT nome, cognome FROM utente WHERE id=$elementoStaff");
-            $nomeCognome = DB::table('utente')->where('id',$elementoStaff->id)->pluck('nome','cognome')->first();
+            $nomeCognome = DB::table('utente')->where('id',$elementoStaff->id)->select('nome','cognome')->first();
             array_push($queryStaff,$nomeCognome);
         }
 
@@ -274,7 +275,15 @@ class PrestazioneController extends Controller {
     }
 
     //aggiorno una prestazione
+    //posso cambiare identificativo, note
     public function update(Request $request, $id) {
+        $identificativo = request('identificativo');//tipo
+        $note = request('note');
+        
+        DB::statement("UPDATE prestazione SET identificativo = '$identificativo', 
+                    note = '$note' WHERE id = $id");
+        
+        return redirect('/elencoPrestazioni')->with('status'.'Prestazione aggiornata');
 
     }
 
@@ -282,6 +291,147 @@ class PrestazioneController extends Controller {
         DB::table('prestazione')->where('id', $id)->update(['attivo' => 0]);
         return redirect('/elencoPrestazioni')->with('status','Prestazione cancellata con successo');  
     }
+
+    public function effettuaPrestazione($id) {
+        DB::table('prestazione')->where('id', $id)->update(['effettuata' => 1]);
+        return redirect('/elencoPrestazioni')->with('status','Prestazione effettuata');
+    }
+
+    //restituisco tutti gli elementi dello staff della prestazione
+    public function showModificaStaff($id) {
+        $ruolo = Utente::trovaRuolo(Auth::id());
+        $idStaff = DB::table('staff')
+            ->join('staff_prestazione','staff.id','=','staff_prestazione.idStaff')
+            ->where('staff_prestazione.idPrestazione',$id)
+            ->select('staff.id')
+            ->get();
+
+        $queryStaff = [];//seleziono nome cognome dagli utenti con quell'id
+        foreach($idStaff as $elementoStaff) {
+            $nomeCognome = DB::table('utente')->where('id',$elementoStaff->id)->select('nome','cognome','id')->first();
+            array_push($queryStaff,$nomeCognome);
+        }
+
+        return view('modificaStaffPrestazione',[
+            'staff' => $queryStaff,
+            'idPrestazione' => $id,
+            'ruolo' => $ruolo
+        ]);
+    }
+
+    public function addStaffPrestazione($id) {
+        $idPrestazione = request('idPrestazione');
+        $nomeStaff = request('nomeStaff');
+        $cognomeStaff = request('cognomeStaff');
+
+        $idStaff = DB::table('utente')
+            ->where('nome',$nomeStaff)
+            ->where('cognome',$cognomeStaff)
+            ->where('attivo',1)
+            ->pluck('id')
+            ->first();
+        
+        if($idStaff) {
+            $staff_prestazione = new StaffPrestazione();
+            $staff_prestazione->idPrestazione = $idPrestazione;
+            $staff_prestazione->idStaff = $idStaff;
+            $staff_prestazione->save();
+
+            return redirect('/elencoPrestazioni')->with('status','Aggiunto staff con successo');
+        }
+        else {
+            return redirect()->back()->with('status', 'Componente dello staff inesistente');
+        }
+    }
+
+    public function deleteStaffPrestazione() {
+        $idPrestazione = request('idPrestazione');
+        $nomeStaff = request('nomeStaff');
+        $cognomeStaff = request('cognomeStaff');
+
+        $idStaff = DB::table('utente')
+            ->where('nome',$nomeStaff)
+            ->where('cognome',$cognomeStaff)
+            ->where('attivo',1)
+            ->pluck('id')
+            ->first();
+        
+        $numeroElementiStaff = DB::table('staff_prestazione')
+            ->where('idPrestazione',$idPrestazione)
+            ->count();    
+        
+        if($idStaff && $numeroElementiStaff > 0) {
+            DB::table('staff_prestazione')
+                ->where('idStaff',$idStaff)
+                ->where('idPrestazione',$idPrestazione)
+                ->delete();
+
+            return redirect('/elencoPrestazioni')->with('status','Rimosso staff con successo');
+        }
+        else {
+            return redirect()->back()->with('status', 'Impossibile rimuovere elementi staff');
+        }
+    }
+
+    public function showModificaFarmaci($id) {
+        $ruolo = Utente::trovaRuolo(Auth::id());
+        $queryFarmaci = DB::table('farmaco')
+            ->join('farmaco_prestazione','farmaco_prestazione.idFarmaco', '=', 'farmaco.id')
+            ->where('farmaco_prestazione.idPrestazione',$id)
+            ->select('farmaco.nome')
+            ->get();
+
+        return view('modificaFarmacoPrestazione',[
+            'farmaci' => $queryFarmaci,
+            'idPrestazione' => $id,
+            'ruolo' => $ruolo
+        ]);
+    }
+
+    public function addFarmacoPrestazione($id) {
+        $idPrestazione = request('idPrestazione');
+        $nomeFarmaco = request('nomeFarmaco');
+
+        $idFarmaco = DB::table('farmaco')
+            ->where('nome',$nomeFarmaco)
+            ->pluck('id')
+            ->first();
+        
+        if($idFarmaco) {
+            $farmaco_prestazione = new FarmacoPrestazione();
+            $farmaco_prestazione->idPrestazione = $idPrestazione;
+            $farmaco_prestazione->idFarmaco = $idFarmaco;
+            $farmaco_prestazione->save();
+
+            return redirect('/elencoPrestazioni')->with('status','Aggiunto farmaco con successo');
+        }
+        else {
+            return redirect()->back()->with('status', 'Farmaco inesistente');
+        }
+    }
+
+    public function deleteFarmacoPrestazione() {
+        $idPrestazione = request('idPrestazione');
+        $nomeFarmaco = request('nomeFarmaco');
+
+        $idFarmaco = DB::table('farmaco')
+            ->where('nome',$nomeFarmaco)
+            ->pluck('id')
+            ->first();
+        
+        if($idFarmaco) {
+            DB::table('farmaco_prestazione')
+                ->where('idFarmaco',$idFarmaco)
+                ->where('idPrestazione',$idPrestazione)
+                ->delete();
+
+            return redirect('/elencoPrestazioni')->with('status','Rimosso farmaco con successo');
+        }
+        else {
+            return redirect()->back()->with('status', 'Impossibile rimuovere farmaco');
+        }
+    }
+
 
     //SISTEMARE NON VA
     public static function salaAutocomplete(){

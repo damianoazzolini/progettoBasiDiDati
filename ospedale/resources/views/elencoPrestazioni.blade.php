@@ -50,13 +50,24 @@
         <td> {{ $pazienti[$i]->cognome }} </td>
         <td> {{ $prestazioni[$i]->data }} </td>
         <td> {{ $prestazioni[$i]->ora }} </td>
-        <td> {{ $prestazioni[$i]->attivo }} </td>
-        <td> {{ $prestazioni[$i]->effettuata }} </td>
+        @if($prestazioni[$i]->attivo)
+            <td> <input type="checkbox" name="attivo" checked disabled> </td>
+        @else
+            <td> <input type="checkbox" name="attivo" disabled> </td>
+        @endif
+
+        @if($prestazioni[$i]->effettuata)
+            <td> <input type="checkbox" name="effettuata" checked disabled> </td>
+        @else
+            <td> <input type="checkbox" name="effettuata" disabled> </td>
+        @endif
+        
         <td>
             <div>
-                <a type="button" class="btn btn-success" href="/mostraPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-eye" style="color:black"></i></a>
+                <a type="button" class="btn btn-primary" href="/mostraPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-eye" style="color:black"></i></a>
                 <a type="button" class="btn btn-warning" href="/modificaPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-edit"></i></a>
                 <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $prestazioni[$i]->id }}"><i class="fas fa-trash-alt"></i></a>
+                <a type="button" class="btn btn-success" href="/effettuaPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-check" style="color:black"></i></a>            
             </div>
         </td>
     </tr> 

@@ -36,6 +36,16 @@ Route::post('/modificaPrestazione/{id}', 'PrestazioneController@update');
 Route::get('/cancellaPrestazione/{id}', 'PrestazioneController@destroy');
 Route::get('/aggiungiPrestazione', 'PrestazioneController@create');
 Route::post('/aggiungiPrestazione', 'PrestazioneController@store');
+
+Route::get('/modificaStaffPrestazione/{id}','PrestazioneController@showModificaStaff');
+Route::post('/modificaStaffPrestazione/{id}','PrestazioneController@addStaffPrestazione');
+Route::post('/deleteStaffPrestazione','PrestazioneController@deleteStaffPrestazione');
+
+Route::get('/modificaFarmacoPrestazione/{id}','PrestazioneController@showModificaFarmaci');
+Route::post('/modificaFarmacoPrestazione/{id}','PrestazioneController@addFarmacoPrestazione');
+Route::post('/deleteFarmacoPrestazione','PrestazioneController@deleteFarmacoPrestazione');
+
+Route::get('/effettuaPrestazione/{id}','PrestazioneController@effettuaPrestazione');
 Route::get('/prestazioniReparto/ajax', 'PrestazioneController@repartoAutocomplete');
 Route::get('/prestazioniSala/ajax', 'PrestazioneController@salaAutocomplete');
 //Route::get('/prestazioniCodiceFiscale/ajax', 'PrestazioneController@cfAutocomplete');

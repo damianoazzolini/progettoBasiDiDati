@@ -2,6 +2,19 @@
 @section('content')
 
 <h4>Dettaglio prestazione</h4>
+
+<div>
+    @if (session('status'))
+        <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+            {{ session('status') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <br/>
+    @endif
+</div>
+
 <div class="row">
   <div class="col"></div>
   <div class="col">
@@ -18,22 +31,29 @@
     <p class="card-text"><b>Nome Paziente: </b>{{ $paziente[0]->nome }}</p>
     <p class="card-text"><b>Cognome Paziente: </b>{{ $paziente[0]->cognome }}</p>
     <p class="card-text"><b>Codice Fiscale: </b>{{ $paziente[0]->codiceFiscale }}</p>
+    <p class="card-text"><b>Data: </b>{{ $prestazione->data }}</p>
+    <p class="card-text"><b>Ora: </b>{{ $prestazione->ora }}</p>
+    <p class="card-text"><b>Durata: </b>{{ $prestazione->durata }} minuti</p>
     <p class="card-text"><b>Reparto: </b>{{ $reparto }}</p>
     <p class="card-text"><b>Sala: </b>{{ $sala }}</p>
     <p class="card-text"><b>Identificativo: </b>{{ $prestazione->identificativo }}</p>
     <p class="card-text"><b>Note: </b>{{ $prestazione->note }}</p>
     <p class="card-text"><b>Attiva: </b>{{ $prestazione->attivo }}</p>
     <p class="card-text"><b>Effettuata: </b>{{ $prestazione->effettuata }}</p>
-    <p class="card-text"><b>Staff: </b></br>
-    {{-- 
+    
+    <p class="card-text"><b>Staff: </b>
+    <a type="button" class="btn btn-primary" href="/modificaStaffPrestazione/{{ $prestazione->id }}"><i class="fas fa-folder-open" style="color:black"></i></a>
+    </br>
     @foreach($staff as $componenteStaff) 
-        {{ $componenteStaff->nome }} {{ $componenteStaff->cognome }}
+        {{ $componenteStaff->nome }} {{ $componenteStaff->cognome }} </br>       
     @endforeach
-    --}}
+    
     </p>
-    <p class="card-text"><b>Farmaci: </b></br>
+    <p class="card-text"><b>Farmaci: </b>
+        <a type="button" class="btn btn-primary" href="/modificaFarmacoPrestazione/{{ $prestazione->id }}"><i class="fas fa-folder-open" style="color:black"></i></a>
+    </br>
     @foreach($farmaci as $farmaco) 
-        {{ $farmaco->nome }}
+        {{ $farmaco->nome }} </br>  
     @endforeach
     </p>   
   </div>
@@ -61,16 +81,4 @@
     </div>
 </div>
 
-{{-- 
-{{ print_r($prestazione) }}
-</br>
-{{ print_r($reparto) }}
-</br>
-{{ print_r($sala) }}
-</br>
-{{ print_r($paziente) }}
-</br>
-{{ print_r($farmaci) }}
---}}
-          
 @endsection
