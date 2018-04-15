@@ -45,7 +45,10 @@ Route::get('/modificaFarmacoPrestazione/{id}','PrestazioneController@showModific
 Route::post('/modificaFarmacoPrestazione/{id}','PrestazioneController@addFarmacoPrestazione');
 Route::post('/deleteFarmacoPrestazione','PrestazioneController@deleteFarmacoPrestazione');
 
-Route::get('/effettuaPrestazione/{id}','PrestazioneController@effettuaPrestazione');
+Route::get('/effettuaPrestazione/{id}','PrestazioneController@showFormReferto');
+Route::post('/effettuaPrestazione/{id}','PrestazioneController@saveReferto');
+Route::get('/visualizzaRefero/{id}','PrestazioneController@visualizzaReferto');
+
 Route::get('/prestazioniReparto/ajax', 'PrestazioneController@repartoAutocomplete');
 Route::get('/prestazioniSala/ajax', 'PrestazioneController@salaAutocomplete');
 //Route::get('/prestazioniCodiceFiscale/ajax', 'PrestazioneController@cfAutocomplete');

@@ -55,6 +55,9 @@
     @foreach($farmaci as $farmaco) 
         {{ $farmaco->nome }} </br>  
     @endforeach
+    </br>
+    <p class="card-text"><b>Esito: </b>{{ $referto->esito }}</p>
+    <p class="card-text"><b>Note referto: </b>{{ $referto->note }}</p>
     </p>   
   </div>
 </div>

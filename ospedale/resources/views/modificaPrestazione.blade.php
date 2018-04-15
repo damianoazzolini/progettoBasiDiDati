@@ -94,7 +94,6 @@
     </div>
     @endforeach
 
-
     <div class="form-group row">
         <label for="note" class="col-sm-2 col-form-label">Note</label>
         <div class="col-sm-10">

@@ -67,7 +67,12 @@
                 <a type="button" class="btn btn-primary" href="/mostraPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-eye" style="color:black"></i></a>
                 <a type="button" class="btn btn-warning" href="/modificaPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-edit"></i></a>
                 <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $prestazioni[$i]->id }}"><i class="fas fa-trash-alt"></i></a>
-                <a type="button" class="btn btn-success" href="/effettuaPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-check" style="color:black"></i></a>            
+                @if(!$prestazioni[$i]->effettuata)
+                    <a type="button" class="btn btn-success" href="/effettuaPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-check" style="color:black"></i></a>            
+                @endif
+                @if($prestazioni[$i]->effettuata)
+                    <a type="button" class="btn btn-info" href="/visualizzaReferto/{{ $prestazioni[$i]->id }}"><i class="fas fa-clone" style="color:black"></i></a>                            
+                @endif
             </div>
         </td>
     </tr> 

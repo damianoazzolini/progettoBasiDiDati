@@ -11,6 +11,7 @@ use App\Prestazione;
 use App\StaffPrestazione;
 use App\Staff;
 use App\FarmacoPrestazione;
+use App\Referto;
 
 
 class PrestazioneController extends Controller {
@@ -171,6 +172,13 @@ class PrestazioneController extends Controller {
         $staff_prestazione->idStaff = $idStaff;
         $staff_prestazione->save();
 
+        //inserisco anche un referto
+        $referto = new Referto();
+        $referto->idPaziente = $idUtente;
+        $referto->id = $prestazione->id;
+        $referto->esito = "Ancora da effettuare";
+        $referto->save();
+
         return redirect('/elencoPrestazioni')->with('status','Prestazione creata con successo');        
     }
 
@@ -213,6 +221,11 @@ class PrestazioneController extends Controller {
             ->where('farmaco_prestazione.idPrestazione',$prestazione->id)
             ->select('farmaco.nome')
             ->get();
+        
+        $queryReferto = DB::table('referto')
+            ->where('id',$id)
+            ->select('esito','note')
+            ->first();
 
         return view('mostraPrestazione',[
             'prestazione' => $prestazione, 
@@ -221,6 +234,7 @@ class PrestazioneController extends Controller {
             'paziente' => $queryPaziente,
             'staff' => $queryStaff,
             'farmaci' => $queryFarmaci,
+            'referto' => $queryReferto,
             'ruolo' => $ruolo]);
     }
 
@@ -264,6 +278,11 @@ class PrestazioneController extends Controller {
             ->select('farmaco.nome')
             ->get();
 
+        $queryReferto = DB::table('referto')
+            ->where('id',$id)
+            ->select('esito','note')
+            ->first();
+
         return view('modificaPrestazione',[
             'prestazione' => $prestazione, 
             'reparto' => $queryReparto, 
@@ -271,6 +290,7 @@ class PrestazioneController extends Controller {
             'paziente' => $queryPaziente,
             'staff' => $queryStaff,
             'farmaci' => $queryFarmaci,
+            'referto' => $queryReferto,
             'ruolo' => $ruolo]);
     }
 
@@ -290,11 +310,6 @@ class PrestazioneController extends Controller {
     public function destroy($id) {
         DB::table('prestazione')->where('id', $id)->update(['attivo' => 0]);
         return redirect('/elencoPrestazioni')->with('status','Prestazione cancellata con successo');  
-    }
-
-    public function effettuaPrestazione($id) {
-        DB::table('prestazione')->where('id', $id)->update(['effettuata' => 1]);
-        return redirect('/elencoPrestazioni')->with('status','Prestazione effettuata');
     }
 
     //restituisco tutti gli elementi dello staff della prestazione
@@ -466,4 +481,62 @@ class PrestazioneController extends Controller {
     }
 
     //INSERIRE AJAX PER IL CF
+
+    ///////REFERTO
+    public function showFormReferto($id) {
+        $ruolo = Utente::trovaRuolo(Auth::id());
+        $prestazione = DB::table('prestazione')->where('id',$id)->first();
+        $queryReparto = DB::table('reparto')->where('id',$prestazione->idReparto)->pluck('nome')->first();
+        $querySala = DB::table('sala')->where('id',$prestazione->idSala)->pluck('nome')->first();
+        $idStaff = DB::table('staff')
+            ->join('staff_prestazione','staff.id','=','staff_prestazione.idStaff')
+            ->where('staff_prestazione.idPrestazione',$id)
+            ->select('staff.id')
+            ->get();
+
+        $queryStaff = [];//seleziono nome cognome dagli utenti con quell'id
+        foreach($idStaff as $elementoStaff) {
+            //$nomeCognome = DB::select("SELECT nome, cognome FROM utente WHERE id=$elementoStaff");
+            $nomeCognome = DB::table('utente')->where('id',$elementoStaff->id)->select('nome','cognome')->first();
+            array_push($queryStaff,$nomeCognome);
+        }
+
+        $queryFarmaci = DB::table('farmaco')
+            ->join('farmaco_prestazione','farmaco_prestazione.idFarmaco', '=', 'farmaco.id')
+            ->where('farmaco_prestazione.idPrestazione',$prestazione->id)
+            ->select('farmaco.nome')
+            ->get();
+            
+        $paziente = DB::table('utente')
+            ->where('id',$prestazione->idPaziente)
+            ->select('nome','cognome','codiceFiscale')
+            ->first();
+
+        return view('referto',[
+            'prestazione' => $prestazione,
+            'paziente' => $paziente,
+            'reparto' => $queryReparto,
+            'sala' => $querySala,
+            'farmaci' => $queryFarmaci,
+            'staff' => $queryStaff,
+            'ruolo' => $ruolo
+        ]);
+    }
+
+    public function saveReferto() {
+        $idPrestazione = request('idPrestazione');
+        $esito = request('esito');
+        $note = request('note');
+        
+        DB::statement("UPDATE referto SET esito = '$esito', 
+                    note = '$note' WHERE id = '$idPrestazione'");
+        DB::table('prestazione')->where('id', $idPrestazione)->update(['effettuata' => 1]);
+        
+        return redirect('/elencoPrestazioni')->with('status','Referto emesso con successo');       
+    }
+
+    public function visualizzaReferto($id) {
+        
+    }
+
 }
