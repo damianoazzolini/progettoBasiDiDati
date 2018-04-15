@@ -31,12 +31,14 @@ Route::post('/modificaProfilo/{id}','ProfiloController@update');
 Route::get('/elencoPrestazioni','PrestazioneController@index');
 Route::post('/elencoPrestazioni','PrestazioneController@ricerca');
 Route::get('/mostraPrestazione/{id}','PrestazioneController@show');
+Route::get('/modificaPrestazione/{id}', 'PrestazioneController@edit');
 Route::post('/modificaPrestazione/{id}', 'PrestazioneController@update');
 Route::get('/cancellaPrestazione/{id}', 'PrestazioneController@destroy');
 Route::get('/aggiungiPrestazione', 'PrestazioneController@create');
 Route::post('/aggiungiPrestazione', 'PrestazioneController@store');
 Route::get('/prestazioniReparto/ajax', 'PrestazioneController@repartoAutocomplete');
 Route::get('/prestazioniSala/ajax', 'PrestazioneController@salaAutocomplete');
+//Route::get('/prestazioniCodiceFiscale/ajax', 'PrestazioneController@cfAutocomplete');
 
 //Route::get('/myfarmaco','FarmacoController@show');
 

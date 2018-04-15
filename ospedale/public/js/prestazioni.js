@@ -34,3 +34,22 @@ $(document).ready(function() {
         minLength: 1,
     });
 });
+
+$(document).ready(function() {
+    $("#codiceFiscale").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: "/prestazioniCodiceFiscale/ajax",
+                dataType: "json",
+                data: {
+                    cognome : $("#cognomePaziente").val(),
+                    nome : $("#nomePaziente").val()
+                },
+                success: function(data) {
+                    response(data);
+                }
+            });
+        },
+        minLength: 1,
+    });
+});

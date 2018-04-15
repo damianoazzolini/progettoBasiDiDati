@@ -17,7 +17,7 @@
     <!--<h5 class="card-title">Dati anagrafici</h5>-->
     <p class="card-text"><b>Nome Paziente: </b>{{ $paziente[0]->nome }}</p>
     <p class="card-text"><b>Cognome Paziente: </b>{{ $paziente[0]->cognome }}</p>
-    <p class="card-text"><b>Cognome Paziente: </b>{{ $paziente[0]->codiceFiscale }}</p>
+    <p class="card-text"><b>Codice Fiscale: </b>{{ $paziente[0]->codiceFiscale }}</p>
     <p class="card-text"><b>Reparto: </b>{{ $reparto }}</p>
     <p class="card-text"><b>Sala: </b>{{ $sala }}</p>
     <p class="card-text"><b>Identificativo: </b>{{ $prestazione->identificativo }}</p>

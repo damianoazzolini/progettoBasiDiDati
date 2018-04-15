@@ -18,7 +18,7 @@ class PrestazioneController extends Controller {
         $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione WHERE attivo=1");
         $pazienti = [];
         foreach ($prestazioni as $prestazione) {
-            $queryPaziente = DB::select("SELECT nome,cognome FROM utente WHERE id=$prestazione->id");
+            $queryPaziente = DB::select("SELECT nome,cognome FROM utente WHERE id=$prestazione->idPaziente");
             array_push($pazienti,$queryPaziente[0]);
         }
 
@@ -104,7 +104,7 @@ class PrestazioneController extends Controller {
         if($query === null || $query == [])
             return redirect()->back()->with('status', 'Utente scelto non è un paziente');
 
-        //controllo se il componente dello staff esiste e che non sia un paziente - da fare
+        //controllo se il componente dello staff esista
         $nomeStaff = request('nomeStaff');
         $cognomeStaff = request('cognomeStaff');
         /*
@@ -131,16 +131,25 @@ class PrestazioneController extends Controller {
             return redirect()->back()->with('status', 'Componente dello staff inesistente');
         
         //controllo che non ci sia una prestazione alla stessa ora nella stessa sala dello stesso reparto
-        
-        /*
-        $idSala = request('idSala');
-        $prestazione = DB::select("SELECT id FROM prestazione 
-            WHERE idReparto = $idReparto AND idSala = $request->idSala AND ora = $request->ora AND data = $request->data");
-        if($prestazione != null)
-            return redirect()->back()->with('status', 'Esiste già una prestazione alla stessa ora nella stessa sala alla stessa data');
-        */
-        //controllare se c'è una prestazione che finisce dopo che una è iniziata nella stessa sala           
+        $dataPrestazione = request('data');
+        $elencoPrestazioni = DB::table('prestazione')
+            ->where('data',$dataPrestazione)
+            ->where('idReparto',$idReparto)
+            ->where('idSala',$idSala)
+            ->select('ora','durata')
+            ->get();
 
+        foreach ($elencoPrestazioni as $prest) {
+            $endTime = strtotime($prest->ora) + $prest->durata;
+            if($endTime > request('ora'))
+                return redirect()->back()->with('status', 'Slot orario già occupato');
+        }
+
+        //controllo che il medico non sia già occupato alla stessa ora
+
+        //controllo che il paziente non sia già occupato alla stessa ora
+        
+        
         //inserisco la prestazione
         $prestazione = new Prestazione();
         $prestazione->idReparto = $idReparto;
@@ -214,9 +223,54 @@ class PrestazioneController extends Controller {
             'ruolo' => $ruolo]);
     }
 
-    //modfico la prestazione
+    //modfico la prestazione - UGUALE A SHOW :(
     public function edit($id) {
+        $prestazione = DB::table('prestazione')->where('id',$id)->get()->first();
+        $ruolo = Utente::trovaRuolo(Auth::id());
         
+               
+        //$queryReparto = DB::select("SELECT nome FROM reparto WHERE id = $prestazione->idReparto");
+        $queryReparto = DB::table('reparto')->where('id',$prestazione->idReparto)->pluck('nome')->first();
+        //$querySala = DB::select("SELECT nome FROM sala WHERE id = $prestazione->idSala");
+        $querySala = DB::table('sala')->where('id',$prestazione->idSala)->pluck('nome')->first();
+        //$queryPaziente = DB::select("SELECT nome,cognome,codiceFiscale,attivo FROM utente JOIN paziente ON utente.id = paziente.id");
+        $queryPaziente = DB::table('utente')
+            ->join('paziente','utente.id','=','paziente.id')
+            ->select('utente.nome','utente.cognome','utente.codiceFiscale','utente.attivo')
+            ->get();
+        
+        //$idStaff = DB::select("SELECT id FROM staff JOIN staff_prestazione ON staff.id = staff_prestazione.idStaff 
+        //    WHERE staff_prestazione.idPrestazione = $prestazione->id");
+        $idStaff = DB::table('staff')
+            ->join('staff_prestazione','staff.id','=','staff_prestazione.idStaff')
+            ->where('staff_prestazione.idPrestazione',$prestazione->id)
+            ->select('staff.id')
+            ->get();
+
+        $queryStaff = [];//seleziono nome cognome dagli utenti con quell'id
+        foreach($idStaff as $elementoStaff) {
+            //$nomeCognome = DB::select("SELECT nome, cognome FROM utente WHERE id=$elementoStaff");
+            $nomeCognome = DB::table('utente')->where('id',$elementoStaff->id)->pluck('nome','cognome')->first();
+            array_push($queryStaff,$nomeCognome);
+        }
+
+        //$queryFarmaci = DB::select("SELECT nome FROM farmaco JOIN farmaco_prestazione ON farmaco_prestazione.idFarmaco = farmaco.id
+        //    WHERE farmaco_prestazione.idPrestazione = $prestazione->id ");  
+        
+        $queryFarmaci = DB::table('farmaco')
+            ->join('farmaco_prestazione','farmaco_prestazione.idFarmaco', '=', 'farmaco.id')
+            ->where('farmaco_prestazione.idPrestazione',$prestazione->id)
+            ->select('farmaco.nome')
+            ->get();
+
+        return view('modificaPrestazione',[
+            'prestazione' => $prestazione, 
+            'reparto' => $queryReparto, 
+            'sala' => $querySala,
+            'paziente' => $queryPaziente,
+            'staff' => $queryStaff,
+            'farmaci' => $queryFarmaci,
+            'ruolo' => $ruolo]);
     }
 
     //aggiorno una prestazione
@@ -235,7 +289,7 @@ class PrestazioneController extends Controller {
         $reparto = request('reparto');
         $idReparto = DB::select("SELECT id FROM reparto WHERE nome='$reparto'");
         $results = array();
-        $sale = DB::select("SELECT nome FROM sala WHERE nome LIKE '$search%' AND idReparto=$idReparto");
+        $sale = DB::select("SELECT nome FROM sala WHERE nome LIKE '$search%'");// AND idReparto='$idReparto'");
         foreach ($sale as $sala) $results[] = ['value' => $sala->nome];
         if(count($results)) return $results;
         else return ['value'=>'Nessuna sala trovata'];
@@ -249,6 +303,16 @@ class PrestazioneController extends Controller {
         foreach ($reparti as $reparto) $results[] = ['value' => $reparto->identificativo];
         if(count($results)) return $results;
         else return ['value'=>'Nessun reparto trovato'];
+    }
+
+    public static function cfAutocomplete() {
+        $nome = request('nome');
+        $cognome = request('cognome');
+        $results = array();
+        $codici = DB::select("SELECT codiceFiscale FROM utente WHERE nome LIKE '$nome%' AND cognome LIKE '$cognome%'");
+        foreach ($codici as $codice) $results[] = ['value' => $codice->cf];
+        if(count($results)) return $results;
+        else return ['value'=>'Nessun cf trovato'];
     }
 
     //INSERIRE AJAX PER IL CF
