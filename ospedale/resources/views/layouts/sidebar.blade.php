@@ -78,14 +78,16 @@ max-width: 200px;
             </li>
             --}}
                         
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Farmaci</span>
-            </h6>
-            <li class="nav-item">
-            <a class="nav-link" href="/myfarmaci">
-                <i class="fas fa-pills"></i> 
-                Farmaci assunti
-            </a>
+            @if($ruolo == "Utente")
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Farmaci</span>
+                </h6>
+                <li class="nav-item">
+                <a class="nav-link" href="/myfarmaci">
+                    <i class="fas fa-pills"></i> 
+                    Farmaci assunti
+                </a>
+            @endif
             </li>
             @if($ruolo == "Impiegato" || $ruolo == "Amministratore")
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">

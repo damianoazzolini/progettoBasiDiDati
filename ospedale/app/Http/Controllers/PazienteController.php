@@ -119,7 +119,27 @@ class PazienteController extends Controller
             WHERE utente.attivo = 1 AND utente.id = $id");
         $ruolo = Utente::trovaRuolo(Auth::id());
 
-        return view('mostraPaziente',['datiPaziente' => $query[0], 'ruolo' => $ruolo]);
+        //farmaci assunti
+        $farmaci = DB::table('farmaco')
+            ->join('paziente_farmaco','farmaco.id','=','paziente_farmaco.idFarmaco')
+            ->where('paziente_farmaco.idPaziente',$id)
+            ->select('farmaco.descrizione','farmaco.nome','farmaco.categoria')
+            ->get();
+        
+        //prestazioni prenotate
+        $prestazioni = DB::table('prestazione')
+        ->where('idPaziente',$id)
+        ->where('attivo',1)
+        ->select('data','id','effettuata')
+        ->get();
+
+        return view('mostraPaziente',[
+            'datiPaziente' => $query[0], 
+            'farmaci' => $farmaci,
+            'prestazioni' => $prestazioni,
+            'ruolo' => $ruolo]);
+
+       
     }
 
     /**

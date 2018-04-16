@@ -6,8 +6,10 @@
   <div class="col"></div>
   <div class="col">
     <a type="button" class="btn btn-secondary float-sm-right" style="margin-left: 5px; color:white" href="{{ URL::previous() }}"></i>Chiudi</a>
-    <a type="button" class="btn btn-warning float-sm-right" style="margin-left: 5px; color:white" href="/modificaPaziente/{{ $datiPaziente->id}}"><i class="fas fa-edit"></i> Modifica</a>
-    <a type="button" class="btn btn-danger float-sm-right" style="margin-left: 5px; color:white" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash-alt"></i> Cancella</a>
+    @if($ruolo == "Amministratore")
+      <a type="button" class="btn btn-warning float-sm-right" style="margin-left: 5px; color:white" href="/modificaPaziente/{{ $datiPaziente->id}}"><i class="fas fa-edit"></i> Modifica</a>
+      <a type="button" class="btn btn-danger float-sm-right" style="margin-left: 5px; color:white" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash-alt"></i> Cancella</a>
+    @endif
   </div>
 </div>
 <br/>
@@ -32,6 +34,31 @@
     <p class="card-text"><b>Peso: </b>{{ $datiPaziente->peso }} Kg</p>
     <p class="card-text"><b>Altezza: </b>{{ $datiPaziente->altezza }} cm</p>
     <p class="card-text"><b>Note mediche: </b>{{ $datiPaziente->note }}</p>
+  </div>
+</div>
+<br/>
+
+<div class="card bg-light">
+  <div class="card-header"><p class="h6">Farmaci Assunti</p></div>
+  <div class="card-body">
+    @foreach($farmaci as $farmaco)
+      <p class="card-text"><b>Nome: </b>{{ $farmaco->nome }} </p>
+      <p class="card-text"><b>Categoria: </b>{{ $farmaco->categoria }} </p>
+      <p class="card-text"><b>Descrizione: </b>{{ $farmaco->descrizione }}</p>
+      </br>
+    @endforeach
+  </div>
+</div>
+<br/>
+
+<div class="card bg-light">
+  <div class="card-header"><p class="h6">Prestazioni Effettuate</p></div>
+  <div class="card-body">
+    @foreach($prestazioni as $prestazione)
+      <p class="card-text"><b>Data: </b><a href = "/mostraPrestazione/{{$prestazione->id}}">{{ $prestazione->data }}<a/> </p>
+      <p class="card-text"><b>Effettuata: </b>{{ $prestazione->effettuata }}</p>
+      </br>
+    @endforeach
   </div>
 </div>
 
@@ -59,7 +86,5 @@
 
 <!-- Sezione da aggiornare -->
 <br/>
-<p>--- Inserire farmaci assunti</p>
-<p>--- Inserire prestazioni prenotate</p>
-<p>--- Inserire prestazioni eseguite</p>
+
 @endsection
