@@ -13,18 +13,37 @@ use App\Staff;
 use App\FarmacoPrestazione;
 use App\Referto;
 
-
 class PrestazioneController extends Controller {
     public function index() {
-        //restituisco solo paziente data ora effettuata attiva
-        $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione WHERE attivo=1");
+        //discrimino
+        //paziente -> solo le sue
+        //medico -> tutte
+        //infermiere -> solo le sue
+        //impiegato -> tutte
+        //admin -> tutte
+
+        $ruolo = Utente::trovaRuolo(Auth::id());
+        $id = Auth::id();
+        if($ruolo == "Amministratore" || $ruolo == "Medico" || $ruolo == "Impiegato") {
+            $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione WHERE attivo=1");     
+        }
+        else if($ruolo == "Paziente") {
+            $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione WHERE attivo=1 AND idPaziente=$id");
+        }
+        else if($ruolo == "Infermiere") {
+            $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora 
+                FROM prestazione 
+                JOIN staff_prestazione
+                ON prestazione.id = staff_prestazione.idPrestazione
+                WHERE prestazione.attivo=1 AND staff_prestazione.idPrestazione = $id");     
+        }
+
         $pazienti = [];
         foreach ($prestazioni as $prestazione) {
             $queryPaziente = DB::select("SELECT nome,cognome FROM utente WHERE id=$prestazione->idPaziente");
             array_push($pazienti,$queryPaziente[0]);
         }
-
-        $ruolo = Utente::trovaRuolo(Auth::id());
+        
         return view('elencoPrestazioni',['prestazioni' => $prestazioni,'pazienti' => $pazienti ,'ruolo' => $ruolo]);
     }
 
@@ -33,17 +52,44 @@ class PrestazioneController extends Controller {
             'search' => 'required|min:2|max:64',
         ]);
         $search = request('search');
-        
-        $query = DB::select("SELECT * FROM prestazione
-            JOIN paziente ON utente.id = paziente.id
-            WHERE utente.attivo = 1 AND
-            (CONCAT(nome, ' ', cognome) LIKE '$search%' OR 
-            CONCAT(cognome, ' ', nome) LIKE '$search%' OR
-            codiceFiscale LIKE '$search%')");
-        //cercare anche per medico?
+
+        $id = Auth::id();
         $ruolo = Utente::trovaRuolo(Auth::id());
 
-        return view('elencoPrestazioni',['prestazioni' => $query, 'ruolo' => $ruolo]);
+        if($ruolo == "Amministratore" || $ruolo == "Medico" || $ruolo == "Impiegato") {
+            $prestazioni = DB::select("SELECT * FROM prestazione
+                JOIN utente ON utente.id = prestazione.idPaziente
+                WHERE utente.attivo = 1 AND
+                (CONCAT(nome, ' ', cognome) LIKE '$search%' OR 
+                CONCAT(cognome, ' ', nome) LIKE '$search%' OR
+                codiceFiscale LIKE '$search%')");
+        }
+        else if($ruolo == "Paziente") {
+            $prestazioni = DB::select("SELECT * FROM prestazione
+                JOIN utente ON utente.id = prestazione.idPaziente
+                WHERE utente.attivo = 1 AND prestazione.idPaziente = $id AND
+                (CONCAT(nome, ' ', cognome) LIKE '$search%' OR 
+                CONCAT(cognome, ' ', nome) LIKE '$search%' OR
+                codiceFiscale LIKE '$search%')");
+        }
+        else if($ruolo == "Infermiere") {
+            //TRIPLO JOIN PESISSIMO
+            //DA TESTARE
+            $prestazioni = DB::select("SELECT * FROM prestazione
+                JOIN utente ON utente.id = prestazione.idPaziente
+                JOIN staff_prestazione ON prestazione.id = staff_prestazione.idPrestazione
+                WHERE utente.attivo = 1 AND staff_prestazione.idPrestazione = $id AND
+                (CONCAT(nome, ' ', cognome) LIKE '$search%' OR 
+                CONCAT(cognome, ' ', nome) LIKE '$search%' OR
+                codiceFiscale LIKE '$search%')");
+        }
+        $pazienti = [];
+        foreach ($prestazioni as $prestazione) {
+            $queryPaziente = DB::select("SELECT nome,cognome FROM utente WHERE id=$prestazione->idPaziente");
+            array_push($pazienti,$queryPaziente[0]);
+        }
+       
+        return view('elencoPrestazioni',['prestazioni' => $prestazioni,'pazienti' => $pazienti ,'ruolo' => $ruolo]);
     }
 
     //mostro il form per creare/modificare una prestazione

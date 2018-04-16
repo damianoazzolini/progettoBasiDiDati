@@ -52,32 +52,30 @@ max-width: 200px;
             </a>
             </li>
             
-            @if($ruolo == "Medico" || $ruolo == "Impiegato" || $ruolo == "Infermiere" || $ruolo == "Amministratore")
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                <span>Prestazioni</span>
-                </h6>
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Prestazioni</span>
+            </h6>
+            <li class="nav-item">
+            <a class="nav-link" href="/elencoPrestazioni">
+                <i class="fas fa-list"></i>                
+                Elenco Prestazioni
+            </a>
+            </li>
+            @if($ruolo != "Infermiere" and $ruolo != "Paziente")
                 <li class="nav-item">
-                <a class="nav-link" href="/elencoPrestazioni">
-                    <i class="fas fa-list"></i>                
-                    Elenco Prestazioni
-                </a>
-                </li>
-                @if($ruolo != "Infermiere")
-                    <li class="nav-item">
-                    <a class="nav-link" href="/aggiungiPrestazione">
-                        <i class="fas fa-plus"></i>  
-                        Nuova prestazione
-                    </a>
-                    </li>
-                @endif
-                <li class="nav-item">
-                <a class="nav-link" href="/ricercaPrestazione">
-                    <i class="fas fa-search"></i>  
-                    Ricerca Prestazione
+                <a class="nav-link" href="/aggiungiPrestazione">
+                    <i class="fas fa-plus"></i>  
+                    Nuova prestazione
                 </a>
                 </li>
             @endif
-            
+            <li class="nav-item">
+            <a class="nav-link" href="/ricercaPrestazione">
+                <i class="fas fa-search"></i>  
+                Ricerca Prestazione
+            </a>
+            </li>
+                        
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Farmaci</span>
             </h6>
@@ -87,66 +85,83 @@ max-width: 200px;
                 Farmaci assunti
             </a>
             </li>
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Farmacia</span>
-            </h6>
-            <li class="nav-item">
-            <a class="nav-link" href="/farmacia">
-                <i class="fas fa-flask"></i> 
-                Farmacia
-            </a>
-            </li>
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Pazienti</span>
-            </h6>
-            <li class="nav-item">
-            <a class="nav-link" href="/elencoPazienti">
-                <i class="fas fa-bed"></i> 
-                Elenco pazienti
-            </a>
-            </li>
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Utenti</span>
-            </h6>
-            <li class="nav-item">
-            <a class="nav-link" href="/registrazione">
-                <i class="fas fa-user-plus"></i> 
-                Nuovo utente
-            </a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/cercaUtente">
-                <i class="fas fa-search"></i> 
-                Ricerca utente
-            </a>
-            </li>
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Reparti</span>
-            </h6>
-            <li class="nav-item">
-            <a class="nav-link" href="/reparti">
-                <i class="fas fa-hospital"></i> 
-                Reparti
-            </a>
-            </li>
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Sale</span>
-            </h6>
-            <li class="nav-item">
-            <a class="nav-link" href="/sale">
-                <i class="fas fa-tags"></i> 
-                Sale
-            </a>
-            </li>
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Personale</span>
-            </h6>
-            <li class="nav-item">
-            <a class="nav-link" href="/gestionePersonale">
-                <i class="fas fa-user-md"></i> 
-                Gestione Personale
-            </a>
-            </li>
+            @if($ruolo == "Impiegato" || $ruolo == "Amministratore")
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Farmacia</span>
+                </h6>
+                <li class="nav-item">
+                <a class="nav-link" href="/farmacia">
+                    <i class="fas fa-flask"></i> 
+                    Farmacia
+                </a>
+                </li>
+            @endif
+
+            @if($ruolo == "Medico" || $ruolo == "Impiegato" || $ruolo == "Infermiere" || $ruolo == "Amministratore")
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Pazienti</span>
+                </h6>
+                <li class="nav-item">
+                <a class="nav-link" href="/elencoPazienti">
+                    <i class="fas fa-bed"></i> 
+                    Elenco pazienti
+                </a>
+                </li>
+            @endif
+
+            @if($ruolo == "Medico" || $ruolo == "Impiegato" || $ruolo == "Amministratore")            
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Utenti</span>
+                </h6>
+                <li class="nav-item">
+                <a class="nav-link" href="/registrazione">
+                    <i class="fas fa-user-plus"></i> 
+                    Nuovo utente
+                </a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/cercaUtente">
+                    <i class="fas fa-search"></i> 
+                    Ricerca utente
+                </a>
+                </li>
+            @endif
+            
+            @if($ruolo == "Amministratore")            
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Reparti</span>
+                </h6>
+                <li class="nav-item">
+                <a class="nav-link" href="/reparti">
+                    <i class="fas fa-hospital"></i> 
+                    Reparti
+                </a>
+                </li>
+            @endif
+
+            @if($ruolo == "Amministratore")            
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Sale</span>
+                </h6>
+                <li class="nav-item">
+                <a class="nav-link" href="/sale">
+                    <i class="fas fa-tags"></i> 
+                    Sale
+                </a>
+                </li>
+            @endif
+            
+            @if($ruolo == "Amministratore")
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Personale</span>
+                </h6>
+                <li class="nav-item">
+                <a class="nav-link" href="/gestionePersonale">
+                    <i class="fas fa-user-md"></i> 
+                    Gestione Personale
+                </a>
+                </li>
+            @endif
         </ul>
         </div>
     </nav>

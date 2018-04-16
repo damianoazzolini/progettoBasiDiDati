@@ -14,7 +14,7 @@
         <br/>
     @endif
 </div>
-<form action="/reparti" method="post">
+<form action="/elencoPrestazioni" method="post">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="row">
         <div class="form-row col-md-8">
