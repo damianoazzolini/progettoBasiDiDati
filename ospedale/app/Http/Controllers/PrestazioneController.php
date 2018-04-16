@@ -273,6 +273,26 @@ class PrestazioneController extends Controller {
             ->where('id',$id)
             ->select('esito','note')
             ->first();
+        
+        $idUtente = Auth::id();
+        //medico può vedere in ogni caso la prestazione
+        //infermiere solo a quelle a cui ha preso parte
+        $presente = DB::table('staff_prestazione')
+            ->where('idStaff',$idUtente)
+            ->where('idPrestazione',$id)
+            ->select('idStaff')
+            ->first();
+
+        if(($ruolo == "Infermiere" and $presente != []) || $ruolo == "Medico" || $ruolo == "Amministratore")
+            $autorizzatoModficaFarmaci = true;
+        else 
+            $autorizzatoModficaFarmaci = false;
+
+        if($ruolo == "Medico" || $ruolo == "Amministratore")
+            $autorizzatoModificaPrestazione = true;
+        else
+            $autorizzatoModificaPrestazione = false;
+       
 
         return view('mostraPrestazione',[
             'prestazione' => $prestazione, 
@@ -282,6 +302,8 @@ class PrestazioneController extends Controller {
             'staff' => $queryStaff,
             'farmaci' => $queryFarmaci,
             'referto' => $queryReferto,
+            'autorizzatoModificaPrestazione' => $autorizzatoModificaPrestazione,
+            'autorizzatoModficaFarmaci' => $autorizzatoModficaFarmaci,
             'ruolo' => $ruolo]);
     }
 

@@ -70,11 +70,13 @@ class FarmacoPrestazioneController extends Controller
         $nome = request('nome');
 
         $farmaco = DB::select("SELECT id, categoria FROM farmaco WHERE nome = '$nome'");
-        $idFarmaco = (int) $farmaco[0]->id;
-
-        DB::statement("INSERT INTO paziente_farmaco (idPaziente, idFarmaco) VALUES ('$idPaziente', '$idFarmaco')");
-
-        return redirect('/myfarmaci')->with('status','Farmaco aggiunto con successo');
+        if($farmaco == null || $farmaco == [])
+            return redirect()->back()->with('status', 'Ffarmaco inesistente');
+        else {
+            $idFarmaco = (int) $farmaco[0]->id;
+            DB::statement("INSERT INTO paziente_farmaco (idPaziente, idFarmaco) VALUES ('$idPaziente', '$idFarmaco')");
+            return redirect('/myfarmaci')->with('status','Farmaco aggiunto con successo');
+        }
     }
 
     /**

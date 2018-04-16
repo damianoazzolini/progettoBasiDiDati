@@ -1,6 +1,19 @@
 @extends('layouts.sidebar')
 @section('content')
-<h4>Aggiungi famraco</h4>
+<h4>Aggiungi farmaco</h4>
+</br>
+<div>
+    @if (session('status'))
+        <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+            {{ session('status') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <br/>
+    @endif
+</div>
+
 <br/>
 <form method="post" class="col-sm-8">
     <div class="card bg-light">
