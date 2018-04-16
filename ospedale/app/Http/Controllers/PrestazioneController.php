@@ -40,9 +40,10 @@ class PrestazioneController extends Controller {
             (CONCAT(nome, ' ', cognome) LIKE '$search%' OR 
             CONCAT(cognome, ' ', nome) LIKE '$search%' OR
             codiceFiscale LIKE '$search%')");
+        //cercare anche per medico?
         $ruolo = Utente::trovaRuolo(Auth::id());
 
-        return view('prestazione',['pazienti' => $query, 'ruolo' => $ruolo]);
+        return view('elencoPrestazioni',['prestazioni' => $query, 'ruolo' => $ruolo]);
     }
 
     //mostro il form per creare/modificare una prestazione
@@ -536,7 +537,15 @@ class PrestazioneController extends Controller {
     }
 
     public function visualizzaReferto($id) {
-        
+        $ruolo = Utente::trovaRuolo(Auth::id());
+        $referto = DB::table('referto')
+            ->where('id',$id)
+            ->select('esito','note')
+            ->first();
+        return view('mostraReferto',[
+            'referto' => $referto,
+            'ruolo' => $ruolo
+        ]);
     }
 
 }

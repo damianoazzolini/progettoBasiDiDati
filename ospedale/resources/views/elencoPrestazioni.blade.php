@@ -22,7 +22,7 @@
                 <label class="col-form-label"><b>Ricerca prestazione</b></label>
             </div>
             <div class="col">
-                <input type="text" class="form-control" name="search" placeholder="Nome">
+                <input type="text" class="form-control" name="search" placeholder="Paziente / Medico">
             </div>
             <div class="col">
                 <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Cerca</button>

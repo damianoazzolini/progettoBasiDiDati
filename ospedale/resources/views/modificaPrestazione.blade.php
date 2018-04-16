@@ -16,6 +16,14 @@
     @endif
 </div>
 
+<div class="row">
+  <div class="col"></div>
+  <div class="col">
+    <a type="button" class="btn btn-secondary float-sm-right" style="margin-left: 5px; color:white" href="{{ URL::previous() }}"></i>Chiudi</a>
+  </div>
+</div>
+<br/>
+
 <form method="post" class="col-sm-8">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="form-group row">
