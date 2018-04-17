@@ -25,7 +25,7 @@ class PrestazioneController extends Controller {
         $ruolo = Utente::trovaRuolo(Auth::id());
         $id = Auth::id();
         if($ruolo == "Amministratore" || $ruolo == "Medico" || $ruolo == "Impiegato") {
-            $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione WHERE attivo=1");     
+            $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione WHERE attivo=1 ORDER BY created_at DESC");     
         }
         else if($ruolo == "Paziente") {
             $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione WHERE attivo=1 AND idPaziente=$id");
@@ -35,7 +35,7 @@ class PrestazioneController extends Controller {
                 FROM prestazione 
                 JOIN staff_prestazione
                 ON prestazione.id = staff_prestazione.idPrestazione
-                WHERE prestazione.attivo=1 AND staff_prestazione.idPrestazione = $id");     
+                WHERE prestazione.attivo=1 AND staff_prestazione.idStaff = $id");     
         }
 
         $pazienti = [];
@@ -44,7 +44,10 @@ class PrestazioneController extends Controller {
             array_push($pazienti,$queryPaziente[0]);
         }
         
-        return view('elencoPrestazioni',['prestazioni' => $prestazioni,'pazienti' => $pazienti ,'ruolo' => $ruolo]);
+        return view('elencoPrestazioni',[
+            'prestazioni' => $prestazioni,
+            'pazienti' => $pazienti ,
+            'ruolo' => $ruolo]);
     }
 
     public function ricerca(Request $request) {
@@ -62,7 +65,8 @@ class PrestazioneController extends Controller {
                 WHERE utente.attivo = 1 AND
                 (CONCAT(nome, ' ', cognome) LIKE '$search%' OR 
                 CONCAT(cognome, ' ', nome) LIKE '$search%' OR
-                codiceFiscale LIKE '$search%')");
+                codiceFiscale LIKE '$search%')
+                ORDER BY created_at DESC");
         }
         else if($ruolo == "Paziente") {
             $prestazioni = DB::select("SELECT * FROM prestazione
@@ -70,7 +74,8 @@ class PrestazioneController extends Controller {
                 WHERE utente.attivo = 1 AND prestazione.idPaziente = $id AND
                 (CONCAT(nome, ' ', cognome) LIKE '$search%' OR 
                 CONCAT(cognome, ' ', nome) LIKE '$search%' OR
-                codiceFiscale LIKE '$search%')");
+                codiceFiscale LIKE '$search%')
+                ORDER BY created_at DESC");
         }
         else if($ruolo == "Infermiere") {
             //TRIPLO JOIN PESISSIMO
@@ -81,7 +86,8 @@ class PrestazioneController extends Controller {
                 WHERE utente.attivo = 1 AND staff_prestazione.idPrestazione = $id AND
                 (CONCAT(nome, ' ', cognome) LIKE '$search%' OR 
                 CONCAT(cognome, ' ', nome) LIKE '$search%' OR
-                codiceFiscale LIKE '$search%')");
+                codiceFiscale LIKE '$search%')
+                ORDER BY created_at DESC");
         }
         $pazienti = [];
         foreach ($prestazioni as $prestazione) {
@@ -409,19 +415,29 @@ class PrestazioneController extends Controller {
         $cognomeStaff = request('cognomeStaff');
 
         $idStaff = DB::table('utente')
-            ->where('nome',$nomeStaff)
-            ->where('cognome',$cognomeStaff)
-            ->where('attivo',1)
-            ->pluck('id')
+            ->join('staff','utente.id','=','staff.id')
+            ->where('utente.nome',$nomeStaff)
+            ->where('utente.cognome',$cognomeStaff)
+            ->where('utente.attivo',1)
+            ->pluck('utente.id')
             ->first();
         
         if($idStaff) {
-            $staff_prestazione = new StaffPrestazione();
-            $staff_prestazione->idPrestazione = $idPrestazione;
-            $staff_prestazione->idStaff = $idStaff;
-            $staff_prestazione->save();
-
-            return redirect('/elencoPrestazioni')->with('status','Aggiunto staff con successo');
+            //controllo che non sia già presente
+            $idStaffPrestazione = DB::table('staff_prestazione')
+                ->where('idPrestazione',$idPrestazione)
+                ->where('idStaff',$idStaff)
+                ->pluck('idStaff')
+                ->first();
+            if($idStaffPrestazione == []) {
+                $staff_prestazione = new StaffPrestazione();
+                $staff_prestazione->idPrestazione = $idPrestazione;
+                $staff_prestazione->idStaff = $idStaff;
+                $staff_prestazione->save();
+                return redirect('/elencoPrestazioni')->with('status','Aggiunto staff con successo');     
+            }
+            else
+                return redirect()->back()->with('status', 'Componente dello staff già presente');
         }
         else {
             return redirect()->back()->with('status', 'Componente dello staff inesistente');

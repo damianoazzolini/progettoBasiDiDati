@@ -19,7 +19,7 @@
   <div class="col"></div>
   <div class="col">
     <a type="button" class="btn btn-secondary float-sm-right" style="margin-left: 5px; color:white" href="{{ URL::previous() }}"></i>Chiudi</a>
-    @if(($ruolo == "Medico" || $ruolo == "Amministratore") and $$autorizzatoModificaPrestazione)
+    @if(($ruolo == "Medico" || $ruolo == "Amministratore") and $autorizzatoModificaPrestazione)
         <a type="button" class="btn btn-warning float-sm-right" style="margin-left: 5px; color:white" href="/modificaPrestazione/{{ $prestazione->id }}"><i class="fas fa-edit"></i> Modifica</a>
         <a type="button" class="btn btn-danger float-sm-right" style="margin-left: 5px; color:white" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash-alt"></i> Cancella</a>
     @endif
@@ -44,7 +44,7 @@
     <p class="card-text"><b>Effettuata: </b>{{ $prestazione->effettuata }}</p>
     
     <p class="card-text"><b>Staff: </b>
-    @if(($ruolo == "Medico" || $ruolo == "Amministratore") and $$autorizzatoModificaPrestazione)
+    @if(($ruolo == "Medico" || $ruolo == "Amministratore") and $autorizzatoModificaPrestazione)
         <a type="button" class="btn btn-primary" href="/modificaStaffPrestazione/{{ $prestazione->id }}"><i class="fas fa-folder-open" style="color:black"></i></a>
     @endif
     </br>
