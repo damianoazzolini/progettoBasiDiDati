@@ -33,8 +33,20 @@ class LoginController extends Controller
         ]);
 
         $val = 0; //variabile per il remember me
-        
+
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'attivo' => 1],$val)) {
+            /*
+            $ruolo = Utente::trovaRuolo(Auth::id());
+            $query = DB::table('utente')
+                ->where('id',$id)
+                ->select('nome','cognome')
+                ->first();
+            return view('dashboard',[
+                'nome' => $query->nome, 
+                'cognome' => $query->cognome,
+                'ruolo' => $ruolo]);
+            */
+    
             return redirect('/dashboard');       
         } else {
             if(DB::table('utente')->where('email', $request->email)->where('attivo','1')->first() != null) {
@@ -60,6 +72,8 @@ class LoginController extends Controller
             'cognome' => 'required|min:3',
             'email' => 'required|min:3|unique:utente',
             'password' => 'required|min:3',
+            'dataNascita' => 'required',
+            'codiceFiscale' => 'required'
         ]);
     	
         $utente = new Utente();

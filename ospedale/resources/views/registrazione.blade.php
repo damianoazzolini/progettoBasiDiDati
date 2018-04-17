@@ -2,6 +2,29 @@
 @section('content')
 <h4> Registrazione nuovo utente </h4>
 <br/>
+<div>
+    @if (session('status'))
+        <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+            {{ session('status') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <br/>
+    @endif
+</div>
+<div>
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+</div>
+</br>
 <form method="post" class="col-sm-8">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="form-group row">
@@ -98,30 +121,32 @@
                     Paziente
                 </label>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" id="ruolo2" name="ruolo" value="medico">
-                <label class="form-check-label">
-                    Medico
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" id="ruolo3" name="ruolo" value="infermiere">
-                <label class="form-check-label">
-                    Infermiere
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" id="ruolo4" name="ruolo" value="impiegato">
-                <label class="form-check-label">
-                    Impiegato
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" id="ruolo5" name="ruolo" value="amministratore">
-                <label class="form-check-label">
-                    Amministratore
-                </label>
-            </div>
+            @if($ruolo == "Amministratore")
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="ruolo2" name="ruolo" value="medico">
+                    <label class="form-check-label">
+                        Medico
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="ruolo3" name="ruolo" value="infermiere">
+                    <label class="form-check-label">
+                        Infermiere
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="ruolo4" name="ruolo" value="impiegato">
+                    <label class="form-check-label">
+                        Impiegato
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="ruolo5" name="ruolo" value="amministratore">
+                    <label class="form-check-label">
+                        Amministratore
+                    </label>
+                </div>
+            @endif
         </div>
     </div>
 

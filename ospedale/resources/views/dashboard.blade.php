@@ -52,9 +52,26 @@ Elenco utenti:<br>
         </div>
     @endif
 </div>
-<h1> Contenuto </h1>
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">BENVENUTO</div>
 
+                <div class="panel-body">
+                    @if (session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    Seleziona ciò che vuoi fare dalla sidebar a sinistra
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
 
