@@ -62,8 +62,10 @@
         {{ $farmaco->nome }} </br>  
     @endforeach
     </br>
-    <p class="card-text"><b>Esito: </b>{{ $referto->esito }}</p>
-    <p class="card-text"><b>Note referto: </b>{{ $referto->note }}</p>
+    @if($ruolo != "Impiegato")
+        <p class="card-text"><b>Esito: </b>{{ $referto->esito }}</p>
+        <p class="card-text"><b>Note referto: </b>{{ $referto->note }}</p>
+    @endif
     </p>   
   </div>
 </div>

@@ -155,12 +155,12 @@ max-width: 200px;
                 </li>
             @endif
             
-            @if($ruolo == "Amministratore")
+            @if($ruolo == "Amministratore" || $ruolo == "Impiegato")
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                 <span>Personale</span>
                 </h6>
                 <li class="nav-item">
-                <a class="nav-link" href="/gestionePersonale">
+                <a class="nav-link" href="/elencoStaff">
                     <i class="fas fa-user-md"></i> 
                     Gestione Personale
                 </a>

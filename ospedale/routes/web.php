@@ -49,6 +49,11 @@ Route::get('/effettuaPrestazione/{id}','PrestazioneController@showFormReferto');
 Route::post('/effettuaPrestazione/{id}','PrestazioneController@saveReferto');
 Route::get('/visualizzaReferto/{id}','PrestazioneController@visualizzaReferto');
 
+Route::get('/elencoStaff','StaffController@index');
+Route::get('/mostraStaff/{id}','StaffController@show');
+Route::get('/modificaStaff/{id}','StaffController@edit');
+Route::post('/modificaStaff/{id}','StaffController@update');
+
 Route::get('/prestazioniReparto/ajax', 'PrestazioneController@repartoAutocomplete');
 Route::get('/prestazioniSala/ajax', 'PrestazioneController@salaAutocomplete');
 //Route::get('/prestazioniCodiceFiscale/ajax', 'PrestazioneController@cfAutocomplete');

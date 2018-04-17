@@ -137,9 +137,7 @@ class PazienteController extends Controller
             'datiPaziente' => $query[0], 
             'farmaci' => $farmaci,
             'prestazioni' => $prestazioni,
-            'ruolo' => $ruolo]);
-
-       
+            'ruolo' => $ruolo]);       
     }
 
     /**

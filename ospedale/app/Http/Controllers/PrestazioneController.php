@@ -274,11 +274,14 @@ class PrestazioneController extends Controller {
             ->where('farmaco_prestazione.idPrestazione',$prestazione->id)
             ->select('farmaco.nome')
             ->get();
-        
-        $queryReferto = DB::table('referto')
-            ->where('id',$id)
-            ->select('esito','note')
-            ->first();
+            
+        $queryReferto = [];
+        if($ruolo != "Impiegato") {
+            $queryReferto = DB::table('referto')
+                ->where('id',$id)
+                ->select('esito','note')
+                ->first();
+        }
         
         $idUtente = Auth::id();
         //medico può vedere in ogni caso la prestazione
