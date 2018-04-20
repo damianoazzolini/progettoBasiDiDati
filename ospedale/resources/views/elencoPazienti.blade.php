@@ -29,9 +29,11 @@
                 <a type="button" class="btn btn-primary" href="/elencoPazienti"><i class="fas fa-list-ul" style="color:white"></i> Mostra tutti</a>
             </div>
         </div>
-        <div class="col">
-                <a type="button" class="btn btn-primary float-sm-right" href="/aggiungiPaziente"><i class="fas fa-plus" style="color:white"></i> Aggiungi nuovo</a>
-        </div>
+        @if($ruolo == "Medico" || $ruolo == "Amministratore" || $ruolo == "Impiegato")
+            <div class="col">
+                    <a type="button" class="btn btn-primary float-sm-right" href="/aggiungiPaziente"><i class="fas fa-plus" style="color:white"></i> Aggiungi nuovo</a>
+            </div>
+        @endif
     </div>
 </form>
 <br/>
@@ -56,8 +58,10 @@
         <td>
             <div>
                 <a type="button" class="btn btn-success" href="/mostraPaziente/{{ $paziente->id}}"><i class="fas fa-eye" style="color:black"></i></a>
-                <a type="button" class="btn btn-warning" href="/modificaPaziente/{{ $paziente->id}}"><i class="fas fa-edit"></i></a>
-                <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $paziente->id}}"><i class="fas fa-trash-alt"></i></a>
+                @if($ruolo == "Amministratore")
+                    <a type="button" class="btn btn-warning" href="/modificaPaziente/{{ $paziente->id}}"><i class="fas fa-edit"></i></a>
+                    <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $paziente->id}}"><i class="fas fa-trash-alt"></i></a>
+                @endif
             </div>
         </td>
     </tr> 

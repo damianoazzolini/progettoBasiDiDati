@@ -123,12 +123,14 @@ max-width: 200px;
                     Nuovo utente
                 </a>
                 </li>
+                {{-- 
                 <li class="nav-item">
                 <a class="nav-link" href="/cercaUtente">
                     <i class="fas fa-search"></i> 
                     Ricerca utente
                 </a>
                 </li>
+                --}}
             @endif
             
             @if($ruolo == "Amministratore")            
