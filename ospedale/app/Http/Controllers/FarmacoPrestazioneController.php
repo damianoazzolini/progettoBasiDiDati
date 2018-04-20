@@ -74,7 +74,7 @@ class FarmacoPrestazioneController extends Controller
             return redirect()->back()->with('status', 'Ffarmaco inesistente');
         else {
             $idFarmaco = (int) $farmaco[0]->id;
-            DB::statement("INSERT INTO paziente_farmaco (idPaziente, idFarmaco) VALUES ('$idPaziente', '$idFarmaco')");
+            DB::statement("INSERT INTO paziente_farmaco (idPaziente, idFarmaco, created_at, updated_at) VALUES ('$idPaziente', '$idFarmaco',NOW(),NOW())");
             return redirect('/myfarmaci')->with('status','Farmaco aggiunto con successo');
         }
     }
