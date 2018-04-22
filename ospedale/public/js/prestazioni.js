@@ -12,7 +12,7 @@ $(document).ready(function() {
                 }
             });
         },
-        minLength: 1,
+        minLength: 0,
     });
 });
 
@@ -31,7 +31,7 @@ $(document).ready(function() {
                 }
             });
         },
-        minLength: 1,
+        minLength: 0,
     });
 });
 
@@ -50,6 +50,6 @@ $(document).ready(function() {
                 }
             });
         },
-        minLength: 1,
+        minLength: 0,
     });
 });

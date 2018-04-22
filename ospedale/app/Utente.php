@@ -58,8 +58,7 @@ class Utente extends Model
         }
     }
 
-    public static function trovaRuolo() {
-        $id = Auth::id();
+    public static function trovaRuolo($id) {
         $ruoloID = DB::table('utente_role')->where('user_id', $id)->value('role_id');
         $ruolo = DB::table('roles')->where('id',$ruoloID)->value('name');
         return $ruolo;

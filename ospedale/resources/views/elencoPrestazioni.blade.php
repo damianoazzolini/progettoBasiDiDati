@@ -29,6 +29,11 @@
                 <a type="button" class="btn btn-primary" href="/elencoPrestazioni"><i class="fas fa-list-ul" style="color:white"></i> Mostra tutti</a>
             </div>
         </div>
+        @if($ruolo != "Infermiere" and $ruolo != "Paziente")
+        <div class="col">
+                <a type="button" class="btn btn-primary float-sm-right" href="/aggiungiPrestazione"><i class="fas fa-plus" style="color:white"></i> Aggiungi nuova</a>
+        </div>
+        @endif
     </div>
 </form>
 <br/>

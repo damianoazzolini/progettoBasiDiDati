@@ -59,14 +59,36 @@ hr.style1{
             </a>
             </li>
             <hr class="style1">
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Prestazioni</span>
+            </h6>
             <li class="nav-item">
             <a class="nav-link" href="/elencoPrestazioni">
-                <i class="fas fa-notes-medical"></i>                
-                Prestazioni
+                <i class="fas fa-list"></i>                
+                Elenco Prestazioni
             </a>
             </li>
-
-            @if($ruolo == "Paziente")
+            @if($ruolo != "Infermiere" and $ruolo != "Paziente")
+                <li class="nav-item">
+                <a class="nav-link" href="/aggiungiPrestazione">
+                    <i class="fas fa-plus"></i>  
+                    Nuova prestazione
+                </a>
+                </li>
+            @endif
+            {{-- 
+            <li class="nav-item">
+            <a class="nav-link" href="/ricercaPrestazione">
+                <i class="fas fa-search"></i>  
+                Ricerca Prestazione
+            </a>
+            </li>
+            --}}
+                        
+            @if($ruolo == "Utente")
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Farmaci</span>
+                </h6>
                 <li class="nav-item">
                 <a class="nav-link" href="/myfarmaci">
                     <i class="fas fa-pills"></i> 
@@ -75,6 +97,9 @@ hr.style1{
             @endif
             </li>
             @if($ruolo == "Impiegato" || $ruolo == "Amministratore")
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Farmacia</span>
+                </h6>
                 <li class="nav-item">
                 <a class="nav-link" href="/farmacia">
                     <i class="fas fa-flask"></i> 
@@ -84,24 +109,44 @@ hr.style1{
             @endif
 
             @if($ruolo == "Medico" || $ruolo == "Impiegato" || $ruolo == "Infermiere" || $ruolo == "Amministratore")
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Pazienti</span>
+                </h6>
                 <li class="nav-item">
                 <a class="nav-link" href="/elencoPazienti">
                     <i class="fas fa-bed"></i> 
-                    Pazienti
+                    Elenco pazienti
                 </a>
                 </li>
+            @endif
+
+            @if($ruolo == "Medico" || $ruolo == "Impiegato" || $ruolo == "Amministratore")            
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Utenti</span>
+                </h6>
+                <li class="nav-item">
+                <a class="nav-link" href="/registrazione">
+                    <i class="fas fa-user-plus"></i> 
+                    Nuovo utente
+                </a>
             @endif
 
             @if($ruolo == "Amministratore" || $ruolo == "Impiegato")
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Personale</span>
+                </h6>
                 <li class="nav-item">
                 <a class="nav-link" href="/elencoStaff">
                     <i class="fas fa-user-md"></i> 
-                    Staff
+                    Gestione Personale
                 </a>
                 </li>
             @endif
-
+            
             @if($ruolo == "Amministratore")            
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Reparti</span>
+                </h6>
                 <li class="nav-item">
                 <a class="nav-link" href="/reparti">
                     <i class="fas fa-hospital"></i> 
@@ -111,6 +156,9 @@ hr.style1{
             @endif
 
             @if($ruolo == "Amministratore")            
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Sale</span>
+                </h6>
                 <li class="nav-item">
                 <a class="nav-link" href="/sale">
                     <i class="fas fa-tags"></i> 

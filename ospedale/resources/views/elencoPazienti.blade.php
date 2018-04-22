@@ -31,7 +31,7 @@
         </div>
         @if($ruolo == "Medico" || $ruolo == "Amministratore" || $ruolo == "Impiegato")
             <div class="col">
-                    <a type="button" class="btn btn-primary float-sm-right" href="/aggiungiPaziente"><i class="fas fa-plus" style="color:white"></i> Aggiungi nuovo</a>
+                    <a type="button" class="btn btn-primary float-sm-right" href="/aggiungiPaziente"><i class="fas fa-user-plus" style="color:white"></i> Aggiungi nuovo</a>
             </div>
         @endif
     </div>

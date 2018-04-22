@@ -42,36 +42,25 @@ Elenco utenti:<br>
 --}}
 @extends('layouts.sidebar')
 @section('content')
-<div>
-    @if (session('status'))
-        <div class="alert alert-secondary alert-dismissible fade show" role="alert">
-            {{ session('status') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
-</div>
+
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">BENVENUTO</div>
-
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    Seleziona ciò che vuoi fare dalla sidebar a sinistra
-                </div>
-            </div>
-        </div>
-    </div>
+    <h1 class="display-4">BENVENUTO/A</h1>
+    <h6> Usa la sidebar di sinistra per selezionare l'operazione che vuoi effettuare </h6>
 </div>
+</br>
 
+
+<div>
+@if (session('status'))
+    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+        {{ session('status') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <br/>
+@endif
+</div>
 @endsection
 

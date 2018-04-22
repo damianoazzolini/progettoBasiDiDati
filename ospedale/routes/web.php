@@ -21,8 +21,9 @@ Auth::routes();
 Route::get('/', 'LoginController@showLogin');
 Route::post('/','LoginController@login');
 Route::get('/logout', 'LoginController@logout');
-Route::get('/registrazione', 'LoginController@showRegistrazione');
-Route::post('/registrazione', 'LoginController@store');
+// Questo permetteva di creare qualsiasi utente
+// Route::get('/registrazione', 'LoginController@showRegistrazione');
+// Route::post('/registrazione', 'LoginController@store');
 
 Route::get('/profilo','ProfiloController@show');
 Route::get('/modificaProfilo/{id}', 'ProfiloController@edit');
@@ -48,11 +49,6 @@ Route::post('/deleteFarmacoPrestazione','PrestazioneController@deleteFarmacoPres
 Route::get('/effettuaPrestazione/{id}','PrestazioneController@showFormReferto');
 Route::post('/effettuaPrestazione/{id}','PrestazioneController@saveReferto');
 Route::get('/visualizzaReferto/{id}','PrestazioneController@visualizzaReferto');
-
-Route::get('/elencoStaff','StaffController@index');
-Route::get('/mostraStaff/{id}','StaffController@show');
-Route::get('/modificaStaff/{id}','StaffController@edit');
-Route::post('/modificaStaff/{id}','StaffController@update');
 
 Route::get('/prestazioniReparto/ajax', 'PrestazioneController@repartoAutocomplete');
 Route::get('/prestazioniSala/ajax', 'PrestazioneController@salaAutocomplete');
@@ -110,3 +106,11 @@ Route::get('/aggiungiMyFarmaco', 'FarmacoPrestazioneController@create');
 Route::post('/aggiungiMyFarmaco', 'FarmacoPrestazioneController@store');
 Route::get('/myfarmaci/ajaxCategoria', 'FarmacoPrestazioneController@categoriaAutocomplete');
 Route::get('/myfarmaci/ajaxNome', 'FarmacoPrestazioneController@nomeAutocomplete');
+Route::get('/elencoStaff', 'StaffController@index');
+Route::post('/elencoStaff', 'StaffController@ricerca');
+Route::get('/mostraStaff/{id}', 'StaffController@show');
+Route::get('/modificaStaff/{id}', 'StaffController@edit');
+Route::post('/modificaStaff/{id}', 'StaffController@update');
+Route::get('/cancellaStaff/{id}', 'StaffController@destroy');
+Route::get('/aggiungiStaff', 'StaffController@create');
+Route::post('/aggiungiStaff', 'StaffController@store');

@@ -67,7 +67,7 @@
             </button>
         </div>
         <div class="modal-body">
-            Vuoi davvero cancellare il farmaco:<br/>
+            Vuoi davvero cancellare il seguente farmaco dalla tua lista dei farmaci ?<br/>
             <b>ID: </b>{{ $farmaco->id }}<br/>
             <b>Nome: </b>{{ $farmaco->nome }}<br/>
             <b>Categoria: </b>{{ $farmaco->categoria }}<br/>
