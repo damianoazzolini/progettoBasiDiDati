@@ -41,24 +41,49 @@
 <div class="card bg-light">
   <div class="card-header"><p class="h6">Farmaci Assunti</p></div>
   <div class="card-body">
-    @foreach($farmaci as $farmaco)
-      <p class="card-text"><b>Nome: </b>{{ $farmaco->nome }} </p>
-      <p class="card-text"><b>Categoria: </b>{{ $farmaco->categoria }} </p>
-      <p class="card-text"><b>Descrizione: </b>{{ $farmaco->descrizione }}</p>
-      </br>
-    @endforeach
+    <table class="table">
+      <thead>
+      <th scope="col"> Nome </th>
+      <th scope="col"> Categoria </th>
+      </thead>
+
+      <tbody>
+      @foreach($farmaci as $farmaco) 
+          <tr>
+              <td> <a href="/mostraFarmaco/{{ $farmaco->id }} "> {{ $farmaco->nome}} </th>
+              <td> {{ $farmaco->categoria }} </td>
+          </tr> 
+      @endforeach
+      </tbody>
+    </table>
   </div>
 </div>
 <br/>
 
+
+
 <div class="card bg-light">
   <div class="card-header"><p class="h6">Prestazioni Effettuate</p></div>
   <div class="card-body">
-    @foreach($prestazioni as $prestazione)
-      <p class="card-text"><b>Data: </b><a href = "/mostraPrestazione/{{$prestazione->id}}">{{ $prestazione->data }}<a/> </p>
-      <p class="card-text"><b>Effettuata: </b>{{ $prestazione->effettuata }}</p>
-      </br>
-    @endforeach
+    <table class="table">
+      <thead>
+      <th scope="col"> Data </th>
+      <th scope="col"> Effettuata </th>
+      </thead>
+
+      <tbody>
+      @foreach($prestazioni as $prestazione) 
+          <tr>
+            <td><a href = "/mostraPrestazione/{{$prestazione->id}}">{{ $prestazione->data }}<a/> </td>
+            @if ($prestazione->effettuata)
+            <td><i class="fas fa-check"></i> </td>
+            @else
+            <td><i class="fas fa-times"></i> </td>
+            @endif
+          </tr> 
+      @endforeach
+      </tbody>
+    </table>
   </div>
 </div>
 

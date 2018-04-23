@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 @section('content')
 
-<h4>Dettaglio staff: </h4><h3>{{ $datiUtente->nome }} {{ $datiUtente->cognome }}</h3>
+<h4>Dettaglio staff: </h4><h3><b>{{$ruoloStaff}}</b> -> {{ $datiUtente->nome }} {{ $datiUtente->cognome }}</h3>
 <div class="row">
   <div class="col"></div>
   <div class="col">
@@ -23,12 +23,18 @@
     <p class="card-text"><b>Città: </b>{{ $datiUtente->comune }} <b>Provincia: </b>{{ $datiUtente->provincia }} <b>Stato: </b>{{ $datiUtente->stato }}</p>
     <p class="card-text"><b>Email: </b>{{ $datiUtente->email }}</p>
     <p class="card-text"><b>Telefono: </b>{{ $datiUtente->telefono }}</p>
+  </div>
+</div>
+<br/>
+<div class="card bg-light">
+  <div class="card-header"><p class="h6">Dati Incarico</p></div>
+  <div class="card-body">
+    <p class="card-text"><b>Ruolo: </b>{{$ruoloStaff}}</p>
     <p class="card-text"><b>Identificativo: </b>{{ $datiStaff->identificativo }}</p>
     <p class="card-text"><b>Stipendio: </b>{{ $datiStaff->stipendio }}</p>
   </div>
 </div>
 <br/>
-
 <div class="card bg-light">
   <div class="card-header"><p class="h6">Dati reparto</p></div>
   <div class="card-body">

@@ -123,7 +123,7 @@ class PazienteController extends Controller
         $farmaci = DB::table('farmaco')
             ->join('paziente_farmaco','farmaco.id','=','paziente_farmaco.idFarmaco')
             ->where('paziente_farmaco.idPaziente',$id)
-            ->select('farmaco.descrizione','farmaco.nome','farmaco.categoria')
+            ->select('farmaco.id','farmaco.nome','farmaco.categoria')
             ->get();
         
         //prestazioni prenotate

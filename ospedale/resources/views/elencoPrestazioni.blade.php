@@ -51,7 +51,7 @@
 <tbody>
 @for ($i = 0; $i < count($prestazioni); $i++) 
     <tr>
-        <th scope="row">{{ $pazienti[$i]->nome }}</th>
+        <td> {{ $pazienti[$i]->nome }} </td>
         <td> {{ $pazienti[$i]->cognome }} </td>
         <td> {{ $prestazioni[$i]->data }} </td>
         <td> {{ $prestazioni[$i]->ora }} </td>

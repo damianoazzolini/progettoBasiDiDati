@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 @section('content')
-<h4>Aggiorna dati paziente: </h4><h3>{{ $datiUtente->nome }} {{ $datiUtente->cognome }}</h3>
+<h4>Aggiorna dati profilo: </h4><h3>{{ $datiUtente->nome }} {{ $datiUtente->cognome }}</h3>
 <br/>
 <form method="post">
     <div class="card bg-light">

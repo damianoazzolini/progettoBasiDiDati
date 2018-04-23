@@ -11,11 +11,11 @@
     <br/>
 @endif
 
-<h4>Dettaglio paziente: </h4><h3>{{ $datiUtente->nome }} {{ $datiUtente->cognome }}</h3>
+<h4>Dettaglio utente: </h4><h3>{{ $datiUtente->nome }} {{ $datiUtente->cognome }}</h3>
 <div class="row">
   <div class="col"></div>
   <div class="col">
-    <a type="button" class="btn btn-secondary float-sm-right" style="margin-left: 5px; color:white" href="{{ URL::previous() }}"></i>Chiudi</a>
+    <a type="button" class="btn btn-secondary float-sm-right" style="margin-left: 5px; color:white" href="/dashboard"></i>Chiudi</a>
     @if($ruolo == "Paziente" || $ruolo == "Amministratore")
     <a type="button" class="btn btn-warning float-sm-right" style="margin-left: 5px; color:white" href="/modificaProfilo/{{ $datiUtente->id}}"><i class="fas fa-edit"></i> Modifica</a>
     @endif

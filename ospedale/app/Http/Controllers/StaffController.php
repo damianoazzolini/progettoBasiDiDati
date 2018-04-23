@@ -27,6 +27,27 @@ class StaffController extends Controller {
             'ruolo' => $ruolo]);
     }
 
+    public function ricerca(Request $request) {
+        $this->validate(request(), [
+            'search' => 'required|min:2|max:64',
+        ]);
+        $search = request('search');
+        
+        $query = DB::select("SELECT utente.id, utente.nome, utente.cognome, 
+        staff.identificativo as identificativoPersonale, 
+        staff.idReparto as idReparto,
+        reparto.identificativo as identificativoReparto 
+        FROM utente
+        JOIN staff ON utente.id = staff.id
+        JOIN reparto ON reparto.id = staff.idReparto
+        WHERE utente.attivo = '1' AND
+            (CONCAT(utente.nome, ' ', utente.cognome) LIKE '$search%' OR 
+            CONCAT(utente.cognome, ' ', utente.nome) LIKE '$search%')");
+        $ruolo = Utente::trovaRuolo(Auth::id());
+
+        return view('elencoStaff',['datiStaff' => $query, 'ruolo' => $ruolo]);
+    }
+
     public function create() {
         $ruolo = Utente::trovaRuolo(Auth::id());
         return view('aggiungiStaff',['ruolo' => $ruolo]);
@@ -93,10 +114,13 @@ class StaffController extends Controller {
         $reparto = DB::select("SELECT * FROM reparto
             WHERE reparto.id = $idReparto");
 
+        $ruoloStaff = Utente::trovaRuolo($datiUtente[0]->id);
+
         return view('mostraStaff',[
             'datiUtente' => $datiUtente[0], 
             'datiStaff' => $queryStaff[0],
             'reparto' => $reparto[0],
+            'ruoloStaff' => $ruoloStaff,
             'ruolo' => $ruolo]);
     }
 
@@ -123,28 +147,52 @@ class StaffController extends Controller {
     }
 
     public function update(Request $request, $id) {
-        $this->validate(request(), [
-            'nome' => 'required|min:3',
-            'cognome' => 'required|min:3',
-            'email' => 'required|min:3|unique:utente',
-            'password' => 'required|min:3',
-            'stipendio' => 'required',
-            'identificativoReparto' => 'required'
-        ]);
-        $stipendio = request('stipendio');
-        $nomeReparto = request('nomeReparto');
-        
-        if($nomeReparto != [] && $stipendio > 0) {
-            $idReparto = DB::table('reparto')
-            ->where('nome',$nomeReparto)
-            ->value('id');
-
-            DB::statement("UPDATE staff SET stipendio = $stipendio WHERE id = '$id'"); 
-            DB::statement("UPDATE staff SET idReparto = $idReparto WHERE id = '$id'");
-            return redirect('/elencoStaff')->with('status','Membro dello staff aggiornato con successo'); 
+        $nome = request('nome');
+        $cognome = request('cognome');
+        $dataNascita = request('dataNascita');
+        $sesso = request('sesso');
+        if($sesso == 'uomo') {
+            $sesso = '1';
         }
-        else 
-            return redirect()->back()->with('status','Reparto inesistente o stipendio incorretto');         
+        else {
+            $sesso = '0';
+        }
+        $codiceFiscale = request('codiceFiscale');
+        $email = request('email');
+        $telefono = request('telefono');
+        $provincia = request('provincia');
+        $stato = request('stato');
+        $comune = request('comune');
+        $via = request('via');
+        $numeroCivico = (int)request('civico');
+        $peso = (int)request('peso');
+        $altezza = (int)request('altezza');
+        $note = request('note');
+
+        //Cancello il vecchio ruolo
+        DB::statement("DELETE FROM utente_role WHERE user_id = $id");
+        // Aggiungo il nuovo ruolo
+        $ruolo = request('ruolo');
+        $role_paziente = Role::where('name',$ruolo)->first();
+        $role_id = $role_paziente->id;
+        DB::statement("INSERT INTO utente_role (user_id, role_id) VALUES($id, $role_id)");
+        
+        // Aggiorno i dati sulla tabella utente
+        DB::statement("UPDATE utente SET nome = '$nome', cognome = '$cognome', dataNascita = '$dataNascita',
+            sesso = $sesso, codiceFiscale = '$codiceFiscale', email = '$email', telefono = '$telefono',
+            provincia = '$provincia', stato = '$stato', comune = '$comune', via = '$via', numeroCivico = '$numeroCivico' 
+            WHERE id = $id");
+        // Aggiorno i dati sulla tabella staff
+        $identificativoReparto = request('identificativoReparto');
+        $reparto = DB::select("SELECT * FROM reparto WHERE reparto.identificativo = '$identificativoReparto'");
+        $idReparto = $reparto[0]->id;
+        $identificativo = request('identificativoPersonale');
+        $stipendio = request('stipendio');
+
+        DB::statement("UPDATE staff SET stipendio = $stipendio, identificativo = '$identificativo', 
+                    idReparto = $idReparto WHERE id = $id");
+
+        return redirect('/elencoStaff')->with('status','Membro dello staff aggiornato con successo');      
     }
 
     public function destroy($id) {
