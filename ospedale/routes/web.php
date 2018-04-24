@@ -50,9 +50,11 @@ Route::get('/effettuaPrestazione/{id}','PrestazioneController@showFormReferto');
 Route::post('/effettuaPrestazione/{id}','PrestazioneController@saveReferto');
 Route::get('/visualizzaReferto/{id}','PrestazioneController@visualizzaReferto');
 
-Route::get('/prestazioniReparto/ajax', 'PrestazioneController@repartoAutocomplete');
-Route::get('/prestazioniSala/ajax', 'PrestazioneController@salaAutocomplete');
+//Route::get('/prestazioniReparto/ajax', 'PrestazioneController@repartoAutocomplete');
+//Route::get('/prestazioniSala/ajax', 'PrestazioneController@salaAutocomplete');
 //Route::get('/prestazioniCodiceFiscale/ajax', 'PrestazioneController@cfAutocomplete');
+//Route::get('/prestazioniCognomeStaff/ajax','PrestazioneController@cognomeStaffAutocomplete');
+//Route::get('/prestazioniNomeStaff/ajax','PrestazioneController@nomeStaffAutocomplete');
 
 //Route::get('/myfarmaco','FarmacoController@show');
 

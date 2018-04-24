@@ -1,8 +1,6 @@
 @extends('layouts.sidebar')
 @section('content')
 <h4> Modifica prestazione </h4>
-<h3> Puoi cambiare solo identificativo e note </h3>
-<br/>
 
 <div>
     @if (session('status'))
@@ -24,94 +22,59 @@
 </div>
 <br/>
 
-<form method="post" class="col-sm-8">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    <div class="form-group row">
-        <label for="identificativoReparto" class="col-sm-2 col-form-label">Reparto</label>
+<div class="card bg-light">
+    <div class="card-header">
+        <p class="h6">Modifica Prestazione</p>
+    </div>
+
+    <div class="card-body">
         <div class="col-sm-10">
-        <input type="text" class="form-control" id="identificativoReparto" name="identificativoReparto" value="{{ $reparto }}">
+            <p class="card-text"><b>Reparto: </b> {{ $reparto }} </p>
+            <p class="card-text"><b>Sala: </b> {{ $sala }} </p>
+            <p class="card-text"><b>Data: </b>{{ $prestazione->data }}</p>
+            <p class="card-text"><b>Ora: </b>{{ $prestazione->ora }}</p>
+            <p class="card-text"><b>Durata: </b>{{ $prestazione->durata }}</p>
+            <p class="card-text"><b>Nome Paziente: </b>{{ $paziente[0]->nome }}</p>
+            <p class="card-text"><b>Cognome Paziente: </b>{{ $paziente[0]->cognome }}</p>
+            <p class="card-text"><b>Codice Fiscale: </b>{{ $paziente[0]->codiceFiscale }}</p>
+            @foreach($staff as $componenteStaff) 
+                <p class="card-text"><b>Nome Staff: </b>{{ $componenteStaff->nome }}</p>
+                <p class="card-text"><b>Cognome Staff: </b>{{ $componenteStaff->cognome }}</p> 
+            @endforeach
         </div>
     </div>
-    <div class="form-group row">
-        <label for="identificativoSala" class="col-sm-2 col-form-label">Identificativo sala</label>
-        <div class="col-sm-10">
-        <input type="text" class="form-control" id="identificativoSala" name="identificativoSala" value="{{ $sala }}">
-        </div>
+</div>
+
+</br>
+
+<div class="card bg-light">    
+    <div class="card-header">
+        <p class="h6">Campi Modificabili</p>
     </div>
-    <div class="form-group row">
-        <label for="data" class="col-sm-2 col-form-label">Data della prestazione</label>
-        <div class="col-sm-10">
-        <input type="date" class="form-control" id="data" name="data" value="{{ $prestazione->data }}">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="ora" class="col-sm-2 col-form-label">Ora della prestazione</label>
-        <div class="col-sm-10">
-        <input type="time" class="form-control" id="ora" name="ora" value="{{ $prestazione->ora }}">
-        </div>
+
+    <div class="card-body">
+        <form method="post" class="col-sm-20">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            
+            <div class="form-group row col-sm-10"> 
+                <label for="identificativo" class="col-sm-6 col-form-label">Tipologia</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="identificativo" name="identificativo" value="{{ $prestazione->identificativo }}">
+                </div>
+            </div>
+
+            <div class="form-group row col-sm-10"> 
+                <label for="note" class="col-sm-6 col-form-label">Note</label>
+                <div class="col-sm-10">
+                    <textarea cols="40" rows="5" class="form-control" id="note" name="note" placeholder="{{ $prestazione->note }}"></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Modifica prestazione</button>
+        </form> 
     </div>
     
-    <div class="form-group row">
-        <label for="durata" class="col-sm-2 col-form-label">Durata della prestazione</label>
-        <div class="col-sm-10">
-        <input type="number" class="form-control" id="durata" name="durata" value="{{ $prestazione->durata }}">
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="identificativo" class="col-sm-2 col-form-label">Tipo della prestazione</label>
-        <div class="col-sm-10">
-        <input type="text" class="form-control" id="identificativo" name="identificativo" value="{{ $prestazione->identificativo }}">
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="nomePaziente" class="col-sm-2 col-form-label">Nome Paziente</label>
-        <div class="col-sm-10">
-        <input type="text" class="form-control" id="nomePaziente" name="nomePaziente" value="{{ $paziente[0]->nome }}">
-        </div>
-    </div>
-    
-    <div class="form-group row">
-        <label for="cognomePaziente" class="col-sm-2 col-form-label">Cognome Paziente</label>
-        <div class="col-sm-10">
-        <input type="text" class="form-control" id="cognomePaziente" name="cognomePaziente" value="{{ $paziente[0]->cognome }}">
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="codiceFiscale" class="col-sm-2 col-form-label">Codice Fiscale</label>
-        <div class="col-sm-10">
-        <input type="text" class="form-control" id="codiceFiscale" name="codiceFiscale" value="{{ $paziente[0]->codiceFiscale }}">
-        </div>
-    </div>
-
-    @foreach($staff as $componenteStaff) 
-    <div class="form-group row">
-        <label for="nomeStaff" class="col-sm-2 col-form-label">Nome Membro Staff</label>
-        <div class="col-sm-10">
-        <input type="text" class="form-control" id="nomeStaff" name="nomeStaff" value="{{ $componenteStaff->nome }}">
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="cognomeStaff" class="col-sm-2 col-form-label">Cognome Membro Staff</label>
-        <div class="col-sm-10">
-        <input type="text" class="form-control" id="cognomeStaff" name="cognomeStaff" value="{{ $componenteStaff->cognome }}">
-        </div>
-    </div>
-    @endforeach
-
-    <div class="form-group row">
-        <label for="note" class="col-sm-2 col-form-label">Note</label>
-        <div class="col-sm-10">
-        <textarea cols="40" rows="5" class="form-control" id="note" name="note" value="{{ $prestazione->note }}"></textarea>
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Modifica prestazione</button>
-
-</form> 
+</div>
 <br/>
 <br/>
 

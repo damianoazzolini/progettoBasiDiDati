@@ -45,7 +45,7 @@
     
     <p class="card-text"><b>Staff: </b>
     @if(($ruolo == "Medico" || $ruolo == "Amministratore") and $autorizzatoModificaPrestazione)
-        <a type="button" class="btn btn-primary" href="/modificaStaffPrestazione/{{ $prestazione->id }}"><i class="fas fa-folder-open" style="color:black"></i></a>
+        <a class="btn btn-default btn-sm" href="/modificaStaffPrestazione/{{ $prestazione->id }}"> <i class="fa fa-cog"></i> Modifica</a>  
     @endif
     </br>
     @foreach($staff as $componenteStaff) 
@@ -55,7 +55,7 @@
     </p>
     <p class="card-text"><b>Farmaci: </b>
     @if(($ruolo == "Medico" || $ruolo == "Infermiere" || $ruolo == "Amministratore") and $autorizzatoModficaFarmaci)
-        <a type="button" class="btn btn-primary" href="/modificaFarmacoPrestazione/{{ $prestazione->id }}"><i class="fas fa-folder-open" style="color:black"></i></a>
+        <a class="btn btn-default btn-sm" href="/modificaFarmacoPrestazione/{{ $prestazione->id }}"> <i class="fa fa-cog"></i> Modifica</a>
     @endif
     </br>
     @foreach($farmaci as $farmaco) 
