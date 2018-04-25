@@ -72,7 +72,7 @@
 <div class="card bg-light">
   <div class="card-header"><p class="h6">Staff</p>
     @if(($ruolo == "Medico" || $ruolo == "Amministratore") and $autorizzatoModificaPrestazione)
-        <a type="button" class="btn btn-primary" href="/modificaStaffPrestazione/{{ $prestazione->id }}"><i class="fas fa-folder-open" style="color:white"></i> Modifica Staff</a>
+        <a class="btn btn-default btn-sm" href="/modificaStaffPrestazione/{{ $prestazione->id }}"> <i class="fa fa-cog"></i> Modifica</a>  
     @endif
   </div>
   <div class="card-body">
@@ -98,7 +98,7 @@
 <div class="card bg-light">
   <div class="card-header"><p class="h6">Farmaci</p>
     @if(($ruolo == "Medico" || $ruolo == "Infermiere" || $ruolo == "Amministratore") and $autorizzatoModficaFarmaci)
-        <a type="button" class="btn btn-primary" href="/modificaFarmacoPrestazione/{{ $prestazione->id }}"><i class="fas fa-folder-open" style="color:white"></i> Modifica Farmaci</a>
+        <a class="btn btn-default btn-sm" href="/modificaFarmacoPrestazione/{{ $prestazione->id }}"> <i class="fa fa-cog"></i> Modifica</a>
     @endif
   </div>
   <div class="card-body">

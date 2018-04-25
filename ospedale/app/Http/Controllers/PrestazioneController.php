@@ -295,7 +295,7 @@ class PrestazioneController extends Controller {
             'ruolo' => $ruolo]);
     }
 
-    //modfico la prestazione - UGUALE A SHOW :(
+    //modfico la prestazione
     public function edit($id) {
         $prestazione = DB::table('prestazione')->where('id',$id)->get()->first();
         $ruolo = Utente::trovaRuolo(Auth::id());
@@ -519,7 +519,7 @@ class PrestazioneController extends Controller {
     public static function salaAutocomplete(){
         $search = request('term');
         $reparto = request('reparto');
-        $idReparto = DB::select("SELECT id FROM reparto WHERE nome='$reparto'");
+        $idReparto = DB::select("SELECT DISTINCT id FROM reparto WHERE nome='$reparto'");
         $results = array();
         $sale = DB::select("SELECT nome FROM sala WHERE nome LIKE '$search%'");// AND idReparto='$idReparto'");
         foreach ($sale as $sala) $results[] = ['value' => $sala->nome];
@@ -531,7 +531,7 @@ class PrestazioneController extends Controller {
     public static function repartoAutocomplete(){
         $search = request('term');
         $results = array();
-        $reparti = DB::select("SELECT identificativo FROM reparto WHERE identificativo LIKE '$search%'");
+        $reparti = DB::select("SELECT DISTINCT identificativo FROM reparto WHERE identificativo LIKE '$search%'");
         foreach ($reparti as $reparto) $results[] = ['value' => $reparto->identificativo];
         if(count($results)) return $results;
         else return ['value'=>'Nessun reparto trovato'];
@@ -540,11 +540,46 @@ class PrestazioneController extends Controller {
     public static function cfAutocomplete() {
         $nome = request('nome');
         $cognome = request('cognome');
+        $cf = request('term');
         $results = array();
-        $codici = DB::select("SELECT codiceFiscale FROM utente WHERE nome LIKE '$nome%' AND cognome LIKE '$cognome%'");
-        foreach ($codici as $codice) $results[] = ['value' => $codice->cf];
+        $codici = DB::select("SELECT DISTINCT codiceFiscale FROM utente WHERE nome = '$nome' AND cognome = '$cognome' AND codiceFiscale LIKE '$search%'");
+        foreach ($codici as $codice) $results[] = ['value' => $codice->codiceFiscale];
         if(count($results)) return $results;
         else return ['value'=>'Nessun cf trovato'];
+    }
+
+    public static function nomeStaffAutocomplete(){
+        $search = request('term');
+        $reparto = request('reparto');
+        $results = array();
+        
+        $nomi = DB::select("SELECT DISTINCT nome 
+            FROM utente 
+            JOIN staff ON utente.id = staff.id
+            WHERE utente.nome LIKE '$search%'");
+        foreach ($nomi as $nome) 
+            $results[] = ['value' => $nome->nome];
+        if (count($results)) 
+            return $results;
+        else 
+            return ['value'=>'Nessun nome trovato'];
+    }
+
+    public static function cognomeStaffAutocomplete(){
+        $search = request('term');
+        $reparto = request('reparto');
+        $results = array();
+
+        $cognomi = DB::select("SELECT DISTINCT cognome 
+            FROM utente 
+            JOIN staff ON utente.id = staff.id
+            WHERE utente.cognome LIKE '$search%'");
+        foreach ($cognomi as $cognome) 
+            $results[] = ['value' => $cognome->cognome];
+        if (count($results)) 
+            return $results;
+        else 
+            return ['value'=>'Nessun cognome trovato'];
     }
 
     //INSERIRE AJAX PER IL CF
