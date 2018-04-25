@@ -25,51 +25,109 @@
     @endif
   </div>
 </div>
-<br/>
+</br>
+
 <div class="card bg-light">
-  <div class="card-header"><p class="h6">Dati prestazione</p></div>
+  <div class="card-header"><p class="h6">Dati paziente</p></div>
   <div class="card-body">
-    <!--<h5 class="card-title">Dati anagrafici</h5>-->
     <p class="card-text"><b>Nome Paziente: </b>{{ $paziente[0]->nome }}</p>
     <p class="card-text"><b>Cognome Paziente: </b>{{ $paziente[0]->cognome }}</p>
     <p class="card-text"><b>Codice Fiscale: </b>{{ $paziente[0]->codiceFiscale }}</p>
-    <p class="card-text"><b>Data: </b>{{ $prestazione->data }}</p>
+  </div>
+</div>
+</br>
+<div class="card bg-light">
+  <div class="card-header"><p class="h6">Dati prestazione</p></div>
+  <div class="card-body">
+  <p class="card-text"><b>Data: </b>{{ $prestazione->data }}</p>
     <p class="card-text"><b>Ora: </b>{{ $prestazione->ora }}</p>
     <p class="card-text"><b>Durata: </b>{{ $prestazione->durata }} minuti</p>
     <p class="card-text"><b>Reparto: </b>{{ $reparto }}</p>
     <p class="card-text"><b>Sala: </b>{{ $sala }}</p>
-    <p class="card-text"><b>Identificativo: </b>{{ $prestazione->identificativo }}</p>
+    <p class="card-text"><b>Tipologia di prestazione: </b>{{ $prestazione->identificativo }}</p>
     <p class="card-text"><b>Note: </b>{{ $prestazione->note }}</p>
-    <p class="card-text"><b>Attiva: </b>{{ $prestazione->attivo }}</p>
-    <p class="card-text"><b>Effettuata: </b>{{ $prestazione->effettuata }}</p>
-    
-    <p class="card-text"><b>Staff: </b>
-    @if(($ruolo == "Medico" || $ruolo == "Amministratore") and $autorizzatoModificaPrestazione)
-        <a type="button" class="btn btn-primary" href="/modificaStaffPrestazione/{{ $prestazione->id }}"><i class="fas fa-folder-open" style="color:black"></i></a>
-    @endif
-    </br>
-    @foreach($staff as $componenteStaff) 
-        {{ $componenteStaff->nome }} {{ $componenteStaff->cognome }} </br>       
-    @endforeach
-    
-    </p>
-    <p class="card-text"><b>Farmaci: </b>
-    @if(($ruolo == "Medico" || $ruolo == "Infermiere" || $ruolo == "Amministratore") and $autorizzatoModficaFarmaci)
-        <a type="button" class="btn btn-primary" href="/modificaFarmacoPrestazione/{{ $prestazione->id }}"><i class="fas fa-folder-open" style="color:black"></i></a>
-    @endif
-    </br>
-    @foreach($farmaci as $farmaco) 
-        {{ $farmaco->nome }} </br>  
-    @endforeach
-    </br>
-    @if($ruolo != "Impiegato")
-        <p class="card-text"><b>Esito: </b>{{ $referto->esito }}</p>
-        <p class="card-text"><b>Note referto: </b>{{ $referto->note }}</p>
-    @endif
-    </p>   
   </div>
 </div>
+</br>
+<div class="card bg-light">
+  <div class="card-header"><p class="h6">Attiva: 
+    @if($prestazione->attivo == 1)
+    <i class="fas fa-check" style="color:green"></i>
+    @else
+    <i class="fas fa-times" style="color:red"></i>
+    @endif
+    </p></div>
+</div>
+</br>
+<div class="card bg-light">
+  <div class="card-header"><p class="h6">Effettuata: 
+    @if($prestazione->effettuata == 1)
+    <i class="fas fa-check" style="color:green"></i>
+    @else
+    <i class="fas fa-times" style="color:red"></i>
+    @endif
+    </p></div>
+</div>
+</br>
+<div class="card bg-light">
+  <div class="card-header"><p class="h6">Staff</p>
+    @if(($ruolo == "Medico" || $ruolo == "Amministratore") and $autorizzatoModificaPrestazione)
+        <a type="button" class="btn btn-primary" href="/modificaStaffPrestazione/{{ $prestazione->id }}"><i class="fas fa-folder-open" style="color:white"></i> Modifica Staff</a>
+    @endif
+  </div>
+  <div class="card-body">
+    
+    <table class="table">
+      <thead>
+      <th scope="col"> Nome </th>
+      <th scope="col"> Cognome </th>
+      </thead>
 
+      <tbody>
+      @foreach($staff as $componenteStaff) 
+          <tr>
+            <td> {{ $componenteStaff->nome }}<a/> </td>
+            <td> {{ $componenteStaff->cognome }} <a/> </td>
+          </tr> 
+      @endforeach
+      </tbody>
+    </table>
+  </div>
+</div>
+</br>
+<div class="card bg-light">
+  <div class="card-header"><p class="h6">Farmaci</p>
+    @if(($ruolo == "Medico" || $ruolo == "Infermiere" || $ruolo == "Amministratore") and $autorizzatoModficaFarmaci)
+        <a type="button" class="btn btn-primary" href="/modificaFarmacoPrestazione/{{ $prestazione->id }}"><i class="fas fa-folder-open" style="color:white"></i> Modifica Farmaci</a>
+    @endif
+  </div>
+  <div class="card-body">
+    
+    <table class="table">
+      <thead>
+      <th scope="col"> Nome </th>
+      </thead>
+
+      <tbody>
+      @foreach($farmaci as $farmaco) 
+          <tr>
+            <td> {{ $farmaco->nome }}<a/> </td>
+          </tr> 
+      @endforeach
+      </tbody>
+    </table>
+  </div>
+</div>
+</br>
+@if($ruolo != "Impiegato")
+<div class="card bg-light">
+  <div class="card-header"><p class="h6">Referto</p></div>
+  <div class="card-body">
+    <p class="card-text"><b>Esito: </b>{{ $referto->esito }}</p>
+    <p class="card-text"><b>Note referto: </b>{{ $referto->note }}</p>
+  </div>
+</div>
+@endif
 <!-- Modal di conferma cancellazione-->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -91,5 +149,6 @@
         </div>
     </div>
 </div>
-
+</br>
+</br>
 @endsection

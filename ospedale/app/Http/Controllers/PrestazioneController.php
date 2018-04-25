@@ -59,35 +59,14 @@ class PrestazioneController extends Controller {
         $id = Auth::id();
         $ruolo = Utente::trovaRuolo(Auth::id());
 
-        if($ruolo == "Amministratore" || $ruolo == "Medico" || $ruolo == "Impiegato") {
+        if($ruolo == "Amministratore" || $ruolo == "Medico" || $ruolo == "Impiegato" || $ruolo == "Infermiere") {
             $prestazioni = DB::select("SELECT * FROM prestazione
                 JOIN utente ON utente.id = prestazione.idPaziente
                 WHERE utente.attivo = 1 AND
                 (CONCAT(nome, ' ', cognome) LIKE '$search%' OR 
                 CONCAT(cognome, ' ', nome) LIKE '$search%' OR
                 codiceFiscale LIKE '$search%')
-                ORDER BY created_at DESC");
-        }
-        else if($ruolo == "Paziente") {
-            $prestazioni = DB::select("SELECT * FROM prestazione
-                JOIN utente ON utente.id = prestazione.idPaziente
-                WHERE utente.attivo = 1 AND prestazione.idPaziente = $id AND
-                (CONCAT(nome, ' ', cognome) LIKE '$search%' OR 
-                CONCAT(cognome, ' ', nome) LIKE '$search%' OR
-                codiceFiscale LIKE '$search%')
-                ORDER BY created_at DESC");
-        }
-        else if($ruolo == "Infermiere") {
-            //TRIPLO JOIN PESISSIMO
-            //DA TESTARE
-            $prestazioni = DB::select("SELECT * FROM prestazione
-                JOIN utente ON utente.id = prestazione.idPaziente
-                JOIN staff_prestazione ON prestazione.id = staff_prestazione.idPrestazione
-                WHERE utente.attivo = 1 AND staff_prestazione.idPrestazione = $id AND
-                (CONCAT(nome, ' ', cognome) LIKE '$search%' OR 
-                CONCAT(cognome, ' ', nome) LIKE '$search%' OR
-                codiceFiscale LIKE '$search%')
-                ORDER BY created_at DESC");
+                ORDER BY prestazione.created_at DESC");
         }
         $pazienti = [];
         foreach ($prestazioni as $prestazione) {
@@ -437,7 +416,7 @@ class PrestazioneController extends Controller {
                 $staff_prestazione->idPrestazione = $idPrestazione;
                 $staff_prestazione->idStaff = $idStaff;
                 $staff_prestazione->save();
-                return redirect('/elencoPrestazioni')->with('status','Aggiunto staff con successo');     
+                return redirect()->back()->with('status','Aggiunto staff con successo');     
             }
             else
                 return redirect()->back()->with('status', 'Componente dello staff già presente');
@@ -469,7 +448,7 @@ class PrestazioneController extends Controller {
                 ->where('idPrestazione',$idPrestazione)
                 ->delete();
 
-            return redirect('/elencoPrestazioni')->with('status','Rimosso staff con successo');
+            return redirect()->back()->with('status','Rimosso staff con successo');
         }
         else {
             return redirect()->back()->with('status', 'Impossibile rimuovere elementi staff');
@@ -506,7 +485,7 @@ class PrestazioneController extends Controller {
             $farmaco_prestazione->idFarmaco = $idFarmaco;
             $farmaco_prestazione->save();
 
-            return redirect('/elencoPrestazioni')->with('status','Aggiunto farmaco con successo');
+            return redirect()->back()->with('status','Aggiunto farmaco con successo');
         }
         else {
             return redirect()->back()->with('status', 'Farmaco inesistente');
@@ -528,7 +507,7 @@ class PrestazioneController extends Controller {
                 ->where('idPrestazione',$idPrestazione)
                 ->delete();
 
-            return redirect('/elencoPrestazioni')->with('status','Rimosso farmaco con successo');
+            return redirect()->back()->with('status','Rimosso farmaco con successo');
         }
         else {
             return redirect()->back()->with('status', 'Impossibile rimuovere farmaco');

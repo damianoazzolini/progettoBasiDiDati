@@ -76,9 +76,9 @@
           <tr>
             <td><a href = "/mostraPrestazione/{{$prestazione->id}}">{{ $prestazione->data }}<a/> </td>
             @if ($prestazione->effettuata)
-            <td><i class="fas fa-check"></i> </td>
+            <td><i class="fas fa-check" style="color:green"></i> </td>
             @else
-            <td><i class="fas fa-times"></i> </td>
+            <td><i class="fas fa-times" style="color:red"></i> </td>
             @endif
           </tr> 
       @endforeach

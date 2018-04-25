@@ -1,8 +1,8 @@
 @extends('layouts.sidebar')
 @section('content')
 
-<h4>Dettaglio staff prestazione</h4>
-
+<h4>Dettaglio Staff Prestazione</h4>
+</br>
 <div>
     @if (session('status'))
         <div class="alert alert-secondary alert-dismissible fade show" role="alert">
@@ -12,48 +12,45 @@
             </button>
         </div>
         <br/>
+        </br>
     @endif
 </div>
+<h6> Aggiungi un membro dello staff alla prestazione indicandone il nome e il cognome </h6>
+</br>
+<table class="table">
+    <thead>
+    <th scope="col"> Nome </th>
+    <th scope="col"> Cognome </th>
+    <th scope="col"> </th>
+    </thead>
 
-<div class="card bg-light">
-  <div class="card-header"><p class="h6">Dettaglio</p></div>
-  <div class="card-body">
-    <p class="card-text"><b>Staff: </b>
-    </br>
-    @foreach($staff as $componenteStaff) 
-        {{ $componenteStaff->nome }} {{ $componenteStaff->cognome }} 
-        <form method="post" action="{{ action('PrestazioneController@deleteStaffPrestazione') }}">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <input type="hidden" name="idPrestazione" value="{{ $idPrestazione }}">
-            <input type="hidden" name="nomeStaff" value="{{ $componenteStaff->nome }}">
-            <input type="hidden" name="cognomeStaff" value="{{ $componenteStaff->cognome }}">
-            
-            <input type="submit" value="Rimuovi">        
-        </form>
-    @endforeach
-    
-    <p class="card-text"><b>Aggiungi Staff: </b>
-    </br>
+    <tbody>
+    <tr>
     <form method="post" class="col-sm-8">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    <input type="hidden" name="idPrestazione" value="{{ $idPrestazione }}"
-    <div class="form-group row">
-        <label for="nomeStaff" class="col-sm-2 col-form-label">Nome componente staff</label>
-        <div class="col-sm-10">
-        <input type="text" class="form-control" id="nomeStaff" name="nomeStaff" placeholder="Nome">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="cognomeStaff" class="col-sm-2 col-form-label">Cognome componente staff</label>
-        <div class="col-sm-10">
-        <input type="text" class="form-control" id="cognomeStaff" name="cognomeStaff" value="Cognome">
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Aggiungi staff</button>
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="idPrestazione" value="{{ $idPrestazione }}">
+        <td><input type="text" class="form-control" id="nomeStaff" name="nomeStaff" placeholder="Nome"></td>
+        <td><input type="text" class="form-control" id="cognomeStaff" name="cognomeStaff" placeholder="Cognome"></td>
+        <td><button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Aggiungi</button></td>
     </form>
+    </tr>
 
-    </p>   
-  </div>
-</div>
-
+    @foreach($staff as $componenteStaff) 
+        <tr>
+            <td>{{ $componenteStaff->nome }} </td>
+            <td>{{ $componenteStaff->cognome }} </td>
+            <td>
+            <form method="post" action="{{ action('PrestazioneController@deleteStaffPrestazione') }}">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="idPrestazione" value="{{ $idPrestazione }}">
+                <input type="hidden" name="nomeStaff" value="{{ $componenteStaff->nome }}">
+                <input type="hidden" name="cognomeStaff" value="{{ $componenteStaff->cognome }}">
+        
+                <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i> Rimuovi</button>       
+            </form>
+        </tr> 
+    @endforeach
+    </tbody>
+</table>
+</br>
 @endsection
