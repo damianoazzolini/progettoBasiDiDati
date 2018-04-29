@@ -20,26 +20,26 @@
       </div>
       <div class="card-body">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <div class="form-group row">
-            <label for="nomeSala" class="col-sm-2 col-form-label">Nome</label>
+        <div class="form-group row col-sm-10">
+            <label for="nomeSala" class="col-sm-6 col-form-label">Nome</label>
             <div class="col-sm-10">
             <input type="text" class="form-control" id="nomeSala" name="nomeSala">
             </div>
         </div>
-        <div class="form-group row">
-            <label for="identificativoReparto" class="col-sm-2 col-form-label">Identificativo Reparto</label>
+        <div class="form-group row col-sm-10">
+            <label for="identificativoReparto" class="col-sm-6 col-form-label">Identificativo Reparto</label>
             <div class="col-sm-10">
             <input type="text" class="form-control" id="identificativoReparto" name="identificativoReparto">
             </div>
         </div>
-        <div class="form-group row">
-            <label for="piano" class="col-sm-2 col-form-label">Piano</label>
+        <div class="form-group row col-sm-10">
+            <label for="piano" class="col-sm-6 col-form-label">Piano</label>
             <div class="col-sm-10">
             <input type="number" class="form-control" id="piano" name="piano">
             </div>
         </div>
-        <div class="form-group row">
-            <label for="descrizioneSala" class="col-sm-2 col-form-label">Descrizione</label>
+        <div class="form-group row col-sm-10">
+            <label for="descrizioneSala" class="col-sm-6 col-form-label">Descrizione</label>
             <div class="col-sm-10">
             <textarea cols="40" rows="5" class="form-control" id="descrizioneSala" name="descrizioneSala"></textarea>
             </div>

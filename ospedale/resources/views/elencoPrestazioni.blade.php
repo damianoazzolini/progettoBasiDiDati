@@ -76,10 +76,10 @@
         <td>
             <div>
                 <a type="button" class="btn btn-primary" href="/mostraPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-eye" style="color:black"></i></a>
-                @if($ruolo == "Amministratore")
+                @if(($ruolo == "Amministratore" or $ruolo == "Impiegato" )and !$prestazioni[$i]->effettuata)
                 <a type="button" class="btn btn-warning" href="/modificaPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-edit"></i></a>
                 @endif
-                @if($ruolo == "Amministratore")
+                @if($ruolo == "Amministratore" or $ruolo == "Impiegato")
                     <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $prestazioni[$i]->id }}"><i class="fas fa-trash-alt"></i></a>
                 @endif
                 

@@ -4,122 +4,122 @@
 <br/>
 <form method="post">
     <div class="card bg-light">
-      <div class="card-header">
-        <p class="h6">Dati Anagrafici</p>
-      </div>
-      <div class="card-body">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <div class="form-row">
-          <div class="form-group row col-md-6">
-              <label for="nome" class="col-sm-2 col-form-label">Nome</label>
-              <div class="col-sm-10">
-              <input type="text" class="form-control" id="nome" name="nome">
-              </div>
-          </div>
-          <div class="form-group row col-md-6">
-              <label for="cognome" class="col-sm-2 col-form-label">Cognome</label>
-              <div class="col-sm-10">
-              <input type="text" class="form-control" id="cognome" name="cognome">
-              </div>
-          </div>
+        <div class="card-header">
+            <p class="h6">Dati Anagrafici</p>
         </div>
-        <div class="form-row">
-          <div class="form-group row col-md-6">
-              <label for="dataNascita" class="col-sm-2 col-form-label">Data di nascita</label>
-              <div class="col-sm-10">
-              <input type="date" class="form-control" id="dataNascita" name="dataNascita">
-              </div>
-          </div>
-          <div class="form-group row col-md-6">
-              <label class="col-sm-2 col-form-label">Sesso</label>
-              <div class="col-sm-10">
-                  <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="inlineRadio1" name="sesso" value="uomo">
-                      <label class="form-check-label" for="inlineRadio1">Uomo</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="inlineRadio2" name="sesso" value="donna">
-                      <label class="form-check-label" for="inlineRadio2">Donna</label>
-                  </div>
-              </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group row col-md-6">
-              <label for="codiceFiscale" class="col-sm-2 col-form-label">Codice Fiscale</label>
-              <div class="col-sm-10">
-              <input type="text" class="form-control" id="codiceFiscale" name="codiceFiscale">
-              </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group row col-md-6">
-              <label for="email" class="col-sm-2 col-form-label">Email</label>
-              <div class="col-sm-10">
-              <input type="email" class="form-control" id="email" name="email">
-              </div>
-          </div>
-          <div class="form-group row col-md-6">
-              <label for="telefono" class="col-sm-2 col-form-label">Password</label>
-              <div class="col-sm-10">
-              <input type="password" class="form-control" id="password" name="password">
-              </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group row col-md-6">
-              <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>
-              <div class="col-sm-10">
-              <input type="text" class="form-control" id="telefono" name="telefono">
-              </div>
-          </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group row col-md-6">
-                <label for="via" class="col-sm-2 col-form-label">Via</label>
+
+        <div class="card-body">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            
+            <div class="form-group row col-sm-10">
+                <label for="nome" class="col-sm-6 col-form-label">Nome</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="nome" name="nome">
+                </div>
+            </div>
+
+            <div class="form-group row col-sm-10">
+                <label for="cognome" class="col-sm-6 col-form-label">Cognome</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="cognome" name="cognome">
+                </div>
+            </div>
+
+            
+            <div class="form-group row col-sm-10">
+                <label for="dataNascita" class="col-sm-6 col-form-label">Data di nascita</label>
+                <div class="col-sm-10">
+                <input type="date" class="form-control" id="dataNascita" name="dataNascita">
+                </div>
+            </div>
+
+            <div class="form-group row col-sm-10">
+                <label class="col-sm-6 col-form-label">Sesso</label>
+                <div class="col-sm-10">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineRadio1" name="sesso" value="uomo">
+                        <label class="form-check-label" for="inlineRadio1">Uomo</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineRadio2" name="sesso" value="donna">
+                        <label class="form-check-label" for="inlineRadio2">Donna</label>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="form-group row col-sm-10">
+                <label for="codiceFiscale" class="col-sm-6 col-form-label">Codice Fiscale</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="codiceFiscale" name="codiceFiscale">
+                </div>
+            </div>
+        
+            <div class="form-group row col-sm-10">
+                <label for="email" class="col-sm-6 col-form-label">Email</label>
+                <div class="col-sm-10">
+                <input type="email" class="form-control" id="email" name="email">
+                </div>
+            </div>
+
+            <div class="form-group row col-sm-10">
+                <label for="telefono" class="col-sm-6 col-form-label">Password</label>
+                <div class="col-sm-10">
+                <input type="password" class="form-control" id="password" name="password">
+                </div>
+            </div>
+
+            <div class="form-group row col-sm-10">
+                <label for="telefono" class="col-sm-6 col-form-label">Telefono</label>
+                <div class="col-sm-10">
+                <input type="text" class="form-control" id="telefono" name="telefono">
+                </div>
+            </div>
+            
+            <div class="form-group row col-sm-10">
+                <label for="via" class="col-sm-6 col-form-label">Via</label>
                 <div class="col-sm-10">
                 <input type="text" class="form-control" id="via" name="via">
                 </div>
             </div>
-            <div class="form-group row col-md-6">
-                <label for="civico" class="col-sm-2 col-form-label">Civico</label>
+
+            <div class="form-group row col-sm-10">
+                <label for="civico" class="col-sm-6 col-form-label">Civico</label>
                 <div class="col-sm-10">
                 <input type="text" class="form-control" id="civico" name="civico">
                 </div>
             </div>
-        </div>
-        <div class="form-row">
-
-            <div class="form-group row col-md-6">
-                    <label for="comune" class="col-sm-2 col-form-label">Comune</label>
-                    <div class="col-sm-10">
-                    <input type="text" class="form-control" id="comune" name="comune">
-                    </div>
-            </div>    
-        </div>
-        <div class="form-row">
-            <div class="form-group row col-md-6">
-              <label for="provincia" class="col-sm-2 col-form-label">Provincia</label>
-              <div class="col-sm-10">
-              <input type="text" class="form-control" id="provincia" name="provincia">
-              </div>
-            </div>
-            <div class="form-group row col-md-6">
-                <label for="stato" class="col-sm-2 col-form-label">Stato</label>
+            
+            <div class="form-group row col-sm-10">
+                <label for="comune" class="col-sm-6 col-form-label">Comune</label>
                 <div class="col-sm-10">
-                <input type="text" class="form-control" id="stato" name="stato">
+                    <input type="text" class="form-control" id="comune" name="comune">
+                </div>
+            </div>    
+            
+            <div class="form-group row col-sm-10">
+                <label for="provincia" class="col-sm-6 col-form-label">Provincia</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="provincia" name="provincia">
+                </div>
+            </div>
+
+            <div class="form-group row col-sm-10">
+                <label for="stato" class="col-sm-6 col-form-label">Stato</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="stato" name="stato">
                 </div>
             </div>
         </div>
-      </div>
     </div>
+
     <br/>
+    
     <div class="card bg-light">
-      <div class="card-header">
+        <div class="card-header">
         <p class="h6">Dati incarico</p>
-      </div>
-      <div class="card-body">
-        <div class="form-group row">
+        </div>
+        <div class="card-body">
+
             <label class="col-sm-2 col-form-label">Ruolo</label>
             <div class="col-sm-10">
                 <div class="form-check">
@@ -149,30 +149,29 @@
                     </div>
                 @endif
             </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group row col-md-6">
-                <label for="identificativoReparto" class="col-sm-2 col-form-label">Identificativo Reparto</label>
+            </br>
+            
+            <div class="form-group row col-sm-10">
+                <label for="identificativoReparto" class="col-sm-6 col-form-label">Identificativo Reparto</label>
                 <div class="col-sm-10">
-                <input type="text" class="form-control" id="identificativoReparto" name="identificativoReparto">
+                    <input type="text" class="form-control" id="identificativoReparto" name="identificativoReparto">
                 </div>
             </div>
-            <div class="form-group row col-md-6">
-                <label for="identificativoPersonale" class="col-sm-2 col-form-label">Identificativo Personale</label>
+
+            <div class="form-group row col-sm-10">
+                <label for="identificativoPersonale" class="col-sm-6 col-form-label">Identificativo Personale</label>
                 <div class="col-sm-10">
-                <input type="text" class="form-control" id="identificativoPersonale" name="identificativoPersonale">
+                    <input type="text" class="form-control" id="identificativoPersonale" name="identificativoPersonale">
                 </div>
             </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group row col-md-6">
-                <label for="stipendio" class="col-sm-2 col-form-label">Stipendio</label>
+            
+            <div class="form-group row col-sm-10">
+                <label for="stipendio" class="col-sm-6 col-form-label">Stipendio</label>
                 <div class="col-sm-10">
                 <input type="number" class="form-control" id="stipendio" name="stipendio">
                 </div>
             </div>
         </div>
-      </div>
     </div>
 
     <!-- Modal confema modifiche-->

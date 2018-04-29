@@ -61,7 +61,9 @@
             <div>
                 <a type="button" class="btn btn-success" href="/mostraStaff/{{ $staff->id }}"><i class="fas fa-eye" style="color:black"></i></a>
                 <a type="button" class="btn btn-warning" href="/modificaStaff/{{ $staff->id }}"><i class="fas fa-edit"></i></a>
-                <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $staff->id}}"><i class="fas fa-trash-alt"></i></a>
+                @if($ruolo == "Amministratore")
+                    <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $staff->id}}"><i class="fas fa-trash-alt"></i></a>
+                @endif
             </div>
         </td>
     </tr> 

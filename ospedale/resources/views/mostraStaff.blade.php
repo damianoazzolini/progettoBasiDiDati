@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 @section('content')
 
-<h4>Dettaglio staff: </h4><h3><b>{{$ruoloStaff}}</b> -> {{ $datiUtente->nome }} {{ $datiUtente->cognome }}</h3>
+<h4>Dettaglio staff: </h4><h3><b>{{$ruoloStaff}}</b> {{ $datiUtente->nome }} {{ $datiUtente->cognome }}</h3>
 <div class="row">
   <div class="col"></div>
   <div class="col">

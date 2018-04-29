@@ -9,20 +9,20 @@
       </div>
       <div class="card-body">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <div class="form-group row">
-            <label for="nome" class="col-sm-2 col-form-label">Nome</label>
+        <div class="form-group row col-sm-10">
+            <label for="nome" class="col-sm-6 col-form-label">Nome</label>
             <div class="col-sm-10">
             <input type="text" class="form-control" id="nome" name="nome">
             </div>
         </div>
-        <div class="form-group row">
-            <label for="identificativo" class="col-sm-2 col-form-label">Identificativo</label>
+        <div class="form-group row col-sm-10">
+            <label for="identificativo" class="col-sm-6 col-form-label">Identificativo</label>
             <div class="col-sm-10">
             <input type="text" class="form-control" id="identificativo" name="identificativo">
             </div>
         </div>
-        <div class="form-group row">
-            <label for="descrizione" class="col-sm-2 col-form-label">Descrizione</label>
+        <div class="form-group row col-sm-10">
+            <label for="descrizione" class="col-sm-6 col-form-label">Descrizione</label>
             <div class="col-sm-10">
             <textarea cols="40" rows="5" class="form-control" id="descrizione" name="descrizione"></textarea>
             </div>
