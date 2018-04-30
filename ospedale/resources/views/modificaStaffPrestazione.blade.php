@@ -10,9 +10,8 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
+            </br>
         </div>
-        <br/>
-        </br>
     @endif
 </div>
 <h6> Aggiungi un membro dello staff alla prestazione indicandone il nome e il cognome </h6>

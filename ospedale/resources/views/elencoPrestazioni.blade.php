@@ -30,7 +30,7 @@
                 <a type="button" class="btn btn-primary" href="/elencoPrestazioni"><i class="fas fa-list-ul" style="color:white"></i> Mostra tutti</a>
             </div>
         </div>
-        @if($ruolo != "Infermiere" and $ruolo != "Paziente")
+        @if($ruolo != "Infermiere" and $ruolo != "Paziente" and $ruolo != "Medico")
         <div class="col">
                 <a type="button" class="btn btn-primary float-sm-right" href="/aggiungiPrestazione"><i class="fas fa-plus" style="color:white"></i> Aggiungi nuova</a>
         </div>
@@ -76,18 +76,17 @@
         <td>
             <div>
                 <a type="button" class="btn btn-primary" href="/mostraPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-eye" style="color:black"></i></a>
-                @if(($ruolo == "Amministratore" or $ruolo == "Impiegato" )and !$prestazioni[$i]->effettuata)
+                @if(($ruolo == "Amministratore" or $ruolo == "Impiegato" or $ruolo == "Medico")and !$prestazioni[$i]->effettuata)
                 <a type="button" class="btn btn-warning" href="/modificaPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-edit"></i></a>
                 @endif
-                @if($ruolo == "Amministratore" or $ruolo == "Impiegato")
-                    <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $prestazioni[$i]->id }}"><i class="fas fa-trash-alt"></i></a>
-                @endif
-                
-                @if(!$prestazioni[$i]->effettuata)
+                @if(($ruolo == "Amministratore" || $ruolo == "Medico") and !$prestazioni[$i]->effettuata)
                     <a type="button" class="btn btn-success" href="/effettuaPrestazione/{{ $prestazioni[$i]->id }}"><i class="fas fa-check" style="color:black"></i></a>            
                 @endif
-                @if($prestazioni[$i]->effettuata)
+                @if(($ruolo == "Amministratore" || $ruolo == "Medico") and $prestazioni[$i]->effettuata)
                     <a type="button" class="btn btn-info" href="/visualizzaReferto/{{ $prestazioni[$i]->id }}"><i class="fas fa-clone" style="color:black"></i></a>                            
+                @endif
+                @if($ruolo == "Amministratore")
+                    <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $prestazioni[$i]->id }}"><i class="fas fa-trash-alt"></i></a>
                 @endif
             </div>
         </td>
