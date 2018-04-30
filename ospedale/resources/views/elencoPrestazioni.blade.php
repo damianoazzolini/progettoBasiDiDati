@@ -85,7 +85,7 @@
                 @if(($ruolo == "Amministratore" || $ruolo == "Medico") and $prestazioni[$i]->effettuata)
                     <a type="button" class="btn btn-info" href="/visualizzaReferto/{{ $prestazioni[$i]->id }}"><i class="fas fa-clone" style="color:black"></i></a>                            
                 @endif
-                @if($ruolo == "Amministratore")
+                @if($ruolo == "Amministratore" || $ruolo == "Impiegato")
                     <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $prestazioni[$i]->id }}"><i class="fas fa-trash-alt"></i></a>
                 @endif
             </div>

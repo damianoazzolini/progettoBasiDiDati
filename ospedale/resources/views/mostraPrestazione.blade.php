@@ -22,7 +22,7 @@
     @if(($ruolo == "Medico" || $ruolo == "Amministratore") and $autorizzatoModificaPrestazione and !$prestazione->effettuata)
         <a type="button" class="btn btn-warning float-sm-right" style="margin-left: 5px; color:white" href="/modificaPrestazione/{{ $prestazione->id }}"><i class="fas fa-edit"></i> Modifica</a>
     @endif
-    @if($ruolo == "Amministratore")
+    @if($ruolo == "Amministratore" || $ruolo == "Impiegato")
         <a type="button" class="btn btn-danger float-sm-right" style="margin-left: 5px; color:white" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash-alt"></i> Cancella</a>
     @endif
   </div>
