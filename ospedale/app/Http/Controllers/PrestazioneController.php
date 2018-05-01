@@ -17,20 +17,20 @@ class PrestazioneController extends Controller {
     public function index() {
         //discrimino
         //paziente -> solo le sue
-        //medico -> tutte
+        //medico -> solo le sue
         //infermiere -> solo le sue
         //impiegato -> tutte
         //admin -> tutte
 
         $ruolo = Utente::trovaRuolo(Auth::id());
         $id = Auth::id();
-        if($ruolo == "Amministratore" || $ruolo == "Medico" || $ruolo == "Impiegato") {
-            $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione WHERE attivo=1 ORDER BY created_at DESC");     
+        if($ruolo == "Amministratore" || $ruolo == "Impiegato") {
+            $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione ORDER BY created_at DESC");     
         }
         else if($ruolo == "Paziente") {
             $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione WHERE attivo=1 AND idPaziente=$id");
         }
-        else if($ruolo == "Infermiere") {
+        else if($ruolo == "Infermiere" || $ruolo == "Medico") {
             $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora 
                 FROM prestazione 
                 JOIN staff_prestazione
@@ -174,15 +174,38 @@ class PrestazioneController extends Controller {
             ->get();
 
         foreach ($elencoPrestazioni as $prest) {
-            $endTime = strtotime($prest->ora) + $prest->durata;
-            if($endTime > request('ora'))
+            $startTimeBooked = strtotime($prest->ora);
+            $endTimeBooked = $startTimeBooked + $prest->durata;            
+            $startTimeTryBook = strtotime(request('ora'));
+            if($startTimeTryBook > $startTimeBooked && $startTimeTryBook < $endTimeBooked)
                 return redirect()->back()->with('status', 'Slot orario già occupato');
         }
 
         //controllo che il medico non sia già occupato alla stessa ora
+        $elencoPrestazioni = DB::table('prestazione')
+            ->join('staff_prestazione','prestazione.id','=','staff_prestazione.idPrestazione')
+            ->where('staff_prestazione.idStaff',$idStaff)
+            ->where('prestazione.data',$dataPrestazione)
+            ->select('prestazione.ora','prestazione.durata')
+            ->get();
+            
+        foreach ($elencoPrestazioni as $prest) {
+            if($prest->ora == request('ora'))
+                return redirect()->back()->with('status', 'Staff già occupato in quello slot orario');
+        }
 
         //controllo che il paziente non sia già occupato alla stessa ora
-        
+        $elencoPrestazioni = DB::table('prestazione')
+            ->where('data',$dataPrestazione)
+            ->where('idPaziente',$idUtente)
+            ->select('ora','durata')
+            ->get();
+
+        foreach ($elencoPrestazioni as $prest) {
+            $endTime = strtotime($prest->ora) + $prest->durata;
+            if($prest->ora == request('ora'))
+                return redirect()->back()->with('status', 'Utente già occupato in quello slot orario');
+        }
         
         //inserisco la prestazione
         $prestazione = new Prestazione();
@@ -366,6 +389,7 @@ class PrestazioneController extends Controller {
 
     public function destroy($id) {
         DB::table('prestazione')->where('id', $id)->update(['attivo' => 0]);
+        DB::table('referto')->where('id', $id)->update(['esito' => 'Prestazione cancellata il ' . date('Y-m-d H:i:s')]);
         return redirect('/elencoPrestazioni')->with('status','Prestazione cancellata con successo');  
     }
 

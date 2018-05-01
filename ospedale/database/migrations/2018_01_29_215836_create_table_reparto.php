@@ -8,8 +8,8 @@ class CreateTableReparto extends Migration {
     public function up() {
         Schema::create('reparto', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome');
-            $table->string('identificativo');
+            $table->string('nome')->unique();
+            $table->string('identificativo')->unique();
             $table->text('descrizione');            
             $table->timestamps();
         });

@@ -14,6 +14,7 @@ class CreateTableSala extends Migration {
             $table->text('descrizione')->nullable();
             $table->integer('piano');
             $table->timestamps();
+            $table->unique(['nome','idReparto']);
         });
     }
 

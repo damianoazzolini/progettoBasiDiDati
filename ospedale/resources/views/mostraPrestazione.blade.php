@@ -19,10 +19,10 @@
   <div class="col"></div>
   <div class="col">
     <a type="button" class="btn btn-secondary float-sm-right" style="margin-left: 5px; color:white" href="{{ URL::previous() }}"></i>Chiudi</a>
-    @if(($ruolo == "Medico" || $ruolo == "Amministratore") and $autorizzatoModificaPrestazione and !$prestazione->effettuata)
+    @if(($ruolo == "Medico" || $ruolo == "Amministratore") and $autorizzatoModificaPrestazione and !$prestazione->effettuata and $prestazione->attivo)
         <a type="button" class="btn btn-warning float-sm-right" style="margin-left: 5px; color:white" href="/modificaPrestazione/{{ $prestazione->id }}"><i class="fas fa-edit"></i> Modifica</a>
     @endif
-    @if($ruolo == "Amministratore" || $ruolo == "Impiegato")
+    @if(($ruolo == "Amministratore" || $ruolo == "Impiegato") and $prestazione->attivo)
         <a type="button" class="btn btn-danger float-sm-right" style="margin-left: 5px; color:white" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash-alt"></i> Cancella</a>
     @endif
   </div>
@@ -73,7 +73,7 @@
 </br>
 <div class="card bg-light">
   <div class="card-header"><p class="h6">Staff</p>
-    @if(($ruolo == "Medico" || $ruolo == "Amministratore") and $autorizzatoModificaPrestazione and !$prestazione->effettuata)
+    @if(($ruolo == "Medico" || $ruolo == "Amministratore") and $autorizzatoModificaPrestazione and !$prestazione->effettuata and $prestazione->attivo)
         <a class="btn btn-default btn-sm" href="/modificaStaffPrestazione/{{ $prestazione->id }}"> <i class="fa fa-cog"></i> Modifica</a>  
     @endif
   </div>
@@ -99,7 +99,7 @@
 </br>
 <div class="card bg-light">
   <div class="card-header"><p class="h6">Farmaci</p>
-    @if(($ruolo == "Medico" || $ruolo == "Infermiere" || $ruolo == "Amministratore") and $autorizzatoModficaFarmaci and !$prestazione->effettuata)
+    @if(($ruolo == "Medico" || $ruolo == "Infermiere" || $ruolo == "Amministratore") and $autorizzatoModficaFarmaci and !$prestazione->effettuata and $prestazione->attivo)
         <a class="btn btn-default btn-sm" href="/modificaFarmacoPrestazione/{{ $prestazione->id }}"> <i class="fa fa-cog"></i> Modifica</a>
     @endif
   </div>
