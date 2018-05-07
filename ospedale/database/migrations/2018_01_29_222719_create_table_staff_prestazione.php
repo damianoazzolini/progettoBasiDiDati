@@ -12,6 +12,7 @@ class CreateTableStaffPrestazione extends Migration {
             $table->integer('idPrestazione')->unsigned();
             $table->foreign('idPrestazione')->references('id')->on('prestazione')->onDelete('cascade');
             $table->timestamps();
+            $table->unique(['idStaff','idPrestazione']);
         });
     }
 

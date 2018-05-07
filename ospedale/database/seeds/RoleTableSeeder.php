@@ -18,17 +18,17 @@ class RoleTableSeeder extends Seeder {
 
         $role_infermiere = new Role();
         $role_infermiere->name = "Infermiere";
-        $role_infermiere->description = "Ruolo l'infermiere";
+        $role_infermiere->description = "Ruolo per l'infermiere";
         $role_infermiere->save();
 
         $role_impiegato = new Role();
         $role_impiegato->name = "Impiegato";
-        $role_impiegato->description = "Ruolo l'impiegato";
+        $role_impiegato->description = "Ruolo per l'impiegato";
         $role_impiegato->save();
 
         $role_amministratore = new Role();
         $role_amministratore->name = "Amministratore";
-        $role_amministratore->description = "Ruolo l'amministratore";
+        $role_amministratore->description = "Ruolo per l'amministratore";
         $role_amministratore->save();
     }
 }

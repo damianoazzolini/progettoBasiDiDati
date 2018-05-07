@@ -14,6 +14,7 @@ class CreateTableReferto extends Migration {
             $table->text('esito');
             $table->text('note')->nullable();
             $table->timestamps();
+            $table->unique(['id','idPaziente']);
         });
     }
 
