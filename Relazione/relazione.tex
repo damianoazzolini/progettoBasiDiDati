@@ -133,7 +133,7 @@ Il progetto si basa sulla realizzazione di una applicazione web per la gestione 
 \item amministratore
 \end{itemize}  
 
-La clinica in questione eroga diverse \textbf{prestazioni} ai suoi utenti, ad esempio: visite specialistiche, esami diagnostici, day surgery e terapie. Ogni prestazione può essere effettuata da uno o più membri dello \textbf{staff} (a seconda della complessità) in una delle \textbf{sale} della clinica. Al termine di ogni prestazione il medico compila un \textbf{referto} corrispondente alla prestazione appena effettuata. Il sistema deve anche gestire i \textbf{farmaci} assunti dagli utenti e utilizzati durante le prestazioni. Per motivi di organizzazione interna ogni membro del personale e ogni sala afferisce a uno specifico \textbf{reparto} della clinica. Ad ogni utente sono associati dei \textbf{permessi}, ovvero  azioni che esso può svolgere sulla piattaforma, i permessi di base assegnati a ciascun utente dipendono dalla tipologia dello stesso e sono:\\
+La clinica in questione eroga diverse \textbf{prestazioni} ai suoi utenti, ad esempio: visite specialistiche, esami diagnostici, day surgery e terapie. Ogni prestazione può essere effettuata da uno o più membri dello \textbf{staff} (a seconda della complessità della prestazione stessa) in una delle \textbf{sale} della clinica. Al termine di ogni prestazione, il medico compila un \textbf{referto} corrispondente alla prestazione appena effettuata. Il sistema deve anche gestire i \textbf{farmaci} assunti dagli utenti e/o eventualmente utilizzati durante le prestazioni. Per motivi di organizzazione interna ogni membro del personale e ogni sala afferisce a uno specifico \textbf{reparto} della clinica. Ad ogni utente è associato un \textbf{Ruolo}, ovvero un insieme di azioni che esso può svolgere sulla piattaforma. I ruoli di base assegnati a ciascun utente dipendono dalla tipologia dello stesso e sono:\\
 
 L'utente \textbf{PAZIENTE} potrà:
 \begin{itemize}
@@ -147,8 +147,8 @@ L'utente \textbf{MEDICO} potrà:
 \item Fare il login sulla piattaforma e visionare il proprio profilo.
 \item Registrare nuovi pazienti sulla piattaforma.
 \item Visionare le schede personali dei pazienti (compresi i farmaci assunti).
-\item Visionare le prestazioni e i relativi referti.
-\item Aggiungere/Modificare/Cancellare i referti delle prestazioni a cui ha preso parte.
+\item Visionare le prestazioni assegnategli e i relativi referti.
+\item Aggiungere il referto ad una prestazione a cui ha preso parte.
 \item Aggiungere/Rimuovere i farmaci utilizzati nelle prestazioni a cui ha preso parte.
 \item Aggiungere personale alle prestazioni che gli sono state assegnate.
 \end{itemize}
@@ -166,6 +166,7 @@ L'utente \textbf{IMPIEGATO} potrà:
 \item Fare il login sulla piattaforma e visionare il proprio profilo.
 \item Registrare nuovi pazienti sulla piattaforma.
 \item Prenotare le prestazioni per i pazienti associando ad esse i medici che dovranno effettuarle.
+\item Cancellare una prestazione.
 \item Visualizzare lo storico delle prestazioni effettuate dai pazienti (ma non i referti). 
 \item Gestire il personale:
 	\begin{itemize}
@@ -183,7 +184,6 @@ L'utente \textbf{AMMINISTRATORE} potrà:
 \item Aggiungere/Modificare/Cancellare le sale della clinica.
 \item Aggiungere/Modificare/Cancellare i reparti della clinica.
 \item Gestire tutta la base utenti.
-\item Aggiungere/Rimuovere i singoli permessi agli utenti.
 \end{itemize}
 
 \newpage
@@ -231,7 +231,7 @@ Di seguito vengono analizzate tutte le entità presenti nel database:
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Utente} contiene tutte le informazioni riguardo alle persone che usufruiscono di un servizio ospedaliero, sia che siano componenti dello staff che pazienti. Ogni utente è caratterizzato in maniera univoca da un \textit{ID}. Il contenuto degli attributi \textit{email} e \textit{C.F.} (codice fiscale) deve essere unico (non possono esserci due utenti con lo stesso valore nel campo \textit{mail} e/o \textit{C.F.}). L'attributo \textit{Attivo} viene utilizzato per indicare se un utente è attivo oppure no (operazione di \textit{soft delete}). L'utente presenta due sottoclassi: \textit{Paziente} e \textit{Staff}:
+L'entità \textit{Utente} contiene tutte le informazioni riguardo alle persone che usufruiscono di un servizio ospedaliero, sia che esse siano componenti dello staff o pazienti. Ogni utente è caratterizzato in maniera univoca da un \textit{ID}. Il contenuto degli attributi \textit{email} e \textit{C.F.} (codice fiscale) deve essere unico (non possono esserci due utenti con lo stesso valore nel campo \textit{mail} e/o \textit{C.F.}). L'attributo \textit{Attivo} viene utilizzato per indicare se un utente è attivo oppure no (operazione di \textit{soft delete}). L'utente presenta due sottoclassi: \textit{Paziente} e \textit{Staff}:
 \begin{itemize}
 \item La sottoclasse \textit{Paziente} presenta ulteriori attributi quali: \textit{altezza}, \textit{peso} e \textit{note} per eventuali informazioni aggiuntive;
 \item La sottoclasse \textit{Staff} che possiede due attributi aggiuntivi: \textit{Identificativo} per specificarne la funzione e \textit{Stipendio} per specificare il compenso dell'operatore.
@@ -314,7 +314,7 @@ In questo caso la specializzazione è di tipo \textbf{totale} in quanto è prese
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Sala} rappresenta le varie sale disponibili nell'ospedale. L'attributo \textit{Identificativo} specifica di quale tipologia di sala si tratta (sala operatoria, ambulatorio, ecc) mentre l'attributo \textit{Piano} il piano al quale questa si trova.
+L'entità \textit{Sala} rappresenta le varie sale disponibili nell'ospedale. L'attributo \textit{Identificativo} specifica di quale tipologia di sala si tratta (sala operatoria, ambulatorio, ecc) mentre l'attributo \textit{Piano} specifica il piano nel quale questa si trova.
 
 \subsection{Farmaco}
 \begin{center}
@@ -387,7 +387,7 @@ L'entità \textit{Prestazione} rappresenta una qualsiasi prestazione effettuata 
 \end{center}
 L'entità \textit{Referto} è una entità debole, collegata a prestazione. \textit{Referto} è stato introdotto come entità debole in quanto non può esistere senza una corrispondente prestazione. Possiede due attributi: \textit{Esito} e \textit{Note}. 
 
-\subsection{Permesso}
+\subsection{Ruolo}
 \begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[
@@ -399,16 +399,16 @@ L'entità \textit{Referto} è una entità debole, collegata a prestazione. \text
 	node distance=7em,
 	scale=0.8, transform shape] 
 	
-	\node[entity] (permesso) {Permesso};
+	\node[entity] (ruolo) {Ruolo};
 	
-	\node[attribute] (id) [right of = permesso] {\key{ID}} edge (permesso);
-	\node[attribute] (nome) [left of = permesso] {Nome} edge (permesso);
-	\node[attribute] (descrizione) [above right of = permesso] {Descrizione} edge (permesso);
-	\node[attribute] (timestamp) [above left = 1cm of permesso] {Timestamp} edge (permesso);				
+	\node[attribute] (id) [right of = ruolo] {\key{ID}} edge (ruolo);
+	\node[attribute] (nome) [left of = ruolo] {Nome} edge (ruolo);
+	\node[attribute] (descrizione) [above right of = ruolo] {Descrizione} edge (ruolo);
+	\node[attribute] (timestamp) [above left = 1cm of ruolo] {Timestamp} edge (ruolo);				
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Permesso} identifica i permessi sull'applicazione concessi ad un determinato utente. Questo permette di avere una maggiore flessibilità rispetto ai sistemi con i permessi fissi in base al ruolo dell'utente.
+L'entità \textit{Ruolo} identifica i permessi sull'applicazione concessi ad un determinato utente. 
 
 \newpage
 \section{Associazioni}
@@ -424,7 +424,7 @@ Le associazioni rappresentano i vari legami che intercorrono tra le varie entit�
 \item \textbf{Ha}: relazione \textit{N:1} tra \textit{Prestazione} e \textit{Sala}: una \textit{Prestazione} deve (vincolo partecipazione totale) utilizzare una sola sala ma una \textit{Sala} viene utilizzata per più prestazioni.
 \item \textbf{Rep Prest}: relazione \textit{N:1} tra \textit{Prestazione} e \textit{Reparto}: una \textit{Prestazione} deve (vincolo di partecipazione totale) essere effettuata in un reparto ma in un \textit{Reparto} possono essere effettuate più prestazioni.
 \item \textbf{Rep Sala}: relazione \textit{N:1} tra \textit{Sala} e \textit{Reparto}: una \textit{Sala} deve (vincolo di partecipazione totale) essere assegnata ad un reparto mente ad un \textit{Reparto} sono assegnate più sale. 
-\item \textbf{Detiene}: relazione \textit{M:N} tra \textit{Utente} e \textit{Permesso}: a un \textit{Utente} deve (vincolo di partecipazione totale) essere assegnato almeno un \textit{Permesso} mentre ciascun permesso può essere assegnato a più utenti. 
+\item \textbf{Detiene}: relazione \textit{N:1} tra \textit{Utente} e \textit{Ruolo}: a un \textit{Utente} deve (vincolo di partecipazione totale) essere assegnato un \textit{Ruolo} mentre ciascun ruolo può essere assegnato a più utenti. 
 \end{itemize}
 
 
@@ -446,8 +446,8 @@ Le associazioni rappresentano i vari legami che intercorrono tra le varie entit�
 	scale=0.8, transform shape] 
 	
 	\node[relationship] (detiene) [above=of utente] {Detiene};
-	\node[entity] (permesso) [left = 1cm of detiene] {Permesso} edge node{N} (detiene);
-	\node[entity] (utente) {Utente} edge [total] node {M} (detiene);
+	\node[entity] (ruolo) [left = 1cm of detiene] {Ruolo} edge node{1} (detiene);
+	\node[entity] (utente) {Utente} edge [total] node {N} (detiene);
 	\node[isa] (isa) [below of = utente] {d} edge [total] (utente);	
 	\node[entity] (staff) [below right = 2cm of isa] {Staff} edge (isa);
 	\node[entity] (paziente) [below left = 2cm of isa] {Paziente} edge (isa);
@@ -520,7 +520,7 @@ Le entità forti presenti nello schema sono:
 \item Reparto
 \item Sala
 \item Prestazione
-\item Permesso
+\item Ruolo
 \end{itemize}
 Le chiavi primarie sono evidenziate in giallo, le chiavi esterne in verde e gli attributi unici in azzurro. La loro rappresentazione è la seguente:
 \begin{figure}[H]
@@ -604,7 +604,7 @@ Per ogni associazione binaria R del tipo \textit{N:M}, viene costruita una nuova
 \item StaffPrestazione: contiene, come chiavi esterne, le chiavi primarie delle tabelle \textit{Staff} e \textit{Prestazione}.
 \item PazienteFarmaco: contiene, come chiavi esterne, le chiavi primarie delle tabelle \textit{Paziente} e \textit{Farmaco}.
 \item PrestazioneFarmaco: contiene, come chiavi esterne, le chiavi primarie delle tabelle \textit{Prestazione} e \textit{Farmaco}.
-\item PermessoUtente: contiene, come chiavi esterne, le chiavi primarie delle tabelle \textit{Permesso} e \textit{Utente}.
+\item RuoloUtente: contiene, come chiavi esterne, le chiavi primarie delle tabelle \textit{Ruolo} e \textit{Utente}.
 \end{itemize}
 
 \begin{figure}[H]
@@ -744,7 +744,7 @@ Di seguito lo schema completo in \textit{terza forma normale}.
 \chapter{Codice SQL}
 \section{Introduzione}
 L'intero progetto è stato sviluppato utilizzando il framework php \textit{Laravel}. Le tabelle del database sono state create utilizzando le \texttt{migration}. Per ogni tabella del database è stato eseguito il comando \texttt{php artisan make:migration create\_table\_nomeTabella}. Questo comando genera una classe \texttt{migration} all'interno del file \texttt{create\_table\_nomeTabella.php} nella quale sono definiti i metodi \texttt{up()} e \texttt{down()}. All'interno di \texttt{up()} vengono inseriti tutti i comandi per la creazione delle tabelle. Generate le migrations per tutte le tabelle, il comando \texttt{php artisan migrate} traduce i comandi specificati nel metodo \texttt{up}, in comandi SQL per la creazione delle tabelle. Di seguito viene riportato il codice SQL generato dalle migrations.
-\section{Codice}
+\section{Codice Creazione Tabelle}
 \begin{verbatim}
 UTENTE
 CREATE TABLE utente (
@@ -825,19 +825,11 @@ CREATE TABLE prestazione (
 
 REFERTO
 CREATE TABLE referto (
-        idPrestazione INT FOREGIN_KEY REFERENCES prestazione(id),
+        id INT FOREGIN_KEY REFERENCES prestazione(id),
         idPaziente INT FOREGIN_KEY REFERENCES prestazione(idPaziente),
         identificativo VARCHAR(255) NOT NULL,
         esito TEXT NOT NULL,
         note TEXT,
-        timestamp TIMESTAMP
-);
-
-PERMESSO
-CREATE TABLE permesso (
-        id INT AUTO_INCREMENT PRIMARY_KEY,
-        nome VARCHAR(255) NOT NULL,
-        descrizione TEXT NOT NULL,
         timestamp TIMESTAMP
 );
 
@@ -862,23 +854,112 @@ CREATE TABLE farmaco_prestazione (
         timestamp TIMESTAMP
 );
 
-PERMESSO_UTENTE
-CREATE TABLE permesso_utente (
- 		id INT AUTO_INCREMENT PRIMARY_KEY,
-        idPermesso INT FOREGIN_KEY REFERENCES permesso(id),
-        idUtente INT FOREGIN_KEY REFERENCES utente(id),
+UTENTE_ROLE
+CREATE TABLE utente_role (
+        user_id INT FOREGIN_KEY REFERENCES utente(id),
+        role_id INT FOREGIN_KEY REFERENCES role(id),
         timestamp TIMESTAMP
 );
 
+ROLES
+CREATE TABLE roles (
+        id INT PRIMARY_KEY,
+        name VARCHAR(255) NOT NULL,
+        description TEXT,
+        timestamp TIMESTAMP
+);
 \end{verbatim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% INTERROGAZIONI
 \chapter{Query}
-La parte relativa alle query verrà inserita non appena il sistema sarà terminato.
+Di seguito vengono riportate alcune query significative utilizzate nell'applicazione.
+\begin{itemize}
+\item Ricavare il nome di un farmaco utilizzato in una prestazione (identificata da \$id):
+\begin{verbatim}
+SELECT nome
+FROM farmaco
+JOIN farmaco_prestazione ON farmaco_prestazione.idFarmaco = farmaco.id
+WHERE farmaco_prestazione.id = $idPrestazione 
+\end{verbatim}
+
+\item Aggiornamento dati paziente (identificato da \$id):
+\begin{verbatim}
+UPDATE paziente
+SET peso = $peso, altezza = $altezza, note = $note
+WHERE id = $id 
+\end{verbatim}
+
+\item Eliminazione di un reparto (identificato da \$id):
+\begin{verbatim}
+DELETE FROM reparto
+WHERE id = $id 
+\end{verbatim}
+
+\item Ricerca di un componente dello staff (identificato da \$id) dati nome e cognome incompleti (utilizzato per l'autocompletamento):
+\begin{verbatim}
+SELECT utente.id, utente.nome, utente.cognome, 
+        staff.identificativo as identificativoPersonale, 
+        staff.idReparto as idReparto,
+        reparto.identificativo as identificativoReparto 
+FROM utente
+JOIN staff ON utente.id = staff.id
+JOIN reparto ON reparto.id = staff.idReparto
+WHERE utente.attivo = '1' AND
+            (CONCAT(utente.nome, ' ', utente.cognome) LIKE '$search%' OR 
+            CONCAT(utente.cognome, ' ', utente.nome) LIKE '$search%')
+\end{verbatim}
+
+\item Inserimento di una sala relativa al reparto di Cardiologia:
+\begin{verbatim}
+INSERT INTO sala 
+SET 
+	nome = 'Sala1', 
+	descrizione = 'Nuova sala', 
+	piano = '2', 
+    id_reparto = (
+    	SELECT id
+        FROM reparto,
+        WHERE name = 'Cardiologia')
+\end{verbatim}
+
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% INTERFACCIA
 \chapter{Interfaccia}
-La parte relativa all'interfaccia verrà inserita non appena il sistema sarà terminato.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=1]{grafica/Login}
+\caption{Schermata di Login.}
+\end{center}
+\end{figure}
+
+\begin{landscape}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.6]{grafica/ElencoFarmaci}
+\caption{Elenco dei farmaci.}
+\end{center}
+\end{figure}
+\end{landscape}
+
+\begin{landscape}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.6]{grafica/ElencoPrestazioni}
+\caption{Elenco delle prestazioni.}
+\end{center}
+\end{figure}
+\end{landscape}
+
+\begin{landscape}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.6]{grafica/DettaglioPrestazione}
+\caption{Dettaglio della prestazione.}
+\end{center}
+\end{figure}
+\end{landscape}
 
 %%%%%%%%%%%%%%%%%%%%%%%%% BIBLIOGRAFIA
 
