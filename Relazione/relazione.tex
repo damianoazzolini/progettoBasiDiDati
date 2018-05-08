@@ -77,18 +77,19 @@
 
 
 \title{
-		%\vspace{-1in} 	
+		%\vspace{-1in} 	 
+		\begin{center}
+		\includegraphics[scale=0.20]{newUnife.png}
+		\end{center}
+		\vspace{5mm} 	 
 		\usefont{OT1}{bch}{b}{n}
-		\normalfont \normalsize \textsc{Universit\`a degli Studi di Ferrara \\ Ingegneria Informatica e dell'Automazione
-			\\ Basi di Dati} \\ [25pt]
+		\normalfont \normalsize \textsc{Universit\`a degli Studi di Ferrara \\ Corso di laurea magistrale in Ingegneria Informatica e dell'Automazione
+			\\ Progetto del corso di Basi di Dati} \\ [25pt]
 		\horrule{0.5pt} \\[0.4cm]
-		\Huge Realizzazione Database per Ospedale \date{}\\%[0.2cm]
+		\huge Realizzazione Database per Ospedale \date{}\\%[0.2cm]
 		\horrule{0.5pt} \\[0.4cm]
-		\LARGE Azzolini Damiano - Bertagnon Alessandro \\ [0.4cm]
-		%\normalfont \normalsize Azzolini Damiano, Bertasi Francesco, Decarlo Dario, \\
-		%\normalfont \normalsize Fazzi Mattia, Fiorini Giovanni, Fontana Niccol\`o, Rambaldi Marco\\[0.4cm]
-		\horrule{2pt} \\[0.8cm]
-		\includegraphics{logoUnife}
+		\large Azzolini Damiano - Bertagnon Alessandro \\ [0.4cm]
+		%\horrule{2pt} \\[0.8cm]		
 		%\horrule{2pt} \\[0.5cm]
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MANCA DATA %%%%%%%%%%%%%%%
 }
@@ -555,7 +556,7 @@ Le chiavi primarie sono evidenziate in giallo, le chiavi esterne in verde e gli 
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.3]{permessiSchema}
+\includegraphics[scale=0.26]{permessiSchema}
 \end{center}
 \end{figure}
 
@@ -578,7 +579,7 @@ Le specializzazioni di \textit{Utente} (\textit{Paziente} e \textit{Staff}) sono
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.3]{staffSchema}
+\includegraphics[scale=0.25]{staffSchema}
 \end{center}
 \end{figure}
 
@@ -627,7 +628,7 @@ Per ogni associazione binaria R del tipo \textit{N:M}, viene costruita una nuova
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.3]{permessiUtenteSchema}
+\includegraphics[scale=0.26]{permessiUtenteSchema}
 \end{center}
 \end{figure}
 
@@ -660,19 +661,19 @@ Uno schema di relazione R è in \textit{terza forma normale} se soddisfa la seco
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.35]{immagini_normalizzazione/utente}
+\includegraphics[scale=0.25]{immagini_normalizzazione/utente}
 \end{center}
 \end{figure}
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.35]{immagini_normalizzazione/reparto}
+\includegraphics[scale=0.38]{immagini_normalizzazione/reparto}
 \end{center}
 \end{figure}
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.35]{immagini_normalizzazione/sala}
+\includegraphics[scale=0.30]{immagini_normalizzazione/sala}
 \end{center}
 \end{figure}
 
@@ -690,7 +691,7 @@ Uno schema di relazione R è in \textit{terza forma normale} se soddisfa la seco
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.35]{immagini_normalizzazione/paziente}
+\includegraphics[scale=0.38]{immagini_normalizzazione/paziente}
 \end{center}
 \end{figure}
 
@@ -702,13 +703,13 @@ Uno schema di relazione R è in \textit{terza forma normale} se soddisfa la seco
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.35]{immagini_normalizzazione/permessi}
+\includegraphics[scale=0.28]{immagini_normalizzazione/permessi}
 \end{center}
 \end{figure}
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.33]{immagini_normalizzazione/permessi_utente}
+\includegraphics[scale=0.28]{immagini_normalizzazione/permessi_utente}
 \end{center}
 \end{figure}
 
@@ -720,7 +721,7 @@ Uno schema di relazione R è in \textit{terza forma normale} se soddisfa la seco
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.35]{immagini_normalizzazione/staff}
+\includegraphics[scale=0.28]{immagini_normalizzazione/staff}
 \end{center}
 \end{figure}
 
@@ -731,11 +732,13 @@ Uno schema di relazione R è in \textit{terza forma normale} se soddisfa la seco
 \end{figure}
 
 Di seguito lo schema completo in \textit{terza forma normale}.
+\newgeometry{top=0.1cm, bottom=0.1cm}
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.85]{schema_relazionale}
+\includegraphics[scale=0.90]{schema_relazionale}
 \end{center}
 \end{figure}
+\restoregeometry
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% NORMALIZZAZIONE
 
@@ -895,7 +898,7 @@ DELETE FROM reparto
 WHERE id = $id 
 \end{verbatim}
 
-\item Ricerca di un componente dello staff (identificato da \$id) dati nome e cognome incompleti (utilizzato per l'autocompletamento):
+\item Ricerca di un componente dello staff (identificato da \$id) dati nome e cognome incompleti (utilizzato per il campo di ricerca):
 \begin{verbatim}
 SELECT utente.id, utente.nome, utente.cognome, 
         staff.identificativo as identificativoPersonale, 
@@ -920,6 +923,18 @@ SET
     	SELECT id
         FROM reparto,
         WHERE name = 'Cardiologia')
+\end{verbatim}
+
+\item Selezione di tutti gli utenti appartenenti allo staff e del nome del relativo reparto di appartenenza:
+\begin{verbatim}
+SELECT utente.id, utente.nome, utente.cognome, 
+    staff.identificativo as identificativoPersonale, 
+    staff.idReparto as idReparto,
+    reparto.identificativo as identificativoReparto 
+    FROM utente
+    JOIN staff ON utente.id = staff.id
+    JOIN reparto ON reparto.id = staff.idReparto
+    WHERE utente.attivo = '1'
 \end{verbatim}
 
 \end{itemize}
@@ -957,6 +972,15 @@ SET
 \begin{center}
 \includegraphics[scale=0.6]{grafica/DettaglioPrestazione}
 \caption{Dettaglio della prestazione.}
+\end{center}
+\end{figure}
+\end{landscape}
+
+\begin{landscape}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.41]{grafica/NuovoFarmaco}
+\caption{Form per l'inserimento di un nuovo farmaco.}
 \end{center}
 \end{figure}
 \end{landscape}

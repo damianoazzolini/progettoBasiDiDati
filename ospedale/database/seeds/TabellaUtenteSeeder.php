@@ -86,7 +86,7 @@ class TabellaUtenteSeeder extends Seeder {
         $staff_medico = new Staff();
         $staff_medico->id = $utente_medico->id;
         $staff_medico->idReparto = $reparto->id;
-        $staff_medico->identificativo = 'nessun identificativo';
+        $staff_medico->identificativo = 'MED01';
         $staff_medico->stipendio = '2000';
         $staff_medico->save();
 
@@ -111,7 +111,7 @@ class TabellaUtenteSeeder extends Seeder {
         $staff_infermiere = new Staff();
         $staff_infermiere->id = $utente_infermiere->id;
         $staff_infermiere->idReparto = $reparto->id;
-        $staff_infermiere->identificativo = 'nessun identificativo';
+        $staff_infermiere->identificativo = 'INF01';
         $staff_infermiere->stipendio = '2000';
         $staff_infermiere->save();
 
@@ -136,7 +136,7 @@ class TabellaUtenteSeeder extends Seeder {
         $staff_impiegato = new Staff();
         $staff_impiegato->id = $utente_impiegato->id;
         $staff_impiegato->idReparto = $amministrazione->id;
-        $staff_impiegato->identificativo = 'nessun identificativo';
+        $staff_impiegato->identificativo = 'IMP01';
         $staff_impiegato->stipendio = '2000';
         $staff_impiegato->save();
 
@@ -161,7 +161,7 @@ class TabellaUtenteSeeder extends Seeder {
         $staff_amministratore = new Staff(); 
         $staff_amministratore->id = $utente_amministratore->id;
         $staff_amministratore->idReparto = $amministrazione->id;
-        $staff_amministratore->identificativo = 'nessun identificativo';
+        $staff_amministratore->identificativo = 'ADMIN01';
         $staff_amministratore->stipendio = '2000';
         $staff_amministratore->save();     
     }
