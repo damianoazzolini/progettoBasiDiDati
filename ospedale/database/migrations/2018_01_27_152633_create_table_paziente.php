@@ -10,8 +10,8 @@ class CreateTablePaziente extends Migration {
             $table->integer('id')->unsigned();
             $table->foreign('id')->references('id')->on('utente')->onDelete('cascade');
             $table->text('note')->nullable();
-            $table->integer('altezza')->nullable();
-            $table->integer('peso')->nullable();
+            $table->integer('altezza');
+            $table->integer('peso');
             $table->timestamps();
         });
     }

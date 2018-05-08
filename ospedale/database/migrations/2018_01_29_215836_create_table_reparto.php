@@ -10,7 +10,7 @@ class CreateTableReparto extends Migration {
             $table->increments('id');
             $table->string('nome')->unique();
             $table->string('identificativo')->unique();
-            $table->text('descrizione');            
+            $table->text('descrizione')->nullable();            
             $table->timestamps();
         });
     }

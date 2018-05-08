@@ -12,6 +12,7 @@ class CreateTablePazienteFarmaco extends Migration {
             $table->integer('idFarmaco')->unsigned();
             $table->foreign('idFarmaco')->references('id')->on('farmaco')->onDelete('cascade');
             $table->timestamps();
+            $table->unique(['idPaziente','idFarmaco']);            
         });
     }
 
