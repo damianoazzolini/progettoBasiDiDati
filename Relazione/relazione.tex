@@ -308,14 +308,14 @@ In questo caso la specializzazione è di tipo \textbf{totale} in quanto è prese
 	\node[entity] (sala) {Sala};
 	
 	\node[attribute] (id) [above of = sala] {\key{ID}} edge (sala);
-	\node[attribute] (identificativo) [above left = 1cm of sala] {Identificativo} edge (sala);
+	\node[attribute] (identificativo) [above left = 1cm of sala] {Nome} edge (sala);
 	\node[attribute] (descrizione) [above right = 1cm of sala] {Descrizione} edge (sala);
 	\node[attribute] (timestamp) [left = 1cm of sala] {Timestamp} edge (sala);	
 	\node[attribute] (piano) [right = 1cm of sala] {Piano} edge (sala);				
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Sala} rappresenta le varie sale disponibili nell'ospedale. L'attributo \textit{Identificativo} specifica di quale tipologia di sala si tratta (sala operatoria, ambulatorio, ecc) mentre l'attributo \textit{Piano} specifica il piano nel quale questa si trova.
+L'entità \textit{Sala} rappresenta le varie sale disponibili nell'ospedale. L'attributo \textit{Nome} specifica di quale tipologia di sala si tratta (sala operatoria, ambulatorio, ecc) mentre l'attributo \textit{Piano} specifica il piano nel quale questa si trova.
 
 \subsection{Farmaco}
 \begin{center}
@@ -339,7 +339,7 @@ L'entità \textit{Sala} rappresenta le varie sale disponibili nell'ospedale. L'a
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Farmaco} rappresenta ciascun farmaco che viene assunto dal paziente. I farmaci possono essere inseriti direttamente dal paziente nel profilo (farmaci assunti regolarmente dovuti a prescrizioni esterne all'ospedale) oppure prescritti a seguito di una \textit{Prestazione} attraverso un \textit{Referto}. Ciascun \textit{Farmaco} è caratterizzato da una categoria (salvavita, pressione, ecc) ed include un campo di testo \textit{Descrizione} dove può essere inserita la posologia.
+L'entità \textit{Farmaco} rappresenta ciascun farmaco che viene assunto dal paziente. I farmaci possono essere inseriti direttamente dal paziente nel profilo (farmaci assunti regolarmente dovuti a prescrizioni esterne all'ospedale) oppure somministrati durante una \textit{Prestazione}. Ciascun \textit{Farmaco} è caratterizzato da una categoria (salvavita, pressione, ecc) ed include un campo di testo \textit{Descrizione} dove può essere inserita la posologia.
 
 \subsection{Prestazione}
 \begin{center}
@@ -364,7 +364,7 @@ L'entità \textit{Farmaco} rappresenta ciascun farmaco che viene assunto dal paz
 \end{tikzpicture}
 \vspace{0.5cm}
 \end{center}
-L'entità \textit{Prestazione} rappresenta una qualsiasi prestazione effettuata all'interno dell'ospedale. Ogni prestazione è caratterizzata da un \textit{ID} univoco e da un \textit{Identificativo} per distinguerne i vari tipi. L'attributo \textit{Attivo} è stato inserito per discriminare le prestazioni prenotate (in questo caso \textit{Attivo} viene posto a 1) e cancellate (\textit{Attivo} a 0). L'attributo \textit{Effettuata} viene impostato a 1 se la prestazione è stata effettuata, 0 se invece deve essere ancora effettuata: in entrambi i casi, la prestazione non deve essere stata cancellata (\textit{Attivo} deve essere impostato a 1).
+L'entità \textit{Prestazione} rappresenta una qualsiasi prestazione effettuata all'interno dell'ospedale. Ogni prestazione è caratterizzata da un \textit{ID} univoco e da un \textit{Identificativo} che rappresenta la tipologia di prestazione. L'attributo \textit{Attivo} è stato inserito per discriminare le prestazioni prenotate (in questo caso \textit{Attivo} viene posto a 1) e cancellate (\textit{Attivo} a 0). L'attributo \textit{Effettuata} viene impostato a 1 se la prestazione è stata effettuata, 0 se invece deve essere ancora effettuata: in entrambi i casi, la prestazione non deve essere stata cancellata (\textit{Attivo} deve essere impostato a 1).
 
 \subsection{Referto}
 \begin{center}
@@ -425,7 +425,7 @@ Le associazioni rappresentano i vari legami che intercorrono tra le varie entit�
 \item \textbf{Ha}: relazione \textit{N:1} tra \textit{Prestazione} e \textit{Sala}: una \textit{Prestazione} deve (vincolo partecipazione totale) utilizzare una sola sala ma una \textit{Sala} viene utilizzata per più prestazioni.
 \item \textbf{Rep Prest}: relazione \textit{N:1} tra \textit{Prestazione} e \textit{Reparto}: una \textit{Prestazione} deve (vincolo di partecipazione totale) essere effettuata in un reparto ma in un \textit{Reparto} possono essere effettuate più prestazioni.
 \item \textbf{Rep Sala}: relazione \textit{N:1} tra \textit{Sala} e \textit{Reparto}: una \textit{Sala} deve (vincolo di partecipazione totale) essere assegnata ad un reparto mente ad un \textit{Reparto} sono assegnate più sale. 
-\item \textbf{Detiene}: relazione \textit{N:1} tra \textit{Utente} e \textit{Ruolo}: a un \textit{Utente} deve (vincolo di partecipazione totale) essere assegnato un \textit{Ruolo} mentre ciascun ruolo può essere assegnato a più utenti. 
+\item \textbf{Detiene}: relazione \textit{N:M} tra \textit{Utente} e \textit{Ruolo}: a un \textit{Utente} deve (vincolo di partecipazione totale) essere assegnato almeno un \textit{Ruolo} mentre ciascun ruolo può essere assegnato a più utenti. 
 \end{itemize}
 
 
@@ -447,7 +447,7 @@ Le associazioni rappresentano i vari legami che intercorrono tra le varie entit�
 	scale=0.8, transform shape] 
 	
 	\node[relationship] (detiene) [above=of utente] {Detiene};
-	\node[entity] (ruolo) [left = 1cm of detiene] {Ruolo} edge node{1} (detiene);
+	\node[entity] (ruolo) [left = 1cm of detiene] {Ruolo} edge node{M} (detiene);
 	\node[entity] (utente) {Utente} edge [total] node {N} (detiene);
 	\node[isa] (isa) [below of = utente] {d} edge [total] (utente);	
 	\node[entity] (staff) [below right = 2cm of isa] {Staff} edge (isa);
@@ -586,7 +586,7 @@ Le specializzazioni di \textit{Utente} (\textit{Paziente} e \textit{Staff}) sono
 dove \textit{id} rappresenta, sia per \textit{Paziente} che per \textit{Staff}, l'identificativo dell'utente (chiave primaria della tabella \textit{Utente}). In \textit{Staff} è stata anche inserita, come chiave esterna (a causa della relazione \textit{N:1} che lega \textit{Staff} a \textit{Reparto}) la chiave primaria di \textit{Reparto} (i.e. \textit{idReparto}). 
 
 \section{Traduzioni associazioni 1:1}
-L'unica relazione \textit{1:1} è \textit{Emette}, che collega \textit{Prestazione} a \textit{Referto}. Essendo \textit{Referto} una entità debole collegata a \textit{Prestazione}, in \textit{Referto} viene inserita la chiave primaria di \textit{Referto}. 
+L'unica relazione \textit{1:1} è \textit{Emette}, che collega \textit{Prestazione} a \textit{Referto}. Essendo \textit{Referto} una entità debole collegata a \textit{Prestazione}, in \textit{Referto} viene inserita la chiave primaria di \textit{Prestazione}. 
 
 \section{Traduzioni associazioni 1:N}
 Per ogni associazione R binaria del tipo \textit{1:N} nello schema ER, vengono individuate le due relazioni corrispondenti alle due entità partecipanti. Viene quindi inserita nel lato \textit{N}, la chiave primaria della relazione lato \textit{1}. In questo caso sono quindi state inserite le seguenti chiavi:
@@ -599,7 +599,7 @@ Per ogni associazione R binaria del tipo \textit{1:N} nello schema ER, vengono i
 \end{itemize}
 
 \section{Traduzioni associazioni N:M}
-Per ogni associazione binaria R del tipo \textit{N:M}, viene costruita una nuova relazione S che la rappresenta. Come attributi di chiave esterna si S, vengono inserite le chiavi primarie delle relazioni rappresentanti le entità partecipanti: la combinazione di queste due chiavi forma la chiave primaria di S. In particolare:
+Per ogni associazione binaria R del tipo \textit{N:M}, viene costruita una nuova relazione S che la rappresenta. Come attributi di chiave esterna di S, vengono inserite le chiavi primarie delle relazioni rappresentanti le entità partecipanti: la combinazione di queste due chiavi forma la chiave primaria di S. In particolare:
 
 \begin{itemize}
 \item StaffPrestazione: contiene, come chiavi esterne, le chiavi primarie delle tabelle \textit{Staff} e \textit{Prestazione}.
