@@ -839,7 +839,7 @@ CREATE TABLE referto (
         esito TEXT NOT NULL,
         note TEXT,
         timestamp TIMESTAMP,
-        PRIMARY KEY(idPrestazione, idPaziente)
+        CONSTRAINT unico UNIQUE (idPrestazione,idPaziente)
 );
 
 STAFF_PRESTAZIONE
@@ -847,15 +847,15 @@ CREATE TABLE staff_prestazione (
         idPrestazione INT FOREGIN_KEY REFERENCES prestazione(id),
         idStaff INT FOREGIN_KEY REFERENCES staff(id),
         timestamp TIMESTAMP,
-        PRIMARY KEY(idPrestazione, idStaff)
+        CONSTRAINT unico UNIQUE (idPrestazione,idStaff)
 );
 
 PAZIENTE_FARMACO
 CREATE TABLE paziente_farmaco (
         idPaziente INT FOREGIN_KEY REFERENCES paziente(id),
         idFarmaco INT FOREGIN_KEY REFERENCES farmaco(id),
-        timestamp TIMESTAMP
-        PRIMARY KEY(idPaziente, idFarmaco)
+        timestamp TIMESTAMP,
+        CONSTRAINT unico UNIQUE (idFarmaco,idPaziente)
 );
 
 FARMACO_PRESTAZIONE
@@ -863,10 +863,10 @@ CREATE TABLE farmaco_prestazione (
         idPrestazione INT FOREGIN_KEY REFERENCES prestazione(id),
         idFarmaco INT FOREGIN_KEY REFERENCES farmaco(id),
         timestamp TIMESTAMP,
-        PRIMARY KEY(idPrestazione, idFarmaco)
+        CONSTRAINT unico UNIQUE (idPrestazione,idFarmaco)
 );
 
-ROLES
+RUOLO
 CREATE TABLE roles (
         id INT PRIMARY_KEY,
         name VARCHAR(255) NOT NULL,
@@ -874,7 +874,7 @@ CREATE TABLE roles (
         timestamp TIMESTAMP
 );
 
-UTENTE_ROLE
+RUOLO_UTENTE
 CREATE TABLE utente_role (
         user_id INT FOREGIN_KEY REFERENCES utente(id),
         role_id INT FOREGIN_KEY REFERENCES role(id),
