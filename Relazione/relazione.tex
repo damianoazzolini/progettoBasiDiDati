@@ -879,7 +879,7 @@ CREATE TABLE utente_role (
         user_id INT FOREGIN_KEY REFERENCES utente(id),
         role_id INT FOREGIN_KEY REFERENCES role(id),
         timestamp TIMESTAMP
-        PRIMARY KEY(user_id, role_id) );
+        CONSTRAINT unico UNIQUE (user_id, role_id) );
 \end{verbatim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% INTERROGAZIONI
