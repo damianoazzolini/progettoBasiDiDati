@@ -20,7 +20,7 @@ class StaffController extends Controller {
             FROM utente
             JOIN staff ON utente.id = staff.id
             JOIN reparto ON reparto.id = staff.idReparto
-            WHERE utente.attivo = '1'");
+            WHERE utente.attivo = '1' ORDER BY cognome");
 
         return view('elencoStaff',[
             'datiStaff' => $datiStaff,

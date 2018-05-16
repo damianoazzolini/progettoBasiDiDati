@@ -18,7 +18,7 @@ class FarmacoController extends Controller
      */
     public function index()
     {
-        $query = DB::select("SELECT * FROM farmaco");
+        $query = DB::select("SELECT * FROM farmaco ORDER BY nome");
         $ruolo = Utente::trovaRuolo(Auth::id());
 
         return view('farmacia',['farmaci' => $query, 'ruolo' => $ruolo]);

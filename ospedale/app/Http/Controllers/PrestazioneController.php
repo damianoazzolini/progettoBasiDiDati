@@ -25,17 +25,17 @@ class PrestazioneController extends Controller {
         $ruolo = Utente::trovaRuolo(Auth::id());
         $id = Auth::id();
         if($ruolo == "Amministratore" || $ruolo == "Impiegato") {
-            $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione ORDER BY created_at DESC");     
+            $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione ORDER BY data DESC");     
         }
         else if($ruolo == "Paziente") {
-            $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione WHERE attivo=1 AND idPaziente=$id");
+            $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora FROM prestazione WHERE attivo=1 AND idPaziente=$id ORDER BY data DESC");
         }
         else if($ruolo == "Infermiere" || $ruolo == "Medico") {
             $prestazioni = DB::select("SELECT id, idPaziente, attivo, effettuata, data, ora 
                 FROM prestazione 
                 JOIN staff_prestazione
                 ON prestazione.id = staff_prestazione.idPrestazione
-                WHERE prestazione.attivo=1 AND staff_prestazione.idStaff = $id");     
+                WHERE prestazione.attivo=1 AND staff_prestazione.idStaff = $id ORDER BY data DESC");     
         }
 
         $pazienti = [];

@@ -20,7 +20,7 @@ class PazienteController extends Controller
     {
         $query = DB::select("SELECT * FROM utente
             JOIN paziente ON utente.id = paziente.id
-            WHERE utente.attivo = 1");
+            WHERE utente.attivo = 1 ORDER BY cognome");
         $ruolo = Utente::trovaRuolo(Auth::id());
 
         return view('elencoPazienti',['pazienti' => $query, 'ruolo' => $ruolo]);
